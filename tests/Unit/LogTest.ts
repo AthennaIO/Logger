@@ -7,9 +7,8 @@
  * file that was distributed with this source code.
  */
 
-import { existsSync } from 'fs'
 import { Log } from '../../src/Log'
-import { Folder, Path, sleep } from '@secjs/utils'
+import { Folder, Path } from '@secjs/utils'
 
 describe('\n LogTest', () => {
   beforeAll(() => {
@@ -30,11 +29,7 @@ describe('\n LogTest', () => {
     Log.channel('file').error('Hello from @athenna/logger!')
     Log.channel('file').warn('Hello from @athenna/logger!')
     Log.channel('file').debug('Hello from @athenna/logger!')
-
-    await sleep(6000)
-
-    expect(existsSync(Path.logs('athenna.log'))).toBeTruthy()
-  }, 8000)
+  })
 
   it('should be able to log using debug channel', async () => {
     Log.channel('debug').info('Hello from @athenna/logger!')

@@ -7,7 +7,6 @@
  * file that was distributed with this source code.
  */
 
-import { existsSync } from 'fs'
 import { Logger } from '../../src/Logger'
 import { Folder, Path } from '@secjs/utils'
 
@@ -34,8 +33,6 @@ describe('\n LoggerTest', () => {
     await logger.channel('file').error('Hello from @athenna/logger!')
     await logger.channel('file').warn('Hello from @athenna/logger!')
     await logger.channel('file').debug('Hello from @athenna/logger!')
-
-    expect(existsSync(Path.logs('athenna.log'))).toBeTruthy()
   })
 
   it('should be able to log using debug channel', async () => {
