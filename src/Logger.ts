@@ -48,10 +48,10 @@ export class Logger {
   async log(message: any, options?: any) {
     options = Object.assign({}, { context: 'Logger' }, options)
 
-    if (this.runtimeConfig && this.runtimeConfig.formatter) {
+    if (this.runtimeConfig && this.runtimeConfig.formatterConfig) {
       options = {
         ...options,
-        ...this.runtimeConfig.formatter,
+        ...this.runtimeConfig.formatterConfig,
       }
     }
 
@@ -65,10 +65,10 @@ export class Logger {
     options.color = Color.cyan
     options.streamType = 'stdout'
 
-    if (this.runtimeConfig && this.runtimeConfig.formatter) {
+    if (this.runtimeConfig && this.runtimeConfig.formatterConfig) {
       options = {
         ...options,
-        ...this.runtimeConfig.formatter,
+        ...this.runtimeConfig.formatterConfig,
       }
     }
 
@@ -82,10 +82,10 @@ export class Logger {
     options.color = Color.orange
     options.streamType = 'stdout'
 
-    if (this.runtimeConfig && this.runtimeConfig.formatter) {
+    if (this.runtimeConfig && this.runtimeConfig.formatterConfig) {
       options = {
         ...options,
-        ...this.runtimeConfig.formatter,
+        ...this.runtimeConfig.formatterConfig,
       }
     }
 
@@ -99,10 +99,10 @@ export class Logger {
     options.color = Color.red
     options.streamType = 'stderr'
 
-    if (this.runtimeConfig && this.runtimeConfig.formatter) {
+    if (this.runtimeConfig && this.runtimeConfig.formatterConfig) {
       options = {
         ...options,
-        ...this.runtimeConfig.formatter,
+        ...this.runtimeConfig.formatterConfig,
       }
     }
 
@@ -116,10 +116,10 @@ export class Logger {
     options.color = Color.purple
     options.streamType = 'stdout'
 
-    if (this.runtimeConfig && this.runtimeConfig.formatter) {
+    if (this.runtimeConfig && this.runtimeConfig.formatterConfig) {
       options = {
         ...options,
-        ...this.runtimeConfig.formatter,
+        ...this.runtimeConfig.formatterConfig,
       }
     }
 
@@ -133,10 +133,10 @@ export class Logger {
     options.color = Color.green
     options.streamType = 'stdout'
 
-    if (this.runtimeConfig && this.runtimeConfig.formatter) {
+    if (this.runtimeConfig && this.runtimeConfig.formatterConfig) {
       options = {
         ...options,
-        ...this.runtimeConfig.formatter,
+        ...this.runtimeConfig.formatterConfig,
       }
     }
 
