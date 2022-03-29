@@ -48,6 +48,13 @@ export class Logger {
   async log(message: any, options?: any) {
     options = Object.assign({}, { context: 'Logger' }, options)
 
+    if (this.runtimeConfig && this.runtimeConfig.formatter) {
+      options = {
+        ...options,
+        ...this.runtimeConfig.formatter,
+      }
+    }
+
     await this.driver.transport(message, options)
   }
 
@@ -57,6 +64,13 @@ export class Logger {
     options.level = 'INFO'
     options.color = Color.cyan
     options.streamType = 'stdout'
+
+    if (this.runtimeConfig && this.runtimeConfig.formatter) {
+      options = {
+        ...options,
+        ...this.runtimeConfig.formatter,
+      }
+    }
 
     await this.driver.transport(message, options)
   }
@@ -68,6 +82,13 @@ export class Logger {
     options.color = Color.orange
     options.streamType = 'stdout'
 
+    if (this.runtimeConfig && this.runtimeConfig.formatter) {
+      options = {
+        ...options,
+        ...this.runtimeConfig.formatter,
+      }
+    }
+
     await this.driver.transport(message, options)
   }
 
@@ -77,6 +98,13 @@ export class Logger {
     options.level = 'ERROR'
     options.color = Color.red
     options.streamType = 'stderr'
+
+    if (this.runtimeConfig && this.runtimeConfig.formatter) {
+      options = {
+        ...options,
+        ...this.runtimeConfig.formatter,
+      }
+    }
 
     await this.driver.transport(message, options)
   }
@@ -88,6 +116,13 @@ export class Logger {
     options.color = Color.purple
     options.streamType = 'stdout'
 
+    if (this.runtimeConfig && this.runtimeConfig.formatter) {
+      options = {
+        ...options,
+        ...this.runtimeConfig.formatter,
+      }
+    }
+
     await this.driver.transport(message, options)
   }
 
@@ -97,6 +132,13 @@ export class Logger {
     options.level = 'SUCCESS'
     options.color = Color.green
     options.streamType = 'stdout'
+
+    if (this.runtimeConfig && this.runtimeConfig.formatter) {
+      options = {
+        ...options,
+        ...this.runtimeConfig.formatter,
+      }
+    }
 
     await this.driver.transport(message, options)
   }
