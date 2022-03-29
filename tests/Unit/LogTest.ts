@@ -31,7 +31,7 @@ describe('\n LogTest', () => {
     Log.channel('file').warn('Hello from @athenna/logger!')
     Log.channel('file').debug('Hello from @athenna/logger!')
 
-    await sleep(3000)
+    await sleep(6000)
 
     expect(existsSync(Path.logs('athenna.log'))).toBeTruthy()
   }, 8000)
