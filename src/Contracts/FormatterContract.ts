@@ -7,8 +7,6 @@
  * file that was distributed with this source code.
  */
 
-export * from 'src/Log'
-export * from 'src/Logger'
-
-export * from 'src/Contracts/DriverContract'
-export * from 'src/Contracts/FormatterContract'
+export interface FormatterContract {
+  format(message: any, options?: any)
+}
