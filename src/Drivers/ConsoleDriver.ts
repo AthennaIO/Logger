@@ -52,6 +52,6 @@ export class ConsoleDriver implements DriverContract {
       options,
     )
 
-    process[this._streamType].write(`${message}\n`)
+    process[options.streamType].write(`${message}\n`)
   }
 }

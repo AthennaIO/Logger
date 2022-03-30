@@ -26,7 +26,7 @@ export class DebugFormatter implements FormatterContract {
       options,
     )
 
-    const pid = Color.purple(`[Athenna Debugger] - PID: ${process.pid}`)
+    const pid = Color.yellow(`[Athenna Debugger] - PID: ${process.pid}`)
     const timestamp = Color.white(getTimestamp())
     const messageCtx = Color.yellow(`[${options.context}] `)
     const timestampDiff = DebugFormatter.getTimestampDiff()
