@@ -25,7 +25,7 @@ export class ContextFormatter implements FormatterContract {
       options,
     )
 
-    const pid = Color.darkPurple(`[Athenna] - PID: ${process.pid}`)
+    const pid = Color.yellow(`[Athenna] - PID: ${process.pid}`)
     const timestamp = getTimestamp()
     const messageCtx = Color.yellow(`[${options.context}] `)
     const timestampDiff = ContextFormatter.getTimestampDiff()

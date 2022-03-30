@@ -25,7 +25,7 @@ export class JsonFormatter implements FormatterContract {
     const pid = Color.yellow(`[Athenna] - PID: ${process.pid}`)
 
     return `${pid} - ${Color.bold('JSON:')} ${options.color(
-      JSON.stringify(message),
+      JSON.stringify(message, null, 2),
     )}`
   }
 }
