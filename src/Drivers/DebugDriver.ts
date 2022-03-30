@@ -27,13 +27,13 @@ export class DebugDriver implements DriverContract {
   private readonly _formatter: string
   private readonly _namespace: string
 
-  constructor(channel: string) {
+  constructor(channel: string, configs: any = {}) {
     const channelConfig = Config.get(`logging.channels.${channel}`)
 
-    this._level = channelConfig.level || 'DEBUG'
-    this._context = channelConfig.context || 'DebugDriver'
-    this._formatter = channelConfig.formatter || 'context'
-    this._namespace = channelConfig.namespace || 'api:main'
+    this._level = configs.level || channelConfig.level
+    this._context = configs.context || channelConfig.context
+    this._formatter = configs.formatter || channelConfig.formatter
+    this._namespace = configs.namespace || channelConfig.namespace
   }
 
   transport(message: string, options?: DebugDriverOpts): void {
@@ -42,12 +42,13 @@ export class DebugDriver implements DriverContract {
       {
         level: this._level,
         context: this._context,
+        formatter: this._formatter,
         namespace: this._namespace,
       },
       options,
     )
 
-    message = FormatterFactory.fabricate(this._formatter).format(
+    message = FormatterFactory.fabricate(options.formatter).format(
       message,
       options,
     )
