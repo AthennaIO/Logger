@@ -11,9 +11,7 @@ import { Logger } from 'src/Logger'
 import { ServiceProvider } from '@athenna/ioc'
 
 export class LoggerProvider extends ServiceProvider {
-  boot() {}
-
-  register() {
+  public register() {
     this.container.bind('Athenna/Core/Logger', Logger)
   }
 }
