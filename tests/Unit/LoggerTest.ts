@@ -16,15 +16,20 @@ describe('\n LoggerTest', () => {
   beforeAll(() => {
     new Folder(Path.tests('Stubs/config')).loadSync().copySync(Path.pwd('config'))
 
-    logger = new Logger()
+    logger = new Logger({ formatterConfig: { context: 'Context' } })
   })
 
   it('should be able to log using default channel', async () => {
-    await logger.channel('default').info('Hello from @athenna/logger!')
+    await logger.channel('default').info('Hello from @athenna/logger!', {
+      formatterConfig: {
+        context: 'InfoContext',
+      },
+    })
     await logger.channel('default').success('Hello from @athenna/logger!')
     await logger.channel('default').error('Hello from @athenna/logger!')
     await logger.channel('default').warn('Hello from @athenna/logger!')
     await logger.channel('default').debug('Hello from @athenna/logger!')
+    await logger.channel('default').log('Hello from @athenna/logger!')
   })
 
   it('should be able to log using file channel', async () => {
