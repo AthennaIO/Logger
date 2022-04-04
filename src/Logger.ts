@@ -10,6 +10,22 @@ export class Logger {
   private channelName: string
   private driver: DriverContract
 
+  constructor(runtimeConfig: any = {}) {
+    new Config().safeLoad(Path.config('logging'))
+
+    this.runtimeConfig = runtimeConfig
+    this.channelName = 'default'
+    this.driver = DriverFactory.fabricate(this.channelName, this.runtimeConfig)
+  }
+
+  static get drivers(): string[] {
+    return DriverFactory.availableDrivers()
+  }
+
+  static get formatters(): string[] {
+    return FormatterFactory.availableFormatters()
+  }
+
   static buildDriver(
     name: string,
     driver: new (channel: string, configs?: any) => DriverContract,
@@ -21,22 +37,6 @@ export class Logger {
     FormatterFactory.createFormatter(name, formatter)
   }
 
-  static get drivers(): string[] {
-    return DriverFactory.availableDrivers()
-  }
-
-  static get formatters(): string[] {
-    return FormatterFactory.availableFormatters()
-  }
-
-  constructor(runtimeConfig: any = {}) {
-    new Config().safeLoad(Path.config('logging'))
-
-    this.runtimeConfig = runtimeConfig
-    this.channelName = 'default'
-    this.driver = DriverFactory.fabricate(this.channelName, this.runtimeConfig)
-  }
-
   channel(channel: string, runtimeConfig?: any): Logger {
     if (runtimeConfig) this.runtimeConfig = runtimeConfig
 
@@ -45,101 +45,103 @@ export class Logger {
     return this
   }
 
-  async log(message: any, options?: any) {
-    options = Object.assign({}, { context: 'Logger' }, options)
+  log(message: any, options = {}): void | Promise<void> {
+    options = this.createOptions(options, {
+      streamType: 'stdout',
+    })
 
-    if (this.runtimeConfig && this.runtimeConfig.formatterConfig) {
-      options = {
-        ...options,
-        ...this.runtimeConfig.formatterConfig,
-      }
-    }
-
-    await this.driver.transport(message, options)
+    return this.driver.transport(message, options)
   }
 
-  async info(message: any, options?: any) {
-    options = Object.assign({}, { context: 'Logger' }, options)
+  info(message: any, options = {}): void | Promise<void> {
+    options = this.createOptions(options, {
+      streamType: 'stdout',
+      formatterConfig: {
+        level: 'INFO',
+        color: Color.cyan,
+      },
+    })
 
-    options.level = 'INFO'
-    options.color = Color.cyan
-    options.streamType = 'stdout'
-
-    if (this.runtimeConfig && this.runtimeConfig.formatterConfig) {
-      options = {
-        ...options,
-        ...this.runtimeConfig.formatterConfig,
-      }
-    }
-
-    await this.driver.transport(message, options)
+    return this.driver.transport(message, options)
   }
 
-  async warn(message: any, options?: any) {
-    options = Object.assign({}, { context: 'Logger' }, options)
+  warn(message: any, options = {}): void | Promise<void> {
+    options = this.createOptions(options, {
+      streamType: 'stdout',
+      formatterConfig: {
+        level: 'WARN',
+        color: Color.orange,
+      },
+    })
 
-    options.level = 'WARN'
-    options.color = Color.orange
-    options.streamType = 'stdout'
-
-    if (this.runtimeConfig && this.runtimeConfig.formatterConfig) {
-      options = {
-        ...options,
-        ...this.runtimeConfig.formatterConfig,
-      }
-    }
-
-    await this.driver.transport(message, options)
+    return this.driver.transport(message, options)
   }
 
-  async error(message: any, options?: any) {
-    options = Object.assign({}, { context: 'Logger' }, options)
+  error(message: any, options = {}): void | Promise<void> {
+    options = this.createOptions(options, {
+      streamType: 'stdout',
+      formatterConfig: {
+        level: 'ERROR',
+        color: Color.red,
+      },
+    })
 
-    options.level = 'ERROR'
-    options.color = Color.red
-    options.streamType = 'stderr'
-
-    if (this.runtimeConfig && this.runtimeConfig.formatterConfig) {
-      options = {
-        ...options,
-        ...this.runtimeConfig.formatterConfig,
-      }
-    }
-
-    await this.driver.transport(message, options)
+    return this.driver.transport(message, options)
   }
 
-  async debug(message: any, options?: any) {
-    options = Object.assign({}, { context: 'Logger' }, options)
+  debug(message: any, options = {}): void | Promise<void> {
+    options = this.createOptions(options, {
+      streamType: 'stdout',
+      formatterConfig: {
+        level: 'DEBUG',
+        color: Color.purple,
+      },
+    })
 
-    options.level = 'DEBUG'
-    options.color = Color.purple
-    options.streamType = 'stdout'
-
-    if (this.runtimeConfig && this.runtimeConfig.formatterConfig) {
-      options = {
-        ...options,
-        ...this.runtimeConfig.formatterConfig,
-      }
-    }
-
-    await this.driver.transport(message, options)
+    return this.driver.transport(message, options)
   }
 
-  async success(message: any, options?: any) {
-    options = Object.assign({}, { context: 'Logger' }, options)
+  success(message: any, options = {}): void | Promise<void> {
+    options = this.createOptions(options, {
+      streamType: 'stdout',
+      formatterConfig: {
+        level: 'SUCCESS',
+        color: Color.green,
+      },
+    })
 
-    options.level = 'SUCCESS'
-    options.color = Color.green
-    options.streamType = 'stdout'
+    return this.driver.transport(message, options)
+  }
 
-    if (this.runtimeConfig && this.runtimeConfig.formatterConfig) {
-      options = {
-        ...options,
+  private createOptions(options: any, defaultValues: any): any {
+    let formatterConfig = Object.assign(
+      {},
+      {
+        ...defaultValues.formatterConfig,
+      },
+      options.formatterConfig,
+    )
+
+    if (this.runtimeConfig.formatterConfig) {
+      formatterConfig = {
         ...this.runtimeConfig.formatterConfig,
+        ...formatterConfig,
       }
     }
 
-    await this.driver.transport(message, options)
+    options = Object.assign(
+      {},
+      {
+        streamType: 'stdout',
+      },
+      options,
+    )
+
+    options = {
+      ...options,
+      formatterConfig,
+    }
+
+    return options
   }
 }
