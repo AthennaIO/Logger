@@ -155,6 +155,7 @@
   "dependencies": {
     "@athenna/ioc": "1.0.9",
     "@secjs/utils": "1.8.0",
+    "chalk": "4.1.1",
     "reflect-metadata": "0.1.13",
     "tscpaths": "0.0.9"
   }
