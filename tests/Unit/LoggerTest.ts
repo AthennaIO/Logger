@@ -30,6 +30,8 @@ describe('\n LoggerTest', () => {
     await logger.channel('default').warn('Hello from @athenna/logger!')
     await logger.channel('default').debug('Hello from @athenna/logger!')
     await logger.channel('default').log('Hello from @athenna/logger!')
+
+    await logger.channel('default').error('Hello from ({yellow,italic} @athenna/logger!)')
   })
 
   it('should be able to log using file channel', async () => {
