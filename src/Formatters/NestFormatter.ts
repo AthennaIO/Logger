@@ -17,24 +17,7 @@ export interface ContextFormatterOptions {
   context: string
 }
 
-export class ContextFormatter implements FormatterContract {
-  format(message: string, options?: ContextFormatterOptions): string {
-    options = Object.assign(
-      {},
-      { color: Color.green, context: 'Logger' },
-      options,
-    )
-
-    const pid = Color.yellow(`[Athenna] - PID: ${process.pid}`)
-    const timestamp = getTimestamp()
-    const messageCtx = Color.yellow(`[${options.context}] `)
-    const timestampDiff = ContextFormatter.getTimestampDiff()
-
-    return `${pid} - ${timestamp} ${messageCtx}${options.color(
-      message,
-    )}${timestampDiff}`
-  }
-
+export class NestFormatter implements FormatterContract {
   private static lastTimestamp?: number
 
   private static getTimestampDiff() {
@@ -47,5 +30,22 @@ export class ContextFormatter implements FormatterContract {
     this.lastTimestamp = Date.now()
 
     return result
+  }
+
+  format(message: string, options?: ContextFormatterOptions): string {
+    options = Object.assign(
+      {},
+      { color: Color.green, context: 'Logger' },
+      options,
+    )
+
+    const pid = Color.yellow(`[Athenna] - PID: ${process.pid}`)
+    const timestamp = getTimestamp()
+    const messageCtx = Color.yellow(`[${options.context}] `)
+    const timestampDiff = NestFormatter.getTimestampDiff()
+
+    return `${pid} - ${timestamp} ${messageCtx}${options.color(
+      message,
+    )}${timestampDiff}`
   }
 }

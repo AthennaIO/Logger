@@ -7,27 +7,24 @@
  * file that was distributed with this source code.
  */
 
-import { LogFormatter } from 'src/Formatters/LogFormatter'
 import { JsonFormatter } from 'src/Formatters/JsonFormatter'
-import { DebugFormatter } from 'src/Formatters/DebugFormatter'
-import { ContextFormatter } from 'src/Formatters/ContextFormatter'
+import { NestFormatter } from 'src/Formatters/NestFormatter'
+import { SimpleFormatter } from 'src/Formatters/SimpleFormatter'
 import { FormatterContract } from 'src/Contracts/FormatterContract'
 import { NotFoundFormatterException } from 'src/Exceptions/NotFoundFormatterException'
 import { FormatterAlreadyExistException } from 'src/Exceptions/FormatterAlreadyExistException'
+import { CliFormatter } from 'src/Formatters/CliFormatter'
 
 export interface FormatterObject {
   Formatter: any
 }
 
 export class FormatterFactory {
-  private static formatters: Map<
-    string,
-    FormatterObject
-  > = new Map()
-    .set('context', { Formatter: ContextFormatter })
-    .set('debug', { Formatter: DebugFormatter })
+  private static formatters: Map<string, FormatterObject> = new Map()
+    .set('cli', { Formatter: CliFormatter })
+    .set('nest', { Formatter: NestFormatter })
     .set('json', { Formatter: JsonFormatter })
-    .set('log', { Formatter: LogFormatter })
+    .set('simple', { Formatter: SimpleFormatter })
 
   static availableFormatters(): string[] {
     const availableFormatters: string[] = []
