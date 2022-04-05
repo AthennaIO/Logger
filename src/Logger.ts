@@ -1,5 +1,6 @@
+import Chalk from 'chalk'
 import { Color } from './Utils/Color'
-import { Config, Path } from '@secjs/utils'
+import { Config, Is, Path } from '@secjs/utils'
 import { DriverContract } from './Contracts/DriverContract'
 import { DriverFactory } from 'src/Factories/DriverFactory'
 import { FormatterContract } from './Contracts/FormatterContract'
@@ -37,6 +38,35 @@ export class Logger {
     FormatterFactory.createFormatter(name, formatter)
   }
 
+  private static applyLogEngine(content: string) {
+    if (Is.String(content)) {
+      const matches = content.match(/\({(.*?)} (.*?)\)/)
+
+      if (matches) {
+        const chalkMethodsString = matches[1].replace(/\s/g, '')
+        const chalkMethodsArray = chalkMethodsString.split(',')
+        const message = matches[2]
+
+        let chalk = Chalk
+
+        chalkMethodsArray.forEach(chalkMethod => {
+          if (!chalk[chalkMethod]) return
+
+          chalk = chalk[chalkMethod]
+        })
+
+        content = content
+          .replace(`({${matches[1]}} `, '')
+          .replace(`({${matches[1]}}`, '')
+          .replace(`${matches[2]})`, chalk(message))
+      }
+
+      return content
+    }
+
+    return content
+  }
+
   channel(channel: string, runtimeConfig?: any): Logger {
     if (runtimeConfig) this.runtimeConfig = runtimeConfig
 
@@ -50,6 +80,8 @@ export class Logger {
       streamType: 'stdout',
     })
 
+    message = Logger.applyLogEngine(message)
+
     return this.driver.transport(message, options)
   }
 
@@ -61,6 +93,8 @@ export class Logger {
         color: Color.cyan,
       },
     })
+
+    message = Logger.applyLogEngine(message)
 
     return this.driver.transport(message, options)
   }
@@ -74,6 +108,8 @@ export class Logger {
       },
     })
 
+    message = Logger.applyLogEngine(message)
+
     return this.driver.transport(message, options)
   }
 
@@ -85,6 +121,8 @@ export class Logger {
         color: Color.red,
       },
     })
+
+    message = Logger.applyLogEngine(message)
 
     return this.driver.transport(message, options)
   }
@@ -98,6 +136,8 @@ export class Logger {
       },
     })
 
+    message = Logger.applyLogEngine(message)
+
     return this.driver.transport(message, options)
   }
 
@@ -109,6 +149,8 @@ export class Logger {
         color: Color.green,
       },
     })
+
+    message = Logger.applyLogEngine(message)
 
     return this.driver.transport(message, options)
   }
