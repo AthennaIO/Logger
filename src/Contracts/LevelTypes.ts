@@ -1,0 +1,11 @@
+export type LevelTypes =
+  | 'info'
+  | 'INFO'
+  | 'debug'
+  | 'DEBUG'
+  | 'warn'
+  | 'WARN'
+  | 'error'
+  | 'ERROR'
+  | 'success'
+  | 'SUCCESS'
