@@ -13,7 +13,7 @@ import { getTimestamp } from 'src/Utils/getTimestamp'
 import { FormatterContract } from 'src/Contracts/FormatterContract'
 
 export interface ContextFormatterOptions {
-  color: Chalk
+  chalk: Chalk
   context: string
 }
 
@@ -32,19 +32,13 @@ export class NestFormatter implements FormatterContract {
     return result
   }
 
-  format(message: string, options?: ContextFormatterOptions): string {
-    options = Object.assign(
-      {},
-      { color: Color.green, context: 'Logger' },
-      options,
-    )
-
+  format(message: string, options: ContextFormatterOptions): string {
     const pid = Color.yellow(`[Athenna] - PID: ${process.pid}`)
     const timestamp = getTimestamp()
     const messageCtx = Color.yellow(`[${options.context}] `)
     const timestampDiff = NestFormatter.getTimestampDiff()
 
-    return `${pid} - ${timestamp} ${messageCtx}${options.color(
+    return `${pid} - ${timestamp} ${messageCtx}${options.chalk(
       message,
     )}${timestampDiff}`
   }

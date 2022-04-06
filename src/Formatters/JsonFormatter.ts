@@ -12,19 +12,14 @@ import { Color } from 'src/Utils/Color'
 import { FormatterContract } from 'src/Contracts/FormatterContract'
 
 export interface JsonFormatterOptions {
-  color: Chalk
+  chalk: Chalk
 }
 
 export class JsonFormatter implements FormatterContract {
-  format(
-    message: Record<any, unknown>,
-    options?: JsonFormatterOptions,
-  ): string {
-    options = Object.assign({}, { color: Color.green }, options)
-
+  format(message: Record<any, unknown>, options: JsonFormatterOptions): string {
     const pid = Color.yellow(`[Athenna] - PID: ${process.pid}`)
 
-    return `${pid} - ${Color.bold('JSON:')} ${options.color(
+    return `${pid} - ${Color.bold('JSON:')} ${options.chalk(
       JSON.stringify(message, null, 2),
     )}`
   }

@@ -13,7 +13,7 @@ import { LevelTypes } from 'src/Contracts/LevelTypes'
 import { FormatterContract } from 'src/Contracts/FormatterContract'
 
 export interface CliFormatterOptions {
-  color: Chalk
+  chalk: Chalk
   level: LevelTypes
 }
 
@@ -30,9 +30,7 @@ export class CliFormatter implements FormatterContract {
     return levelColors[level.toLowerCase()](`[  ${level.toLowerCase()}  ]`)
   }
 
-  format(message: string, options?: CliFormatterOptions): string {
-    options = Object.assign({}, { level: 'info' }, options)
-
+  format(message: string, options: CliFormatterOptions): string {
     const level = CliFormatter.paintByLevel(options.level)
 
     return `${level} ${message}`
