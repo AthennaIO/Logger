@@ -8,6 +8,7 @@
  */
 
 export * from 'src/Logger'
+export * from 'src/Utils/Color'
 
 export * from 'src/Contracts/DriverContract'
 export * from 'src/Contracts/FormatterContract'
