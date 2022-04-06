@@ -32,8 +32,11 @@ export class DebugDriver implements DriverContract {
 
     this._formatter = configs.formatter || channelConfig.formatter
     this._namespace = configs.namespace || channelConfig.namespace
-    this._formatterConfig =
-      configs.formatterConfig || channelConfig.formatterConfig
+    this._formatterConfig = Object.assign(
+      {},
+      channelConfig.formatterConfig,
+      configs.formatterConfig,
+    )
   }
 
   transport(message: string, options?: DebugDriverOpts): void {
@@ -46,9 +49,15 @@ export class DebugDriver implements DriverContract {
       options,
     ) as DebugDriverOpts
 
+    const formatterOptions = Object.assign(
+      {},
+      this._formatterConfig,
+      options.formatterConfig,
+    )
+
     message = FormatterFactory.fabricate(options.formatter).format(
       message,
-      options.formatterConfig || this._formatterConfig,
+      formatterOptions,
     )
 
     debug(options.namespace)(message)

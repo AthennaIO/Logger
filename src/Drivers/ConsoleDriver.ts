@@ -31,8 +31,11 @@ export class ConsoleDriver implements DriverContract {
 
     this._formatter = configs.formatter || channelConfig.formatter
     this._streamType = configs.streamType || channelConfig.streamType
-    this._formatterConfig =
-      configs.formatterConfig || channelConfig.formatterConfig
+    this._formatterConfig = Object.assign(
+      {},
+      channelConfig.formatterConfig,
+      configs.formatterConfig,
+    )
   }
 
   transport(message: string, options?: ConsoleDriverOpts): void {
@@ -45,9 +48,15 @@ export class ConsoleDriver implements DriverContract {
       options,
     ) as ConsoleDriverOpts
 
+    const formatterOptions = Object.assign(
+      {},
+      this._formatterConfig,
+      options.formatterConfig,
+    )
+
     message = FormatterFactory.fabricate(options.formatter).format(
       message,
-      options.formatterConfig || this._formatterConfig,
+      formatterOptions,
     )
 
     process[options.streamType].write(`${message}\n`)

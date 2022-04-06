@@ -32,8 +32,11 @@ export class FileDriver implements DriverContract {
 
     this._filePath = configs.filePath || channelConfig.filePath
     this._formatter = configs.formatter || channelConfig.formatter
-    this._formatterConfig =
-      configs.formatterConfig || channelConfig.formatterConfig
+    this._formatterConfig = Object.assign(
+      {},
+      channelConfig.formatterConfig,
+      configs.formatterConfig,
+    )
   }
 
   async transport(message: string, options?: FileDriverOpts): Promise<void> {
@@ -53,9 +56,15 @@ export class FileDriver implements DriverContract {
       mkdirSync(dir, { recursive: true })
     }
 
+    const formatterOptions = Object.assign(
+      {},
+      this._formatterConfig,
+      options.formatterConfig,
+    )
+
     message = FormatterFactory.fabricate(options.formatter).format(
       message,
-      options.formatterConfig || this._formatterConfig,
+      formatterOptions,
     )
 
     return new Promise((resolve, reject) => {

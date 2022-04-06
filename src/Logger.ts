@@ -90,7 +90,7 @@ export class Logger {
       streamType: 'stdout',
       formatterConfig: {
         level: 'INFO',
-        color: Color.cyan,
+        chalk: Color.cyan,
       },
     })
 
@@ -104,7 +104,7 @@ export class Logger {
       streamType: 'stdout',
       formatterConfig: {
         level: 'WARN',
-        color: Color.orange,
+        chalk: Color.orange,
       },
     })
 
@@ -118,7 +118,7 @@ export class Logger {
       streamType: 'stdout',
       formatterConfig: {
         level: 'ERROR',
-        color: Color.red,
+        chalk: Color.red,
       },
     })
 
@@ -132,7 +132,7 @@ export class Logger {
       streamType: 'stdout',
       formatterConfig: {
         level: 'DEBUG',
-        color: Color.purple,
+        chalk: Color.purple,
       },
     })
 
@@ -146,7 +146,7 @@ export class Logger {
       streamType: 'stdout',
       formatterConfig: {
         level: 'SUCCESS',
-        color: Color.green,
+        chalk: Color.green,
       },
     })
 
