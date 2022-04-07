@@ -1,6 +1,6 @@
 import Chalk from 'chalk'
+import { Is } from '@secjs/utils'
 import { Color } from './Utils/Color'
-import { Config, Is, Path } from '@secjs/utils'
 import { DriverContract } from './Contracts/DriverContract'
 import { DriverFactory } from 'src/Factories/DriverFactory'
 import { FormatterContract } from './Contracts/FormatterContract'
@@ -12,8 +12,6 @@ export class Logger {
   private driver: DriverContract
 
   constructor(runtimeConfig: any = {}) {
-    new Config().safeLoad(Path.config('logging'))
-
     this.runtimeConfig = runtimeConfig
     this.channelName = 'default'
     this.driver = DriverFactory.fabricate(this.channelName, this.runtimeConfig)
