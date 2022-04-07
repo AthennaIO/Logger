@@ -1,6 +1,6 @@
 {
   "name": "@athenna/logger",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "",
   "license": "MIT",
   "author": "João Lenon <lenon@athenna.io>",
@@ -153,8 +153,8 @@
     }
   },
   "dependencies": {
-    "@athenna/ioc": "1.0.9",
-    "@secjs/utils": "1.8.0",
+    "@athenna/ioc": "1.1.1",
+    "@secjs/utils": "1.8.2",
     "chalk": "4.1.1",
     "reflect-metadata": "0.1.13",
     "tscpaths": "0.0.9"

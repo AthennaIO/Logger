@@ -8,13 +8,15 @@
  */
 
 import { Logger } from '../../src/Logger'
-import { Folder, Path } from '@secjs/utils'
+import { Config, Folder, Path } from '@secjs/utils'
 
 describe('\n LoggerTest', () => {
   let logger: Logger
 
-  beforeAll(() => {
+  beforeAll(async () => {
     new Folder(Path.tests('Stubs/config')).loadSync().copySync(Path.pwd('config'))
+
+    await new Config().safeLoad(Path.config('logging'))
 
     logger = new Logger({ formatterConfig: { context: 'Context' } })
   })
