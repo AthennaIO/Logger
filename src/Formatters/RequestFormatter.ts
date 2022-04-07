@@ -20,12 +20,13 @@ export class RequestFormatter implements FormatterContract {
   format(ctx: any, options: RequestFormatterOptions): string {
     const ip = ctx.request.ip
     const status = ctx.status
-    const baseUrl = ctx.request.baseUrl
-    const method = Color[ctx.request.method]
-    const responseTimeMs = `${ctx.responseTime}ms`
+    const responseTimeMs = `${Math.round(ctx.responseTime)}ms`
+    const methodAndUrl = Color[ctx.request.method](
+      `${ctx.request.method}::${ctx.request.baseUrl}`,
+    )
 
     if (!options.asJson) {
-      return `(${ip}) - [${status}] ${method}::${baseUrl} ${responseTimeMs}`
+      return `(${ip}) - [${status}] ${methodAndUrl} ${responseTimeMs}`
     }
 
     const metadata = {
@@ -36,12 +37,23 @@ export class RequestFormatter implements FormatterContract {
       url: ctx.request.hostUrl,
       path: ctx.request.baseUrl,
       createdAt: Date.now(),
+      data: ctx.data,
     }
 
-    return JSON.stringify({
-      request: JSON.stringify(ctx.request),
-      response: JSON.stringify(ctx.response),
-      metadata,
-    })
+    const request = {
+      url: ctx.request.hostUrl,
+      method: ctx.request.method,
+      body: ctx.request.body,
+      params: ctx.request.params,
+      queries: ctx.request.queries,
+      headers: ctx.request.headers,
+    }
+
+    const response = {
+      body: ctx.body,
+      headers: ctx.headers,
+    }
+
+    return JSON.stringify({ request, response, metadata })
   }
 }
