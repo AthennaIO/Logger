@@ -54,14 +54,6 @@ export class Color {
     return Color.chalk.hex('#f10e0e')
   }
 
-  static removeColors(string: string): any {
-    return Color.chalk.reset(string).replace(
-      // eslint-disable-next-line no-control-regex
-      /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g,
-      '',
-    )
-  }
-
   static get info(): any {
     return this.cyan.bold
   }
@@ -82,23 +74,43 @@ export class Color {
     return this.orange.bold
   }
 
-  static httpMethod(method: Methods): any {
-    return this[method] as Chalk
+  static get GET(): any {
+    return this.purple.bold('GET')
   }
 
-  static get GET(): any {
-    return this.purple.bold('GET 🔍')
+  static get HEAD(): any {
+    return this.cyan.bold('HEAD')
   }
 
   static get PUT(): any {
-    return this.yellow.bold('PUT 🛠')
+    return this.orange.bold('PUT')
+  }
+
+  static get PATCH(): any {
+    return this.yellow.bold('PATCH')
   }
 
   static get POST(): any {
-    return this.green.bold('POST 🧱')
+    return this.green.bold('POST')
   }
 
   static get DELETE(): any {
-    return this.red.bold('DELETE ❌')
+    return this.red.bold('DELETE')
+  }
+
+  static get OPTIONS(): any {
+    return this.cyan.bold('OPTIONS')
+  }
+
+  static removeColors(string: string): any {
+    return Color.chalk.reset(string).replace(
+      // eslint-disable-next-line no-control-regex
+      /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g,
+      '',
+    )
+  }
+
+  static httpMethod(method: Methods): any {
+    return this[method] as Chalk
   }
 }
