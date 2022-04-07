@@ -7,13 +7,14 @@
  * file that was distributed with this source code.
  */
 
+import { CliFormatter } from 'src/Formatters/CliFormatter'
 import { JsonFormatter } from 'src/Formatters/JsonFormatter'
 import { NestFormatter } from 'src/Formatters/NestFormatter'
 import { SimpleFormatter } from 'src/Formatters/SimpleFormatter'
+import { RequestFormatter } from 'src/Formatters/RequestFormatter'
 import { FormatterContract } from 'src/Contracts/FormatterContract'
 import { NotFoundFormatterException } from 'src/Exceptions/NotFoundFormatterException'
 import { FormatterAlreadyExistException } from 'src/Exceptions/FormatterAlreadyExistException'
-import { CliFormatter } from 'src/Formatters/CliFormatter'
 
 export interface FormatterObject {
   Formatter: any
@@ -25,6 +26,7 @@ export class FormatterFactory {
     .set('nest', { Formatter: NestFormatter })
     .set('json', { Formatter: JsonFormatter })
     .set('simple', { Formatter: SimpleFormatter })
+    .set('request', { Formatter: RequestFormatter })
 
   static availableFormatters(): string[] {
     const availableFormatters: string[] = []

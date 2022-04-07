@@ -43,7 +43,7 @@ export default {
       formatter: 'request',
       streamType: 'stdout',
       formatterConfig: {
-        method: 'GET',
+        asJson: false,
       },
     },
     debug: {

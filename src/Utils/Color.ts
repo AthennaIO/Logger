@@ -75,31 +75,31 @@ export class Color {
   }
 
   static get GET(): any {
-    return this.purple.bold('GET')
+    return this.purple.bold
   }
 
   static get HEAD(): any {
-    return this.cyan.bold('HEAD')
+    return this.cyan.bold
   }
 
   static get PUT(): any {
-    return this.orange.bold('PUT')
+    return this.orange.bold
   }
 
   static get PATCH(): any {
-    return this.yellow.bold('PATCH')
+    return this.yellow.bold
   }
 
   static get POST(): any {
-    return this.green.bold('POST')
+    return this.green.bold
   }
 
   static get DELETE(): any {
-    return this.red.bold('DELETE')
+    return this.red.bold
   }
 
   static get OPTIONS(): any {
-    return this.cyan.bold('OPTIONS')
+    return this.cyan.bold
   }
 
   static removeColors(string: string): any {
