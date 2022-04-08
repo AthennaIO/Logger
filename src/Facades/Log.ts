@@ -7,9 +7,7 @@
  * file that was distributed with this source code.
  */
 
-export * from 'src/Logger'
-export * from 'src/Facades/Log'
-export * from 'src/Utils/Color'
+import { Logger } from 'src/Logger'
+import { Handler } from 'src/Utils/Handler'
 
-export * from 'src/Contracts/DriverContract'
-export * from 'src/Contracts/FormatterContract'
+export const Log: Logger = new Proxy({}, new Handler('Athenna/Core/Logger'))
