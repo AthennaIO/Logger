@@ -9,6 +9,8 @@
 
 import { Logger } from '../../src/Logger'
 import { Config, Folder, Path } from '@secjs/utils'
+import { LoggerProvider } from '../../src/Providers/LoggerProvider'
+import { Log } from '../../src/Facades/Log'
 
 describe('\n LoggerTest', () => {
   let logger: Logger
@@ -18,7 +20,7 @@ describe('\n LoggerTest', () => {
 
     await new Config().safeLoad(Path.config('logging'))
 
-    logger = new Logger({ formatterConfig: { context: 'Context' } })
+    logger = new Logger()
   })
 
   it('should be able to log using default channel', async () => {
@@ -34,6 +36,7 @@ describe('\n LoggerTest', () => {
     await logger.channel('default').log('Hello from @athenna/logger!')
 
     await logger.channel('default').error('Hello from ({yellow,italic} @athenna/logger!)')
+    await logger.channel('default', { formatterConfig: { context: 'Context' } }).success('Hello from @athenna/logger!')
   })
 
   it('should be able to log using file channel', async () => {
@@ -50,6 +53,13 @@ describe('\n LoggerTest', () => {
     await logger.channel('debug').error('Hello from @athenna/logger!')
     await logger.channel('debug').warn('Hello from @athenna/logger!')
     await logger.channel('debug').debug('Hello from @athenna/logger!')
+  })
+
+  it('should be able to register the logger as an instance provider and use the Facade', async () => {
+    new LoggerProvider().register()
+
+    Log.channel('default', { formatterConfig: { context: 'Facade' } }).warn('Hello from Athenna logger facade!')
+    Log.channel('default').warn('Hello from Athenna logger facade!')
   })
 
   afterAll(() => {
