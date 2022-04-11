@@ -8,6 +8,6 @@
  */
 
 import { Logger } from 'src/Logger'
-import { Handler } from 'src/Utils/Handler'
+import { Facade } from '@athenna/ioc'
 
-export const Log: Logger = new Proxy({}, new Handler('Athenna/Core/Logger'))
+export const Log = Facade.createFor<Logger>('Athenna/Core/Logger')
