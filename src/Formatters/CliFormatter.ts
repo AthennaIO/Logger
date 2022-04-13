@@ -27,6 +27,8 @@ export class CliFormatter implements FormatterContract {
       success: Color.log,
     }
 
+    if (!levelColors[level.toLowerCase()]) return `[  ${level.toLowerCase()}  ]`
+
     return levelColors[level.toLowerCase()](`[  ${level.toLowerCase()}  ]`)
   }
 

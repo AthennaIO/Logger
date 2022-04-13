@@ -161,7 +161,6 @@ export class Logger {
    */
   warn(message: any, options = {}): void | Promise<void> {
     options = this.createOptions(options, {
-      streamType: 'stdout',
       formatterConfig: {
         level: 'WARN',
         chalk: Color.orange,
@@ -181,7 +180,6 @@ export class Logger {
    */
   error(message: any, options = {}): void | Promise<void> {
     options = this.createOptions(options, {
-      streamType: 'stdout',
       formatterConfig: {
         level: 'ERROR',
         chalk: Color.red,
@@ -201,7 +199,6 @@ export class Logger {
    */
   debug(message: any, options = {}): void | Promise<void> {
     options = this.createOptions(options, {
-      streamType: 'stdout',
       formatterConfig: {
         level: 'DEBUG',
         chalk: Color.purple,
@@ -221,7 +218,6 @@ export class Logger {
    */
   success(message: any, options = {}): void | Promise<void> {
     options = this.createOptions(options, {
-      streamType: 'stdout',
       formatterConfig: {
         level: 'SUCCESS',
         chalk: Color.green,
@@ -255,14 +251,6 @@ export class Logger {
         ...formatterConfig,
       }
     }
-
-    options = Object.assign(
-      {},
-      {
-        streamType: 'stdout',
-      },
-      options,
-    )
 
     options = {
       ...options,

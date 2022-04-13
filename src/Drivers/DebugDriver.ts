@@ -9,57 +9,33 @@
 
 import { debug } from 'debug'
 import { Config } from '@secjs/utils'
-import { Color } from 'src/Utils/Color'
+import { groupConfigs } from 'src/Utils/groupConfigs'
 import { DriverContract } from 'src/Contracts/DriverContract'
 import { FormatterFactory } from 'src/Factories/FormatterFactory'
 
 export interface DebugDriverOpts {
-  color: Color
-  level: string
-  context: string
-  formatter: string
-  namespace: string
-  formatterConfig: any
+  namespace?: string
+  formatter?: any
+  formatterConfig?: any
 }
 
 export class DebugDriver implements DriverContract {
-  private readonly _formatter: string
-  private readonly _namespace: string
-  private readonly _formatterConfig: any
+  public configs: Required<DebugDriverOpts>
 
-  constructor(channel: string, configs: any = {}) {
+  public constructor(channel: string, configs: any = {}) {
     const channelConfig = Config.get(`logging.channels.${channel}`)
 
-    this._formatter = configs.formatter || channelConfig.formatter
-    this._namespace = configs.namespace || channelConfig.namespace
-    this._formatterConfig = Object.assign(
-      {},
-      channelConfig.formatterConfig,
-      configs.formatterConfig,
-    )
+    this.configs = groupConfigs(configs, channelConfig)
   }
 
-  transport(message: string, options?: DebugDriverOpts): void {
-    options = Object.assign(
-      {},
-      {
-        formatter: this._formatter,
-        namespace: this._namespace,
-      },
-      options,
-    ) as DebugDriverOpts
+  transport(message: string, options: DebugDriverOpts = {}): void {
+    const configs = groupConfigs<DebugDriverOpts>(options, this.configs)
 
-    const formatterOptions = Object.assign(
-      {},
-      this._formatterConfig,
-      options.formatterConfig,
-    )
-
-    message = FormatterFactory.fabricate(options.formatter).format(
+    message = FormatterFactory.fabricate(configs.formatter).format(
       message,
-      formatterOptions,
+      configs.formatterConfig,
     )
 
-    debug(options.namespace)(message)
+    debug(configs.namespace)(message)
   }
 }

@@ -7,19 +7,23 @@
  * file that was distributed with this source code.
  */
 
+import { Telegraf } from 'telegraf'
 import { Config } from '@secjs/utils'
+import { Color } from 'src/Utils/Color'
 import { groupConfigs } from 'src/Utils/groupConfigs'
 import { DriverContract } from 'src/Contracts/DriverContract'
 import { FormatterFactory } from 'src/Factories/FormatterFactory'
 
-export interface ConsoleDriverOpts {
-  streamType?: 'stdout' | 'stderr'
+export interface TelegramDriverOpts {
+  token?: string
+  chatId?: string | number
+  parseMode?: 'HTML' | 'Markdown' | 'MarkdownV2'
   formatter?: any
   formatterConfig?: any
 }
 
-export class ConsoleDriver implements DriverContract {
-  public configs: Required<ConsoleDriverOpts>
+export class TelegramDriver implements DriverContract {
+  public configs: Required<TelegramDriverOpts>
 
   public constructor(channel: string, configs: any = {}) {
     const channelConfig = Config.get(`logging.channels.${channel}`)
@@ -27,14 +31,23 @@ export class ConsoleDriver implements DriverContract {
     this.configs = groupConfigs(configs, channelConfig)
   }
 
-  transport(message: string, options: ConsoleDriverOpts = {}): void {
-    const configs = groupConfigs<ConsoleDriverOpts>(options, this.configs)
+  async transport(
+    message: string,
+    options: TelegramDriverOpts = {},
+  ): Promise<void> {
+    const configs = groupConfigs<TelegramDriverOpts>(options, this.configs)
 
     message = FormatterFactory.fabricate(configs.formatter).format(
       message,
       configs.formatterConfig,
     )
 
-    process[configs.streamType].write(`${message}\n`)
+    await new Telegraf(configs.token).telegram.sendMessage(
+      configs.chatId,
+      Color.removeColors(message),
+      {
+        parse_mode: configs.parseMode,
+      },
+    )
   }
 }

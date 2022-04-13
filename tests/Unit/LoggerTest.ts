@@ -52,6 +52,22 @@ describe('\n LoggerTest', () => {
     Log.channel('debug').debug('Hello from @athenna/logger!')
   })
 
+  it('should be able to log using discrd channel', async () => {
+    Log.channel('discard').info('Hello from @athenna/logger!')
+    Log.channel('discard').success('Hello from @athenna/logger!')
+    Log.channel('discard').error('Hello from @athenna/logger!')
+    Log.channel('discard').warn('Hello from @athenna/logger!')
+    Log.channel('discard').debug('Hello from @athenna/logger!')
+  })
+
+  it('should be able to log using pino channel', async () => {
+    Log.channel('pino').info('Hello from @athenna/logger!')
+    Log.channel('pino').success('Hello from @athenna/logger!')
+    Log.channel('pino').error('Hello from @athenna/logger!')
+    Log.channel('pino').warn('Hello from @athenna/logger!')
+    Log.channel('pino').debug('Hello from @athenna/logger!')
+  })
+
   afterAll(() => {
     Folder.safeRemove(Path.storage())
     Folder.safeRemove(Path.pwd('config'))
