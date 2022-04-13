@@ -11,7 +11,7 @@ import { Exception } from '@secjs/utils'
 
 export class NotFoundFormatterException extends Exception {
   public constructor(formatterName: string) {
-    const content = `The driver ${formatterName} has not been found`
+    const content = `The formatter ${formatterName} has not been found`
 
     super(
       content,

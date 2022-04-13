@@ -7,19 +7,21 @@
  * file that was distributed with this source code.
  */
 
+import axios from 'axios'
 import { Config } from '@secjs/utils'
+import { Color } from 'src/Utils/Color'
 import { groupConfigs } from 'src/Utils/groupConfigs'
 import { DriverContract } from 'src/Contracts/DriverContract'
 import { FormatterFactory } from 'src/Factories/FormatterFactory'
 
-export interface ConsoleDriverOpts {
-  streamType?: 'stdout' | 'stderr'
+export interface SlackDriverOpts {
+  url?: string
   formatter?: any
   formatterConfig?: any
 }
 
-export class ConsoleDriver implements DriverContract {
-  public configs: Required<ConsoleDriverOpts>
+export class SlackDriver implements DriverContract {
+  public configs: Required<SlackDriverOpts>
 
   public constructor(channel: string, configs: any = {}) {
     const channelConfig = Config.get(`logging.channels.${channel}`)
@@ -27,14 +29,17 @@ export class ConsoleDriver implements DriverContract {
     this.configs = groupConfigs(configs, channelConfig)
   }
 
-  transport(message: string, options: ConsoleDriverOpts = {}): void {
-    const configs = groupConfigs<ConsoleDriverOpts>(options, this.configs)
+  async transport(
+    message: string,
+    options: SlackDriverOpts = {},
+  ): Promise<void> {
+    const configs = groupConfigs<SlackDriverOpts>(options, this.configs)
 
     message = FormatterFactory.fabricate(configs.formatter).format(
       message,
       configs.formatterConfig,
     )
 
-    process[configs.streamType].write(`${message}\n`)
+    await axios.post(configs.url, { text: Color.removeColors(message) })
   }
 }

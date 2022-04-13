@@ -11,6 +11,7 @@ import { CliFormatter } from 'src/Formatters/CliFormatter'
 import { JsonFormatter } from 'src/Formatters/JsonFormatter'
 import { NestFormatter } from 'src/Formatters/NestFormatter'
 import { SimpleFormatter } from 'src/Formatters/SimpleFormatter'
+import { MessageFormatter } from 'src/Formatters/MessageFormatter'
 import { RequestFormatter } from 'src/Formatters/RequestFormatter'
 import { FormatterContract } from 'src/Contracts/FormatterContract'
 import { NotFoundFormatterException } from 'src/Exceptions/NotFoundFormatterException'
@@ -26,6 +27,7 @@ export class FormatterFactory {
     .set('nest', { Formatter: NestFormatter })
     .set('json', { Formatter: JsonFormatter })
     .set('simple', { Formatter: SimpleFormatter })
+    .set('message', { Formatter: MessageFormatter })
     .set('request', { Formatter: RequestFormatter })
 
   static availableFormatters(): string[] {

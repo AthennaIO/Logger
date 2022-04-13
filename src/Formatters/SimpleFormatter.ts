@@ -13,7 +13,7 @@ import { getTimestamp } from 'src/Utils/getTimestamp'
 import { LevelTypes } from 'src/Contracts/LevelTypes'
 import { FormatterContract } from 'src/Contracts/FormatterContract'
 
-export interface LogFormatterOptions {
+export interface SimpleFormatterOpts {
   chalk: Chalk
   level: LevelTypes
 }
@@ -42,10 +42,12 @@ export class SimpleFormatter implements FormatterContract {
       success: Color.log,
     }
 
+    if (!levelColors[level.toLowerCase()]) return `[${level.toUpperCase()}]`
+
     return levelColors[level.toLowerCase()](`[${level.toUpperCase()}]`)
   }
 
-  format(message: string, options: LogFormatterOptions): string {
+  format(message: string, options: SimpleFormatterOpts): string {
     const timestamp = getTimestamp()
     const timestampDiff = SimpleFormatter.getTimestampDiff()
     const level = SimpleFormatter.paintByLevel(options.level)

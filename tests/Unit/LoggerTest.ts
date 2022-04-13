@@ -7,59 +7,65 @@
  * file that was distributed with this source code.
  */
 
-import { Logger } from '../../src/Logger'
+import { Log } from '../../src/Facades/Log'
 import { Config, Folder, Path } from '@secjs/utils'
 import { LoggerProvider } from '../../src/Providers/LoggerProvider'
-import { Log } from '../../src/Facades/Log'
 
 describe('\n LoggerTest', () => {
-  let logger: Logger
-
   beforeAll(async () => {
     new Folder(Path.tests('Stubs/config')).loadSync().copySync(Path.pwd('config'))
 
     await new Config().safeLoad(Path.config('logging'))
 
-    logger = new Logger()
+    new LoggerProvider().register()
   })
 
   it('should be able to log using default channel', async () => {
-    await logger.channel('default').info('Hello from @athenna/logger!', {
+    Log.channel('default').info('Hello from @athenna/logger!', {
       formatterConfig: {
         context: 'InfoContext',
       },
     })
-    await logger.channel('default').success('Hello from @athenna/logger!')
-    await logger.channel('default').error('Hello from @athenna/logger!')
-    await logger.channel('default').warn('Hello from @athenna/logger!')
-    await logger.channel('default').debug('Hello from @athenna/logger!')
-    await logger.channel('default').log('Hello from @athenna/logger!')
+    Log.channel('default').success('Hello from @athenna/logger!')
+    Log.channel('default').error('Hello from @athenna/logger!')
+    Log.channel('default').warn('Hello from @athenna/logger!')
+    Log.channel('default').debug('Hello from @athenna/logger!')
+    Log.channel('default').log('Hello from @athenna/logger!')
 
-    await logger.channel('default').error('Hello from ({yellow,italic} @athenna/logger!)')
-    await logger.channel('default', { formatterConfig: { context: 'Context' } }).success('Hello from @athenna/logger!')
+    Log.channel('default').error('Hello from ({yellow,italic} @athenna/logger!)')
+    Log.channel('default', { formatterConfig: { context: 'Context' } }).success('Hello from @athenna/logger!')
   })
 
   it('should be able to log using file channel', async () => {
-    await logger.channel('file').info('Hello from @athenna/logger!')
-    await logger.channel('file').success('Hello from @athenna/logger!')
-    await logger.channel('file').error('Hello from @athenna/logger!')
-    await logger.channel('file').warn('Hello from @athenna/logger!')
-    await logger.channel('file').debug('Hello from @athenna/logger!')
+    await Log.channel('file').info('Hello from @athenna/logger!')
+    await Log.channel('file').success('Hello from @athenna/logger!')
+    await Log.channel('file').error('Hello from @athenna/logger!')
+    await Log.channel('file').warn('Hello from @athenna/logger!')
+    await Log.channel('file').debug('Hello from @athenna/logger!')
   })
 
   it('should be able to log using debug channel', async () => {
-    await logger.channel('debug').info('Hello from @athenna/logger!')
-    await logger.channel('debug').success('Hello from @athenna/logger!')
-    await logger.channel('debug').error('Hello from @athenna/logger!')
-    await logger.channel('debug').warn('Hello from @athenna/logger!')
-    await logger.channel('debug').debug('Hello from @athenna/logger!')
+    Log.channel('debug').info('Hello from @athenna/logger!')
+    Log.channel('debug').success('Hello from @athenna/logger!')
+    Log.channel('debug').error('Hello from @athenna/logger!')
+    Log.channel('debug').warn('Hello from @athenna/logger!')
+    Log.channel('debug').debug('Hello from @athenna/logger!')
   })
 
-  it('should be able to register the logger as an instance provider and use the Facade', async () => {
-    new LoggerProvider().register()
+  it('should be able to log using discrd channel', async () => {
+    Log.channel('discard').info('Hello from @athenna/logger!')
+    Log.channel('discard').success('Hello from @athenna/logger!')
+    Log.channel('discard').error('Hello from @athenna/logger!')
+    Log.channel('discard').warn('Hello from @athenna/logger!')
+    Log.channel('discard').debug('Hello from @athenna/logger!')
+  })
 
-    Log.channel('default', { formatterConfig: { context: 'Facade' } }).warn('Hello from Athenna logger facade!')
-    Log.channel('default').warn('Hello from Athenna logger facade!')
+  it('should be able to log using pino channel', async () => {
+    Log.channel('pino').info('Hello from @athenna/logger!')
+    Log.channel('pino').success('Hello from @athenna/logger!')
+    Log.channel('pino').error('Hello from @athenna/logger!')
+    Log.channel('pino').warn('Hello from @athenna/logger!')
+    Log.channel('pino').debug('Hello from @athenna/logger!')
   })
 
   afterAll(() => {

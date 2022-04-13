@@ -10,61 +10,42 @@
 import { parse } from 'path'
 import { Config } from '@secjs/utils'
 import { Color } from 'src/Utils/Color'
+import { groupConfigs } from 'src/Utils/groupConfigs'
 import { DriverContract } from 'src/Contracts/DriverContract'
 import { createWriteStream, existsSync, mkdirSync } from 'fs'
 import { FormatterFactory } from 'src/Factories/FormatterFactory'
 
 export interface FileDriverOpts {
-  level: string
-  context: string
-  formatter: string
-  filePath: string
-  formatterConfig: any
+  filePath?: string
+  formatter?: any
+  formatterConfig?: any
 }
 
 export class FileDriver implements DriverContract {
-  private readonly _filePath: string
-  private readonly _formatter: string
-  private readonly _formatterConfig: any
+  public configs: Required<FileDriverOpts>
 
-  constructor(channel: string, configs: any = {}) {
+  public constructor(channel: string, configs: any = {}) {
     const channelConfig = Config.get(`logging.channels.${channel}`)
 
-    this._filePath = configs.filePath || channelConfig.filePath
-    this._formatter = configs.formatter || channelConfig.formatter
-    this._formatterConfig = Object.assign(
-      {},
-      channelConfig.formatterConfig,
-      configs.formatterConfig,
-    )
+    this.configs = groupConfigs(configs, channelConfig)
   }
 
-  async transport(message: string, options?: FileDriverOpts): Promise<void> {
-    options = Object.assign(
-      {},
-      {
-        filePath: this._filePath,
-        formatter: this._formatter,
-      },
-      options,
-    ) as FileDriverOpts
+  async transport(
+    message: string,
+    options: FileDriverOpts = {},
+  ): Promise<void> {
+    const configs = groupConfigs<FileDriverOpts>(options, this.configs)
 
-    const filePath = options.filePath
+    const filePath = configs.filePath
     const { dir } = parse(filePath)
 
     if (!existsSync(dir)) {
       mkdirSync(dir, { recursive: true })
     }
 
-    const formatterOptions = Object.assign(
-      {},
-      this._formatterConfig,
-      options.formatterConfig,
-    )
-
-    message = FormatterFactory.fabricate(options.formatter).format(
+    message = FormatterFactory.fabricate(configs.formatter).format(
       message,
-      formatterOptions,
+      configs.formatterConfig,
     )
 
     return new Promise((resolve, reject) => {
