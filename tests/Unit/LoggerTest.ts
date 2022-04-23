@@ -52,12 +52,12 @@ describe('\n LoggerTest', () => {
     Log.channel('debug').debug('Hello from @athenna/logger!')
   })
 
-  it('should be able to log using discrd channel', async () => {
-    Log.channel('discard').info('Hello from @athenna/logger!')
-    Log.channel('discard').success('Hello from @athenna/logger!')
-    Log.channel('discard').error('Hello from @athenna/logger!')
-    Log.channel('discard').warn('Hello from @athenna/logger!')
-    Log.channel('discard').debug('Hello from @athenna/logger!')
+  it('should be able to log using discord channel', async () => {
+    Log.channel('discord').info('Hello from @athenna/logger!')
+    Log.channel('discord').success('Hello from @athenna/logger!')
+    Log.channel('discord').error('Hello from @athenna/logger!')
+    Log.channel('discord').warn('Hello from @athenna/logger!')
+    Log.channel('discord').debug('Hello from @athenna/logger!')
   })
 
   it('should be able to log using pino channel', async () => {
