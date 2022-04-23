@@ -52,14 +52,6 @@ describe('\n LoggerTest', () => {
     Log.channel('debug').debug('Hello from @athenna/logger!')
   })
 
-  it('should be able to log using discord channel', async () => {
-    Log.channel('discord').info('Hello from @athenna/logger!')
-    Log.channel('discord').success('Hello from @athenna/logger!')
-    Log.channel('discord').error('Hello from @athenna/logger!')
-    Log.channel('discord').warn('Hello from @athenna/logger!')
-    Log.channel('discord').debug('Hello from @athenna/logger!')
-  })
-
   it('should be able to log using pino channel', async () => {
     Log.channel('pino').info('Hello from @athenna/logger!')
     Log.channel('pino').success('Hello from @athenna/logger!')
