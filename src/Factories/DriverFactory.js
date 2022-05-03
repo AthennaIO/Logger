@@ -9,6 +9,14 @@
 
 import { Config } from '@secjs/utils'
 
+import { FileDriver } from '#src/Drivers/FileDriver'
+import { NullDriver } from '#src/Drivers/NullDriver'
+import { PinoDriver } from '#src/Drivers/PinoDriver'
+import { DebugDriver } from '#src/Drivers/DebugDriver'
+import { SlackDriver } from '#src/Drivers/SlackDriver'
+import { ConsoleDriver } from '#src/Drivers/ConsoleDriver'
+import { DiscordDriver } from '#src/Drivers/DiscordDriver'
+import { TelegramDriver } from '#src/Drivers/TelegramDriver'
 import { DriverExistException } from '#src/Exceptions/DriverExistException'
 import { NotFoundDriverException } from '#src/Exceptions/NotFoundDriverException'
 import { NotFoundChannelException } from '#src/Exceptions/NotFoundChannelException'
@@ -20,14 +28,14 @@ export class DriverFactory {
    * @type {Map<string, { Driver: any }>}
    */
   static drivers = new Map()
-  // .set('file', { Driver: FileDriver })
-  // .set('null', { Driver: NullDriver })
-  // .set('pino', { Driver: PinoDriver })
-  // .set('slack', { Driver: SlackDriver })
-  // .set('debug', { Driver: DebugDriver })
-  // .set('console', { Driver: ConsoleDriver })
-  // .set('discord', { Driver: DiscordDriver })
-  // .set('telegram', { Driver: TelegramDriver })
+    .set('file', { Driver: FileDriver })
+    .set('null', { Driver: NullDriver })
+    .set('pino', { Driver: PinoDriver })
+    .set('slack', { Driver: SlackDriver })
+    .set('debug', { Driver: DebugDriver })
+    .set('console', { Driver: ConsoleDriver })
+    .set('discord', { Driver: DiscordDriver })
+    .set('telegram', { Driver: TelegramDriver })
 
   /**
    * Return an array with all available drivers.

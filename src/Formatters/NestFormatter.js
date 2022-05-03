@@ -7,9 +7,8 @@
  * file that was distributed with this source code.
  */
 
-import { getTimestamp } from 'src/Utils/getTimestamp'
-import { FormatterHelper } from '#src/Helpers/FormatterHelper'
 import { ColorHelper } from '#src/Helpers/ColorHelper'
+import { FactoryHelper } from '#src/Helpers/FactoryHelper'
 
 export class NestFormatter {
   /**
@@ -27,12 +26,12 @@ export class NestFormatter {
    * @return {string}
    */
   format(message, options) {
-    const timestampDiff = FormatterHelper.getTimestampDiff(this.#lastTimestamp)
+    const timestampDiff = FactoryHelper.getTimestampDiff(this.#lastTimestamp)
 
     this.#lastTimestamp = Date.now()
 
     const pid = ColorHelper.yellow(`[Athenna] - PID: ${process.pid}`)
-    const timestamp = getTimestamp()
+    const timestamp = FactoryHelper.getTimestamp()
     const messageCtx = ColorHelper.yellow(`[${options.context}] `)
 
     return `${pid} - ${timestamp} ${messageCtx}${options.chalk(

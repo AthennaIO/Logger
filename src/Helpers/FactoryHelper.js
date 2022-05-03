@@ -1,5 +1,3 @@
-import { ColorHelper } from '#src/Helpers/ColorHelper'
-
 /**
  * @athenna/logger
  *
@@ -9,7 +7,10 @@ import { ColorHelper } from '#src/Helpers/ColorHelper'
  * file that was distributed with this source code.
  */
 
-export class FormatterHelper {
+import { ColorHelper } from '#src/Helpers/ColorHelper'
+import { Options } from '@secjs/utils'
+
+export class FactoryHelper {
   /**
    * Get the timestamp value formatted.
    *
@@ -94,5 +95,24 @@ export class FormatterHelper {
     }
 
     return levelColors[level](message)
+  }
+
+  /**
+   * Group the configuration values.
+   *
+   * @param {any} object
+   * @param {any} defaultValue
+   * @return {any}
+   */
+  static groupConfigs(object, defaultValue) {
+    const formatter = object.formatter || defaultValue.formatter
+    const formatterConfig = Options.create(
+      object.formatterConfig,
+      defaultValue.formatterConfig,
+    )
+
+    const driverConfig = Options.create(object, defaultValue)
+
+    return { ...driverConfig, formatter, formatterConfig }
   }
 }

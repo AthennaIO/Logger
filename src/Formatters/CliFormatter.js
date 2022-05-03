@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { FormatterHelper } from '#src/Helpers/FormatterHelper'
+import { FactoryHelper } from '#src/Helpers/FactoryHelper'
 
 export class CliFormatter {
   /**
@@ -20,7 +20,7 @@ export class CliFormatter {
   format(message, options) {
     options.level = options.level.toLowerCase()
 
-    const level = FormatterHelper.paintByLevel(
+    const level = FactoryHelper.paintByLevel(
       options.level,
       `[  ${options.level}  ]`,
     )

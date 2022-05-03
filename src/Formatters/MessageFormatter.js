@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-import { FormatterHelper } from '#src/Helpers/FormatterHelper'
+import { FactoryHelper } from '#src/Helpers/FactoryHelper'
 
 export class MessageFormatter {
   /**
@@ -26,11 +26,11 @@ export class MessageFormatter {
    * @return {string}
    */
   format(message, options) {
-    const timestampDiff = FormatterHelper.getTimestampDiff(this.#lastTimestamp)
+    const timestampDiff = FactoryHelper.getTimestampDiff(this.#lastTimestamp)
 
     this.#lastTimestamp = Date.now()
 
-    const level = FormatterHelper.getEmojiByLevel(
+    const level = FactoryHelper.getEmojiByLevel(
       options.level,
       options.customEmoji,
     )

@@ -7,6 +7,12 @@
  * file that was distributed with this source code.
  */
 
+import { CliFormatter } from '#src/Formatters/CliFormatter'
+import { NestFormatter } from '#src/Formatters/NestFormatter'
+import { JsonFormatter } from '#src/Formatters/JsonFormatter'
+import { SimpleFormatter } from '#src/Formatters/SimpleFormatter'
+import { MessageFormatter } from '#src/Formatters/MessageFormatter'
+import { RequestFormatter } from '#src/Formatters/RequestFormatter'
 import { FormatterExistException } from 'src/Exceptions/FormatterExistException'
 import { NotFoundFormatterException } from 'src/Exceptions/NotFoundFormatterException'
 
@@ -17,12 +23,12 @@ export class FormatterFactory {
    * @type {Map<string, { Formatter: any }>}
    */
   static formatters = new Map()
-  // .set('cli', { Formatter: CliFormatter })
-  // .set('nest', { Formatter: NestFormatter })
-  // .set('json', { Formatter: JsonFormatter })
-  // .set('simple', { Formatter: SimpleFormatter })
-  // .set('message', { Formatter: MessageFormatter })
-  // .set('request', { Formatter: RequestFormatter })
+    .set('cli', { Formatter: CliFormatter })
+    .set('nest', { Formatter: NestFormatter })
+    .set('json', { Formatter: JsonFormatter })
+    .set('simple', { Formatter: SimpleFormatter })
+    .set('message', { Formatter: MessageFormatter })
+    .set('request', { Formatter: RequestFormatter })
 
   /**
    * Return an array with all available formatters.

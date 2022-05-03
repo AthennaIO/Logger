@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { FormatterHelper } from '#src/Helpers/FormatterHelper'
+import { FactoryHelper } from '#src/Helpers/FactoryHelper'
 
 export class SimpleFormatter {
   /**
@@ -25,11 +25,11 @@ export class SimpleFormatter {
    * @return {string}
    */
   format(message, options) {
-    const timestampDiff = FormatterHelper.getTimestampDiff(this.#lastTimestamp)
+    const timestampDiff = FactoryHelper.getTimestampDiff(this.#lastTimestamp)
     this.#lastTimestamp = Date.now()
 
-    const timestamp = FormatterHelper.getTimestamp()
-    const level = FormatterHelper.paintByLevel(
+    const timestamp = FactoryHelper.getTimestamp()
+    const level = FactoryHelper.paintByLevel(
       options.level.toLowerCase(),
       `[${options.level.toUpperCase()}]`,
     )
