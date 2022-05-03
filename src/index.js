@@ -6,6 +6,12 @@ import { ColorHelper } from '#src/Helpers/ColorHelper'
 import { DriverFactory } from '#src/Factories/DriverFactory'
 import { FormatterFactory } from '#src/Factories/FormatterFactory'
 
+export * from './Facades/Log.js'
+export * from './Helpers/ColorHelper.js'
+export * from './Helpers/FactoryHelper.js'
+export * from './Factories/DriverFactory.js'
+export * from './Factories/FormatterFactory.js'
+
 export class Logger {
   /**
    * Runtime configurations to be used inside the Drivers and Formatters.
@@ -90,6 +96,52 @@ export class Logger {
   }
 
   /**
+   * Transport the log.
+   *
+   * @param {string} message
+   * @param {any} [options]
+   * @param {any} [defaultValues]
+   * @return {void | Promise<void>}
+   */
+  #log(message, options = {}, defaultValues = {}) {
+    options = this.#createOptions(options, defaultValues)
+
+    message = Logger.#applyLogEngine(message)
+
+    const promises = this.#driver.map(d => d.transport(message, options))
+
+    return Promise.all(promises)
+  }
+
+  /**
+   * Create options concatenating client options with default options.
+   *
+   * @param {any} options
+   * @param {any} defaultValues
+   * @return {any}
+   */
+  #createOptions(options, defaultValues) {
+    let formatterConfig = Options.create(
+      options.formatterConfig,
+      defaultValues.formatterConfig,
+    )
+
+    if (this.#runtimeConfig.formatterConfig) {
+      formatterConfig = {
+        ...this.#runtimeConfig.formatterConfig,
+        ...formatterConfig,
+      }
+    }
+
+    options = {
+      ...options,
+      formatterConfig,
+    }
+
+    return options
+  }
+
+  /**
    * Set runtime configurations for drivers and
    * formatters.
    *
@@ -120,23 +172,6 @@ export class Logger {
   }
 
   /**
-   * Creates a log of type log in channel.
-   *
-   * @param {string} message
-   * @param {any} [options]
-   * @return {void | Promise<void>}
-   */
-  log(message, options = {}) {
-    options = this.#createOptions(options, {})
-
-    message = Logger.#applyLogEngine(message)
-
-    const promises = this.#driver.map(d => d.transport(message, options))
-
-    return Promise.all(promises)
-  }
-
-  /**
    * Creates a log of type info in channel.
    *
    * @param {string} message
@@ -144,18 +179,12 @@ export class Logger {
    * @return {void | Promise<void>}
    */
   info(message, options = {}) {
-    options = this.#createOptions(options, {
+    return this.#log(message, options, {
       formatterConfig: {
         level: 'INFO',
         chalk: ColorHelper.cyan,
       },
     })
-
-    message = Logger.#applyLogEngine(message)
-
-    const promises = this.#driver.map(d => d.transport(message, options))
-
-    return Promise.all(promises)
   }
 
   /**
@@ -166,18 +195,12 @@ export class Logger {
    * @return {void | Promise<void>}
    */
   warn(message, options = {}) {
-    options = this.#createOptions(options, {
+    return this.#log(message, options, {
       formatterConfig: {
         level: 'WARN',
         chalk: ColorHelper.orange,
       },
     })
-
-    message = Logger.#applyLogEngine(message)
-
-    const promises = this.#driver.map(d => d.transport(message, options))
-
-    return Promise.all(promises)
   }
 
   /**
@@ -188,18 +211,28 @@ export class Logger {
    * @return {void | Promise<void>}
    */
   error(message, options = {}) {
-    options = this.#createOptions(options, {
+    return this.#log(message, options, {
       formatterConfig: {
         level: 'ERROR',
         chalk: ColorHelper.red,
       },
     })
+  }
 
-    message = Logger.#applyLogEngine(message)
-
-    const promises = this.#driver.map(d => d.transport(message, options))
-
-    return Promise.all(promises)
+  /**
+   * Creates a log of type critical in channel.
+   *
+   * @param {string} message
+   * @param {any} [options]
+   * @return {void | Promise<void>}
+   */
+  critical(message, options = {}) {
+    return this.#log(message, options, {
+      formatterConfig: {
+        level: 'CRITICAL',
+        chalk: ColorHelper.darkRed,
+      },
+    })
   }
 
   /**
@@ -210,18 +243,12 @@ export class Logger {
    * @return {void | Promise<void>}
    */
   debug(message, options = {}) {
-    options = this.#createOptions(options, {
+    return this.#log(message, options, {
       formatterConfig: {
         level: 'DEBUG',
         chalk: ColorHelper.purple,
       },
     })
-
-    message = Logger.#applyLogEngine(message)
-
-    const promises = this.#driver.map(d => d.transport(message, options))
-
-    return Promise.all(promises)
   }
 
   /**
@@ -232,45 +259,11 @@ export class Logger {
    * @return {void | Promise<void>}
    */
   success(message, options = {}) {
-    options = this.#createOptions(options, {
+    return this.#log(message, options, {
       formatterConfig: {
         level: 'SUCCESS',
         chalk: ColorHelper.green,
       },
     })
-
-    message = Logger.#applyLogEngine(message)
-
-    const promises = this.#driver.map(d => d.transport(message, options))
-
-    return Promise.all(promises)
-  }
-
-  /**
-   * Create options concatenating client options with default options.
-   *
-   * @param {any} options
-   * @param {any} defaultValues
-   * @return {any}
-   */
-  #createOptions(options, defaultValues) {
-    let formatterConfig = Options.create(
-      options.formatterConfig,
-      defaultValues.formatterConfig,
-    )
-
-    if (this.runtimeConfig.formatterConfig) {
-      formatterConfig = {
-        ...this.runtimeConfig.formatterConfig,
-        ...formatterConfig,
-      }
-    }
-
-    options = {
-      ...options,
-      formatterConfig,
-    }
-
-    return options
   }
 }

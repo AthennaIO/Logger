@@ -108,21 +108,21 @@ export class ColorHelper {
   }
 
   /**
+   * Paint as darkRed.
+   *
+   * @return {import('chalk').ChalkInstance}
+   */
+  static get darkRed() {
+    return ColorHelper.chalk.hex('#710909')
+  }
+
+  /**
    * Paint infos.
    *
    * @return {import('chalk').ChalkInstance}
    */
   static get info() {
     return this.cyan.bold
-  }
-
-  /**
-   * Paint logs.
-   *
-   * @return {import('chalk').ChalkInstance}
-   */
-  static get log() {
-    return this.green.bold
   }
 
   /**
@@ -135,7 +135,7 @@ export class ColorHelper {
   }
 
   /**
-   * Paint errors.
+   * Paint error.
    *
    * @return {import('chalk').ChalkInstance}
    */
@@ -144,7 +144,16 @@ export class ColorHelper {
   }
 
   /**
-   * Paint warnings.
+   * Paint critical.
+   *
+   * @return {import('chalk').ChalkInstance}
+   */
+  static get critical() {
+    return this.darkRed.bold
+  }
+
+  /**
+   * Paint warning.
    *
    * @return {import('chalk').ChalkInstance}
    */

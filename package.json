@@ -30,8 +30,9 @@
     "#tests/*": "./tests/*.js"
   },
   "dependencies": {
-    "@secjs/utils": "1.9.3",
     "@athenna/ioc": "1.1.7",
+    "@secjs/utils": "1.9.3",
+    "awilix": "7.0.3",
     "axios": "0.26.1",
     "pino": "7.10.0",
     "pino-pretty": "7.6.1",

@@ -7,8 +7,9 @@
  * file that was distributed with this source code.
  */
 
-import { ColorHelper } from '#src/Helpers/ColorHelper'
 import { Options } from '@secjs/utils'
+
+import { ColorHelper } from '#src/Helpers/ColorHelper'
 
 export class FactoryHelper {
   /**
@@ -63,6 +64,7 @@ export class FactoryHelper {
       warn: '\u{26A0}',
       error: '\u{274C}',
       success: '\u{2705}',
+      critical: '\u{1F6D1}',
     }
 
     if (!levelEmojis[level.toLowerCase()]) {
@@ -87,7 +89,7 @@ export class FactoryHelper {
       debug: ColorHelper.debug,
       warn: ColorHelper.warning,
       error: ColorHelper.error,
-      success: ColorHelper.log,
+      critical: ColorHelper.critical,
     }
 
     if (!levelColors[level]) {
