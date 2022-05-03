@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-import { FactoryHelper } from '#src/Helpers/FactoryHelper'
+import { FactoryHelper } from '#src/index'
 
 export class MessageFormatter {
   /**

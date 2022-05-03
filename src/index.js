@@ -25,7 +25,7 @@ export class Logger {
    *
    * @type {any[]}
    */
-  #driver
+  #drivers = []
 
   /**
    * The log channel selected with driver and formatter configurations.
@@ -40,7 +40,7 @@ export class Logger {
    * @return {Logger}
    */
   constructor() {
-    this.#driver.push(DriverFactory.fabricate('default', this.#runtimeConfig))
+    this.#drivers.push(DriverFactory.fabricate('default', this.#runtimeConfig))
   }
 
   /**
@@ -98,7 +98,7 @@ export class Logger {
   /**
    * Transport the log.
    *
-   * @param {string} message
+   * @param {string|any} message
    * @param {any} [options]
    * @param {any} [defaultValues]
    * @return {void | Promise<void>}
@@ -108,7 +108,7 @@ export class Logger {
 
     message = Logger.#applyLogEngine(message)
 
-    const promises = this.#driver.map(d => d.transport(message, options))
+    const promises = this.#drivers.map(d => d.transport(message, options))
 
     return Promise.all(promises)
   }
@@ -161,11 +161,11 @@ export class Logger {
    * @return {Logger}
    */
   channel(...channels) {
-    this.#driver = []
+    this.#drivers = []
     this.#channelNames = channels
 
     channels.forEach(channel => {
-      this.#driver.push(DriverFactory.fabricate(channel, this.#runtimeConfig))
+      this.#drivers.push(DriverFactory.fabricate(channel, this.#runtimeConfig))
     })
 
     return this
@@ -174,7 +174,7 @@ export class Logger {
   /**
    * Creates a log of type info in channel.
    *
-   * @param {string} message
+   * @param {string|any} message
    * @param {any} [options]
    * @return {void | Promise<void>}
    */
@@ -190,7 +190,7 @@ export class Logger {
   /**
    * Creates a log of type warn in channel.
    *
-   * @param {string} message
+   * @param {string|any} message
    * @param {any} [options]
    * @return {void | Promise<void>}
    */
@@ -206,7 +206,7 @@ export class Logger {
   /**
    * Creates a log of type error in channel.
    *
-   * @param {string} message
+   * @param {string|any} message
    * @param {any} [options]
    * @return {void | Promise<void>}
    */
@@ -222,7 +222,7 @@ export class Logger {
   /**
    * Creates a log of type critical in channel.
    *
-   * @param {string} message
+   * @param {string|any} message
    * @param {any} [options]
    * @return {void | Promise<void>}
    */
@@ -238,7 +238,7 @@ export class Logger {
   /**
    * Creates a log of type debug in channel.
    *
-   * @param {string} message
+   * @param {string|any} message
    * @param {any} [options]
    * @return {void | Promise<void>}
    */
@@ -254,7 +254,7 @@ export class Logger {
   /**
    * Creates a log of type success in channel.
    *
-   * @param {string} message
+   * @param {string|any} message
    * @param {any} [options]
    * @return {void | Promise<void>}
    */

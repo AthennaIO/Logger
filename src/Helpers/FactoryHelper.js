@@ -89,6 +89,7 @@ export class FactoryHelper {
       debug: ColorHelper.debug,
       warn: ColorHelper.warning,
       error: ColorHelper.error,
+      success: ColorHelper.success,
       critical: ColorHelper.critical,
     }
 

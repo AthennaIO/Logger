@@ -9,8 +9,7 @@
 
 import { Config } from '@secjs/utils'
 
-import { FactoryHelper } from '#src/Helpers/FactoryHelper'
-import { FormatterFactory } from '#src/Factories/FormatterFactory'
+import { FactoryHelper, FormatterFactory } from '#src/index'
 
 export class ConsoleDriver {
   /**

@@ -7,8 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { ColorHelper } from '#src/Helpers/ColorHelper'
-import { FactoryHelper } from '#src/Helpers/FactoryHelper'
+import { ColorHelper, FactoryHelper } from '#src/index'
 
 export class NestFormatter {
   /**

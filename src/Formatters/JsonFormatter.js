@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { ColorHelper } from '#src/Helpers/ColorHelper'
+import { ColorHelper } from '#src/index'
 
 export class JsonFormatter {
   /**

@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { Logger } from '#src/Logger'
+import { Logger } from '#src/index'
 import { ServiceProvider } from '@athenna/ioc'
 
 export class LoggerProvider extends ServiceProvider {

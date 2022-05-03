@@ -11,7 +11,7 @@ import pino from 'pino'
 
 import { Config } from '@secjs/utils'
 
-import { FactoryHelper } from '#src/Helpers/FactoryHelper'
+import { FactoryHelper } from '#src/index'
 import { OnlyPinoPrettyException } from '#src/Exceptions/OnlyPinoPrettyException'
 
 export class PinoDriver {
@@ -51,6 +51,7 @@ export class PinoDriver {
       error: 3,
       debug: 4,
       success: 5,
+      critical: 6,
     }
     configs.useOnlyCustomLevels = true
 
@@ -72,9 +73,9 @@ export class PinoDriver {
           options: configs.formatterConfig,
         }
         configs.formatterConfig.customLevels =
-          'info:1,warn:2,error:3,debug:4,success:5'
+          'info:1,warn:2,error:3,debug:4,success:5,critical:6'
         configs.formatterConfig.customColors =
-          'info:cyan,warn:yellow,error:red,debug:magenta,success:green'
+          'info:cyan,warn:yellow,error:red,debug:magenta,success:green,critical:red'
 
         return
       }

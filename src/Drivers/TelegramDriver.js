@@ -11,9 +11,7 @@ import { Telegraf } from 'telegraf'
 
 import { Config } from '@secjs/utils'
 
-import { ColorHelper } from '#src/Helpers/ColorHelper'
-import { FactoryHelper } from '#src/Helpers/FactoryHelper'
-import { FormatterFactory } from '#src/Factories/FormatterFactory'
+import { ColorHelper, FactoryHelper, FormatterFactory } from '#src/index'
 
 export class TelegramDriver {
   /**

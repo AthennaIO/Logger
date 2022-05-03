@@ -144,6 +144,15 @@ export class ColorHelper {
   }
 
   /**
+   * Paint success.
+   *
+   * @return {import('chalk').ChalkInstance}
+   */
+  static get success() {
+    return this.green.bold
+  }
+
+  /**
    * Paint critical.
    *
    * @return {import('chalk').ChalkInstance}

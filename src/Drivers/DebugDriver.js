@@ -7,11 +7,11 @@
  * file that was distributed with this source code.
  */
 
-import { debug } from 'debug'
+import debug from 'debug'
+
 import { Config } from '@secjs/utils'
 
-import { FactoryHelper } from '#src/Helpers/FactoryHelper'
-import { FormatterFactory } from '#src/Factories/FormatterFactory'
+import { FactoryHelper, FormatterFactory } from '#src/index'
 
 export class DebugDriver {
   /**

@@ -215,7 +215,7 @@ export class FactoryHelper {
    * Paint the message by level.
    *
    * @param {string} level
-   * @param {string} message
+   * @param {string|any} message
    * @return {string}
    */
   static paintByLevel(level: string, message: string): string
@@ -330,54 +330,54 @@ export class Logger {
   /**
    * Creates a log of type info in channel.
    *
-   * @param {string} message
+   * @param {string|any} message
    * @param {any} [options]
    * @return {void | Promise<void>}
    */
-  info(message: string, options?: any): void | Promise<void>
+  info(message: string | any, options?: any): void | Promise<void>
 
   /**
    * Creates a log of type warn in channel.
    *
-   * @param {string} message
+   * @param {string|any} message
    * @param {any} [options]
    * @return {void | Promise<void>}
    */
-  warn(message: string, options?: any): void | Promise<void>
+  warn(message: string | any, options?: any): void | Promise<void>
 
   /**
    * Creates a log of type error in channel.
    *
-   * @param {string} message
+   * @param {string|any} message
    * @param {any} [options]
    * @return {void | Promise<void>}
    */
-  error(message: string, options?: any): void | Promise<void>
+  error(message: string | any, options?: any): void | Promise<void>
 
   /**
    * Creates a log of type critical in channel.
    *
-   * @param {string} message
+   * @param {string|any} message
    * @param {any} [options]
    * @return {void | Promise<void>}
    */
-  critical(message: string, options?: any): void | Promise<void>
+  critical(message: string | any, options?: any): void | Promise<void>
 
   /**
    * Creates a log of type debug in channel.
    *
-   * @param {string} message
+   * @param {string|any} message
    * @param {any} [options]
    * @return {void | Promise<void>}
    */
-  debug(message: string, options?: any): void | Promise<void>
+  debug(message: string | any, options?: any): void | Promise<void>
 
   /**
    * Creates a log of type success in channel.
    *
-   * @param {string} message
+   * @param {string|any} message
    * @param {any} [options]
    * @return {void | Promise<void>}
    */
-  success(message: string, options?: any): void | Promise<void>
+  success(message: string | any, options?: any): void | Promise<void>
 }
