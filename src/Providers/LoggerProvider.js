@@ -14,9 +14,9 @@ export class LoggerProvider extends ServiceProvider {
   /**
    * Register any application services.
    *
-   * @return void
+   * @return {void}
    */
   register() {
-    this.container.bind('Athenna/Core/Logger', Logger)
+    this.container.bind('Athenna/Core/Logger', Logger, false)
   }
 }

@@ -1,6 +1,6 @@
-# Template 📔
+# Logger 🔍
 
-> Template for new projects
+> The Athenna logging solution. Log in stdout, files and buckets.
 
 [![GitHub followers](https://img.shields.io/github/followers/athennaio.svg?style=social&label=Follow&maxAge=2592000)](https://github.com/athennaio?tab=followers)
 [![GitHub stars](https://img.shields.io/github/stars/AthennaIO/Logger.svg?style=social&label=Star&maxAge=2592000)](https://github.com/AthennaIO/Logger/stargazers/)

@@ -28,13 +28,6 @@ export class Logger {
   #drivers = []
 
   /**
-   * The log channel selected with driver and formatter configurations.
-   *
-   * @type {string[]}
-   */
-  #channelNames = []
-
-  /**
    * Creates a new instance of Logger.
    *
    * @return {Logger}
@@ -162,7 +155,6 @@ export class Logger {
    */
   channel(...channels) {
     this.#drivers = []
-    this.#channelNames = channels
 
     channels.forEach(channel => {
       this.#drivers.push(DriverFactory.fabricate(channel, this.#runtimeConfig))
