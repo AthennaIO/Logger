@@ -18,7 +18,8 @@
     "logger",
     "drivers",
     "formatters",
-    "athenna"
+    "athenna",
+    "esm"
   ],
   "scripts": {
     "lint:fix": "eslint \"{src,tests}/**/*.js\" --fix",
