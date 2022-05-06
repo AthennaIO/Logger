@@ -1,6 +1,6 @@
 {
   "name": "@athenna/logger",
-  "version": "1.1.9",
+  "version": "1.2.0",
   "description": "Template for new projects.",
   "license": "MIT",
   "author": "João Lenon <lenon@athenna.io>",
@@ -23,11 +23,15 @@
   ],
   "type": "module",
   "main": "./src/index.js",
-  "exports": "./src/index.js",
   "types": "./src/index.d.ts",
   "imports": {
     "#src/*": "./src/*.js",
     "#tests/*": "./tests/*.js"
+  },
+  "exports": {
+    ".": "./src/index.js",
+    "./facades/Log": "./src/Facades/Log.js",
+    "./providers/LoggerProvider": "./src/Providers/LoggerProvider.js"
   },
   "dependencies": {
     "@athenna/ioc": "1.1.7",
