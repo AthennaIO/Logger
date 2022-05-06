@@ -1,10 +1,5 @@
 import { Facade } from '@athenna/ioc'
 
-/**
- * Log facade.
- *
- * @type {Facade & import('../index').Logger}
- */
 export const Log: Facade & Logger
 
 export class ColorHelper {
