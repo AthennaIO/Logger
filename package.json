@@ -1,13 +1,25 @@
 {
   "name": "@athenna/logger",
   "version": "1.2.2",
-  "description": "Template for new projects.",
+  "description": "The Athenna logging solution. Log in stdout, files and buckets.",
   "license": "MIT",
   "author": "João Lenon <lenon@athenna.io>",
   "bugs": "https://github.com/AthennaIO/Logger/issues",
   "repository": "https://github.com/AthennaIO/Logger.git",
   "homepage": "https://github.com/AthennaIO/Logger#readme",
-  "keywords": [],
+  "keywords": [
+    "slack",
+    "discord",
+    "telegram",
+    "console",
+    "debug",
+    "pino",
+    "buckets",
+    "logger",
+    "drivers",
+    "formatters",
+    "athenna"
+  ],
   "scripts": {
     "lint:fix": "eslint \"{src,tests}/**/*.js\" --fix",
     "test": "npm run --silent lint:fix && node ./tests/index.js",
