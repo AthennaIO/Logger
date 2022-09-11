@@ -74,7 +74,7 @@ export class Logger {
    *
    * @param {string} method
    * @param {string} args
-   * @return {void | Promise<void>}
+   * @return {any | Promise<any>}
    */
   #log(level, ...args) {
     const message = this.#applyEngine(...args)
@@ -88,7 +88,7 @@ export class Logger {
    * Creates a log of type trace in channel.
    *
    * @param {string|any} args
-   * @return {void | Promise<void>}
+   * @return {any | Promise<any>}
    */
   trace(...args) {
     return this.#log('trace', ...args)
@@ -98,7 +98,7 @@ export class Logger {
    * Creates a log of type debug in channel.
    *
    * @param {string|any} args
-   * @return {void | Promise<void>}
+   * @return {any | Promise<any>}
    */
   debug(...args) {
     return this.#log('debug', ...args)
@@ -108,7 +108,7 @@ export class Logger {
    * Creates a log of type info in channel.
    *
    * @param {string|any} args
-   * @return {void | Promise<void>}
+   * @return {any | Promise<any>}
    */
   info(...args) {
     return this.#log('info', ...args)
@@ -118,7 +118,7 @@ export class Logger {
    * Creates a log of type success in channel.
    *
    * @param {string|any} args
-   * @return {void | Promise<void>}
+   * @return {any | Promise<any>}
    */
   success(...args) {
     return this.#log('success', ...args)
@@ -128,7 +128,7 @@ export class Logger {
    * Creates a log of type warn in channel.
    *
    * @param {string|any} args
-   * @return {void | Promise<void>}
+   * @return {any | Promise<any>}
    */
   warn(...args) {
     return this.#log('warn', ...args)
@@ -138,7 +138,7 @@ export class Logger {
    * Creates a log of type error in channel.
    *
    * @param {string|any} args
-   * @return {void | Promise<void>}
+   * @return {any | Promise<any>}
    */
   error(...args) {
     return this.#log('error', ...args)
@@ -148,7 +148,7 @@ export class Logger {
    * Creates a log of type fatal in channel.
    *
    * @param {string|any} args
-   * @return {void | Promise<void>}
+   * @return {any | Promise<any>}
    */
   fatal(...args) {
     return this.#log('fatal', ...args)

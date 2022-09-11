@@ -25,7 +25,9 @@ export class NullDriver extends Driver {
    *
    * @param {string} level
    * @param {string} message
-   * @return {void}
+   * @return {any}
    */
-  transport(level, message) {}
+  transport(level, message) {
+    return null
+  }
 }

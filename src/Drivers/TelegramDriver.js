@@ -26,7 +26,7 @@ export class TelegramDriver extends Driver {
    *
    * @param {string} level
    * @param {string} message
-   * @return {Promise<void>}
+   * @return {Promise<any>}
    */
   async transport(level, message) {
     if (!this.couldBeTransported(level)) {
@@ -35,7 +35,7 @@ export class TelegramDriver extends Driver {
 
     const formatted = this.format(level, message)
 
-    await new Telegraf(this.driverConfig.token).telegram.sendMessage(
+    return new Telegraf(this.driverConfig.token).telegram.sendMessage(
       this.driverConfig.chatId,
       this.clean(formatted),
       {

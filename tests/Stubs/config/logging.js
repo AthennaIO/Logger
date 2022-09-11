@@ -32,7 +32,7 @@ export default {
     application: {
       driver: 'console',
       formatter: 'simple',
-      level: 'trace',
+      level: 'debug',
     },
     request: {
       driver: 'console',

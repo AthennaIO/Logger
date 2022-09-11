@@ -25,7 +25,7 @@ export class ConsoleDriver extends Driver {
    *
    * @param {string} level
    * @param {any} message
-   * @return {void}
+   * @return {any}
    */
   transport(level, message) {
     if (!this.couldBeTransported(level)) {
@@ -35,6 +35,6 @@ export class ConsoleDriver extends Driver {
     const formatted = this.format(level, message)
     const streamType = this.getStreamTypeFor(level)
 
-    process[streamType].write(`${formatted}\n`)
+    return process[streamType].write(`${formatted}\n`)
   }
 }

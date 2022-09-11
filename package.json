@@ -86,11 +86,7 @@
       "html"
     ],
     "report-dir": "./tests/Coverage",
-    "check-coverage": true,
-    "statements": "80",
-    "branches": "80",
-    "functions": "50",
-    "lines": "80"
+    "check-coverage": true
   },
   "husky": {
     "hooks": {

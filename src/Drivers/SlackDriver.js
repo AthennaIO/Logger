@@ -27,11 +27,11 @@ export class SlackDriver extends Driver {
    *
    * @param {string} level
    * @param {string} message
-   * @return {Promise<void>}
+   * @return {Promise<any>}
    */
   async transport(level, message) {
     const formatted = this.format(level, message, true)
 
-    await axios.post(this.configs.url, { text: formatted })
+    return axios.post(this.configs.url, { text: formatted })
   }
 }

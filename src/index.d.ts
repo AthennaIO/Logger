@@ -307,95 +307,95 @@ export class Logger {
    * Creates a log of type trace in channel.
    *
    * @param {string|any} message
-   * @return {void | Promise<void>}
+   * @return {any | Promise<any>}
    */
-  trace(message: string | any): void | Promise<void>
+  trace(message: string | any): any | Promise<any>
 
   /**
    * Creates a log of type trace in channel.
    *
    * @param {string[]|any[]} args
-   * @return {void | Promise<void>}
+   * @return {any | Promise<any>}
    */
-  trace(...args: string[] | any[]): void | Promise<void>
+  trace(...args: string[] | any[]): any | Promise<any>
 
   /**
    * Creates a log of type debug in channel.
    *
    * @param {string|any} message
-   * @return {void | Promise<void>}
+   * @return {any | Promise<any>}
    */
-  debug(message: string | any): void | Promise<void>
+  debug(message: string | any): any | Promise<any>
 
   /**
    * Creates a log of type debug in channel.
    *
    * @param {string[]|any[]} args
-   * @return {void | Promise<void>}
+   * @return {any | Promise<any>}
    */
-  debug(...args: string[] | any[]): void | Promise<void>
+  debug(...args: string[] | any[]): any | Promise<any>
 
   /**
    * Creates a log of type info in channel.
    *
    * @param {string|any} message
-   * @return {void | Promise<void>}
+   * @return {any | Promise<any>}
    */
-  info(message: string | any): void | Promise<void>
+  info(message: string | any): any | Promise<any>
 
   /**
    * Creates a log of type info in channel.
    *
    * @param {string[]|any[]} args
-   * @return {void | Promise<void>}
+   * @return {any | Promise<any>}
    */
-  info(...args: string[] | any[]): void | Promise<void>
+  info(...args: string[] | any[]): any | Promise<any>
 
   /**
    * Creates a log of type success in channel.
    *
    * @param {string|any} message
-   * @return {void | Promise<void>}
+   * @return {any | Promise<any>}
    */
-  success(message: string | any): void | Promise<void>
+  success(message: string | any): any | Promise<any>
 
   /**
    * Creates a log of type success in channel.
    *
    * @param {string[]|any[]} args
-   * @return {void | Promise<void>}
+   * @return {any | Promise<any>}
    */
-  success(...args: string[] | any[]): void | Promise<void>
+  success(...args: string[] | any[]): any | Promise<any>
 
   /**
    * Creates a log of type warn in channel.
    *
    * @param {string|any} message
-   * @return {void | Promise<void>}
+   * @return {any | Promise<any>}
    */
-  warn(message: string | any): void | Promise<void>
+  warn(message: string | any): any | Promise<any>
 
   /**
    * Creates a log of type warn in channel.
    *
    * @param {string[]|any[]} args
-   * @return {void | Promise<void>}
+   * @return {any | Promise<any>}
    */
-  warn(...args: string[] | any[]): void | Promise<void>
+  warn(...args: string[] | any[]): any | Promise<any>
 
   /**
    * Creates a log of type error in channel.
    *
    * @param {string|any} message
-   * @return {void | Promise<void>}
+   * @return {any | Promise<any>}
    */
-  error(message: string | any): void | Promise<void>
+  error(message: string | any): any | Promise<any>
 
   /**
    * Creates a log of type error in channel.
    *
    * @param {string[]|any[]} args
-   * @return {void | Promise<void>}
+   * @return {any | Promise<any>}
    */
-  error(...args: string[] | any[]): void | Promise<void>
+  error(...args: string[] | any[]): any | Promise<any>
 }

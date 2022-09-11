@@ -27,12 +27,12 @@ export class DiscordDriver extends Driver {
    *
    * @param {string} level
    * @param {string} message
-   * @return {Promise<void>}
+   * @return {Promise<any>}
    */
   async transport(level, message) {
     const formatted = this.format(level, message, true)
 
-    await axios.post(this.configs.url, {
+    return axios.post(this.configs.url, {
       username: this.configs.username,
       content: formatted,
     })

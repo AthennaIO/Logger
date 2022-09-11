@@ -27,7 +27,7 @@ export class FileDriver extends Driver {
    *
    * @param {string} level
    * @param {string} message
-   * @return {Promise<void>}
+   * @return {Promise<any>}
    */
   async transport(level, message) {
     if (!this.couldBeTransported(level)) {
@@ -39,11 +39,9 @@ export class FileDriver extends Driver {
     const buffer = Buffer.from(`${formatted}\n`, 'utf-8')
 
     if (await File.exists(filePath)) {
-      await new File(filePath).append(buffer)
-
-      return
+      return new File(filePath).append(buffer)
     }
 
-    await new File(filePath, buffer).load()
+    return new File(filePath, buffer).load()
   }
 }
