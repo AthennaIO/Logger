@@ -7,46 +7,34 @@
  * file that was distributed with this source code.
  */
 
-import { Config } from '@secjs/utils'
+import { Driver } from '#src/Drivers/Driver'
 
-import { FactoryHelper, FormatterFactory } from '#src/index'
-
-export class ConsoleDriver {
-  /**
-   * Holds the configuration set of ConsoleDriver.
-   *
-   * @type {{ streamType?: 'stdout' | 'stderr', formatter?: any, formatterConfig?: any }}
-   */
-  configs
-
+export class ConsoleDriver extends Driver {
   /**
    * Creates a new instance of ConsoleDriver.
    *
-   * @param {string} channel
-   * @param {any} [configs]
+   * @param {any} configs
    * @return {ConsoleDriver}
    */
-  constructor(channel, configs) {
-    const channelConfig = Config.get(`logging.channels.${channel}`)
-
-    this.configs = FactoryHelper.groupConfigs(configs, channelConfig)
+  constructor(configs) {
+    super(configs)
   }
 
   /**
    * Transport the log.
    *
-   * @param {string} message
-   * @param {{ streamType?: 'stdout' | 'stderr', formatter?: any, formatterConfig?: any }} [options]
+   * @param {string} level
+   * @param {any} message
    * @return {void}
    */
-  transport(message, options = {}) {
-    const configs = FactoryHelper.groupConfigs(options, this.configs)
+  transport(level, message) {
+    if (!this.couldBeTransported(level)) {
+      return
+    }
 
-    message = FormatterFactory.fabricate(configs.formatter).format(
-      message,
-      configs.formatterConfig,
-    )
+    const formatted = this.format(level, message)
+    const streamType = this.getStreamTypeFor(level)
 
-    process[configs.streamType].write(`${message}\n`)
+    process[streamType].write(`${formatted}\n`)
   }
 }

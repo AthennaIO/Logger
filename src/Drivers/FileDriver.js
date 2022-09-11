@@ -7,55 +7,43 @@
  * file that was distributed with this source code.
  */
 
-import { Config, File } from '@secjs/utils'
+import { File } from '@secjs/utils'
 
-import { ColorHelper, FactoryHelper, FormatterFactory } from '#src/index'
+import { Driver } from '#src/Drivers/Driver'
 
-export class FileDriver {
-  /**
-   * Holds the configuration set of FileDriver.
-   *
-   * @type {{ filePath?: string, formatter?: any, formatterConfig?: any }}
-   */
-  configs
-
+export class FileDriver extends Driver {
   /**
    * Creates a new instance of FileDriver.
    *
-   * @param {string} channel
-   * @param {any} [configs]
+   * @param {any} configs
    * @return {FileDriver}
    */
-  constructor(channel, configs = {}) {
-    const channelConfig = Config.get(`logging.channels.${channel}`)
-
-    this.configs = FactoryHelper.groupConfigs(configs, channelConfig)
+  constructor(configs) {
+    super(configs)
   }
 
   /**
    * Transport the log.
    *
+   * @param {string} level
    * @param {string} message
-   * @param {{ filePath?: string, formatter?: any, formatterConfig?: any }} [options]
    * @return {Promise<void>}
    */
-  async transport(message, options = {}) {
-    const configs = FactoryHelper.groupConfigs(options, this.configs)
-
-    message = FormatterFactory.fabricate(configs.formatter).format(
-      message,
-      configs.formatterConfig,
-    )
-
-    const messageBuffer = Buffer.from(`${ColorHelper.removeColors(message)}\n`)
-
-    const file = new File(configs.filePath, messageBuffer)
-    const fileExists = await File.exists(configs.filePath)
-
-    if (!fileExists) {
-      return file.load()
+  async transport(level, message) {
+    if (!this.couldBeTransported(level)) {
+      return
     }
 
-    return file.append(messageBuffer)
+    const filePath = this.driverConfig.filePath
+    const formatted = this.format(level, message, true)
+    const buffer = Buffer.from(`${formatted}\n`, 'utf-8')
+
+    if (await File.exists(filePath)) {
+      await new File(filePath).append(buffer)
+
+      return
+    }
+
+    await new File(filePath, buffer).load()
   }
 }

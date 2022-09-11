@@ -8,7 +8,6 @@
  */
 
 import { CliFormatter } from '#src/Formatters/CliFormatter'
-import { NestFormatter } from '#src/Formatters/NestFormatter'
 import { JsonFormatter } from '#src/Formatters/JsonFormatter'
 import { NoneFormatter } from '#src/Formatters/NoneFormatter'
 import { SimpleFormatter } from '#src/Formatters/SimpleFormatter'
@@ -25,7 +24,6 @@ export class FormatterFactory {
    */
   static formatters = new Map()
     .set('cli', { Formatter: CliFormatter })
-    .set('nest', { Formatter: NestFormatter })
     .set('json', { Formatter: JsonFormatter })
     .set('none', { Formatter: NoneFormatter })
     .set('simple', { Formatter: SimpleFormatter })

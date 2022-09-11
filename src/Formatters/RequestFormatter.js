@@ -8,16 +8,16 @@
  */
 
 import { ColorHelper } from '#src/index'
+import { Formatter } from '#src/Formatters/Formatter'
 
-export class RequestFormatter {
+export class RequestFormatter extends Formatter {
   /**
    * Format the message.
    *
    * @param {any} ctx
-   * @param {{ asJson: boolean, chalk: import('chalk').ChalkInstance }} options
    * @return {string}
    */
-  format(ctx, options) {
+  format(ctx) {
     const ip = ctx.request.ip
     const status = ctx.status
     const responseTimeMs = `${Math.round(ctx.responseTime)}ms`
@@ -25,8 +25,10 @@ export class RequestFormatter {
       `${ctx.request.method}::${ctx.request.baseUrl}`,
     )
 
-    if (!options.asJson) {
-      return `(${ip}) - [${status}] ${methodAndUrl} ${responseTimeMs}`
+    if (!this.configs.asJson) {
+      return this.clean(
+        `(${ip}) - [${status}] ${methodAndUrl} ${responseTimeMs}`,
+      )
     }
 
     const metadata = {

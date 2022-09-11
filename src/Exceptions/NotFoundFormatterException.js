@@ -25,7 +25,7 @@ export class NotFoundFormatterException extends Exception {
       content,
       500,
       'E_NOT_FOUND',
-      `Available formatters are: ${availableDrivers}. Look into your config/logger file if ${formatterName} formatter is implemented by logger. Or create ${formatterName} formatter implementation using FormatterFactory.createFormatter("${formatterName}", ...) method.`,
+      `Available formatters are: ${availableDrivers}. Look into your config/logger.js file if ${formatterName} formatter is implemented by logger. Or create ${formatterName} formatter implementation using FormatterFactory.createFormatter("${formatterName}", ...) method.`,
     )
   }
 }

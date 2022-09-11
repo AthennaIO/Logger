@@ -27,6 +27,15 @@ export class ColorHelper {
   }
 
   /**
+   * Paint as grey.
+   *
+   * @return {import('chalk').ChalkInstance}
+   */
+  static get grey() {
+    return ColorHelper.chalk.hex('#505050')
+  }
+
+  /**
    * Paint as purple.
    *
    * @return {import('chalk').ChalkInstance}
@@ -117,12 +126,12 @@ export class ColorHelper {
   }
 
   /**
-   * Paint infos.
+   * Paint debugs.
    *
    * @return {import('chalk').ChalkInstance}
    */
-  static get info() {
-    return this.cyan.bold
+  static get trace() {
+    return this.grey.bold
   }
 
   /**
@@ -135,12 +144,12 @@ export class ColorHelper {
   }
 
   /**
-   * Paint error.
+   * Paint infos.
    *
    * @return {import('chalk').ChalkInstance}
    */
-  static get error() {
-    return this.red.bold
+  static get info() {
+    return this.cyan
   }
 
   /**
@@ -149,16 +158,7 @@ export class ColorHelper {
    * @return {import('chalk').ChalkInstance}
    */
   static get success() {
-    return this.green.bold
-  }
-
-  /**
-   * Paint critical.
-   *
-   * @return {import('chalk').ChalkInstance}
-   */
-  static get critical() {
-    return this.darkRed.bold
+    return this.green
   }
 
   /**
@@ -166,8 +166,26 @@ export class ColorHelper {
    *
    * @return {import('chalk').ChalkInstance}
    */
-  static get warning() {
-    return this.orange.bold
+  static get warn() {
+    return this.orange
+  }
+
+  /**
+   * Paint error.
+   *
+   * @return {import('chalk').ChalkInstance}
+   */
+  static get error() {
+    return this.red
+  }
+
+  /**
+   * Paint fatal.
+   *
+   * @return {import('chalk').ChalkInstance}
+   */
+  static get fatal() {
+    return ColorHelper.chalk.bgRed
   }
 
   /**
@@ -237,7 +255,7 @@ export class ColorHelper {
    * Remove all colors and special chars of string.
    *
    * @param {string} string
-   * @return {import('chalk').ChalkInstance}
+   * @return {string}
    */
   static removeColors(string) {
     return ColorHelper.chalk.reset(string).replace(

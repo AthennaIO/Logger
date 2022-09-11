@@ -7,22 +7,25 @@
  * file that was distributed with this source code.
  */
 
-export class NullDriver {
+import { Driver } from '#src/Drivers/Driver'
+
+export class NullDriver extends Driver {
   /**
    * Creates a new instance of NullDriver.
    *
-   * @param {string} _channel
-   * @param {any} [_configs]
+   * @param {string} configs
    * @return {NullDriver}
    */
-  constructor(_channel, _configs = {}) {}
+  constructor(configs) {
+    super(configs)
+  }
 
   /**
    * Transport the log.
    *
-   * @param {string} _message
-   * @param {any} [_options]
+   * @param {string} level
+   * @param {string} message
    * @return {void}
    */
-  transport(_message, _options) {}
+  transport(level, message) {}
 }

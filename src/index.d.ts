@@ -81,18 +81,11 @@ export class ColorHelper {
   static get red(): import('chalk').ChalkInstance
 
   /**
-   * Paint infos.
+   * Paint traces.
    *
    * @return {import('chalk').ChalkInstance}
    */
-  static get info(): import('chalk').ChalkInstance
-
-  /**
-   * Paint logs.
-   *
-   * @return {import('chalk').ChalkInstance}
-   */
-  static get log(): import('chalk').ChalkInstance
+  static get trace(): import('chalk').ChalkInstance
 
   /**
    * Paint debugs.
@@ -102,6 +95,27 @@ export class ColorHelper {
   static get debug(): import('chalk').ChalkInstance
 
   /**
+   * Paint infos.
+   *
+   * @return {import('chalk').ChalkInstance}
+   */
+  static get info(): import('chalk').ChalkInstance
+
+  /**
+   * Paint success.
+   *
+   * @return {import('chalk').ChalkInstance}
+   */
+  static get success(): import('chalk').ChalkInstance
+
+  /**
+   * Paint warns.
+   *
+   * @return {import('chalk').ChalkInstance}
+   */
+  static get warn(): import('chalk').ChalkInstance
+
+  /**
    * Paint errors.
    *
    * @return {import('chalk').ChalkInstance}
@@ -109,11 +123,11 @@ export class ColorHelper {
   static get error(): import('chalk').ChalkInstance
 
   /**
-   * Paint warnings.
+   * Paint fatals.
    *
    * @return {import('chalk').ChalkInstance}
    */
-  static get warning(): import('chalk').ChalkInstance
+  static get fatal(): import('chalk').ChalkInstance
 
   /**
    * Paint http method.
@@ -182,39 +196,6 @@ export class ColorHelper {
 }
 
 export class FactoryHelper {
-  /**
-   * Get the timestamp value formatted.
-   *
-   * @return {string}
-   */
-  static getTimestamp(): string
-
-  /**
-   * Get the timestamp diff between logs.
-   *
-   * @param {number} lastTimestamp
-   * @return {string}
-   */
-  static getTimestampDiff(lastTimestamp: number): string
-
-  /**
-   * Get the emoji by level.
-   *
-   * @param {string} level
-   * @param {string} [customEmoji]
-   * @return {string}
-   */
-  static getEmojiByLevel(level: string, customEmoji?: string): string
-
-  /**
-   * Paint the message by level.
-   *
-   * @param {string} level
-   * @param {string|any} message
-   * @return {string}
-   */
-  static paintByLevel(level: string, message: string): string
-
   /**
    * Group the configuration values.
    *
@@ -323,56 +304,98 @@ export class Logger {
   channel(...channels: string[]): Logger
 
   /**
-   * Creates a log of type info in channel.
+   * Creates a log of type trace in channel.
    *
    * @param {string|any} message
-   * @param {any} [options]
    * @return {void | Promise<void>}
    */
-  info(message: string | any, options?: any): void | Promise<void>
+  trace(message: string | any): void | Promise<void>
 
   /**
-   * Creates a log of type warn in channel.
+   * Creates a log of type trace in channel.
    *
-   * @param {string|any} message
-   * @param {any} [options]
+   * @param {string[]|any[]} args
    * @return {void | Promise<void>}
    */
-  warn(message: string | any, options?: any): void | Promise<void>
-
-  /**
-   * Creates a log of type error in channel.
-   *
-   * @param {string|any} message
-   * @param {any} [options]
-   * @return {void | Promise<void>}
-   */
-  error(message: string | any, options?: any): void | Promise<void>
-
-  /**
-   * Creates a log of type critical in channel.
-   *
-   * @param {string|any} message
-   * @param {any} [options]
-   * @return {void | Promise<void>}
-   */
-  critical(message: string | any, options?: any): void | Promise<void>
+  trace(...args: string[] | any[]): void | Promise<void>
 
   /**
    * Creates a log of type debug in channel.
    *
    * @param {string|any} message
-   * @param {any} [options]
    * @return {void | Promise<void>}
    */
-  debug(message: string | any, options?: any): void | Promise<void>
+  debug(message: string | any): void | Promise<void>
+
+  /**
+   * Creates a log of type debug in channel.
+   *
+   * @param {string[]|any[]} args
+   * @return {void | Promise<void>}
+   */
+  debug(...args: string[] | any[]): void | Promise<void>
+
+  /**
+   * Creates a log of type info in channel.
+   *
+   * @param {string|any} message
+   * @return {void | Promise<void>}
+   */
+  info(message: string | any): void | Promise<void>
+
+  /**
+   * Creates a log of type info in channel.
+   *
+   * @param {string[]|any[]} args
+   * @return {void | Promise<void>}
+   */
+  info(...args: string[] | any[]): void | Promise<void>
 
   /**
    * Creates a log of type success in channel.
    *
    * @param {string|any} message
-   * @param {any} [options]
    * @return {void | Promise<void>}
    */
-  success(message: string | any, options?: any): void | Promise<void>
+  success(message: string | any): void | Promise<void>
+
+  /**
+   * Creates a log of type success in channel.
+   *
+   * @param {string[]|any[]} args
+   * @return {void | Promise<void>}
+   */
+  success(...args: string[] | any[]): void | Promise<void>
+
+  /**
+   * Creates a log of type warn in channel.
+   *
+   * @param {string|any} message
+   * @return {void | Promise<void>}
+   */
+  warn(message: string | any): void | Promise<void>
+
+  /**
+   * Creates a log of type warn in channel.
+   *
+   * @param {string[]|any[]} args
+   * @return {void | Promise<void>}
+   */
+  warn(...args: string[] | any[]): void | Promise<void>
+
+  /**
+   * Creates a log of type error in channel.
+   *
+   * @param {string|any} message
+   * @return {void | Promise<void>}
+   */
+  error(message: string | any): void | Promise<void>
+
+  /**
+   * Creates a log of type error in channel.
+   *
+   * @param {string[]|any[]} args
+   * @return {void | Promise<void>}
+   */
+  error(...args: string[] | any[]): void | Promise<void>
 }
