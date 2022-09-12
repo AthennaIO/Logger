@@ -29,3 +29,8 @@ jobs:
         run: npm install
       - name: Run tests
         run: npm run test:coverage
+        env:
+          DISCORD_URL: ${{ env.DISCORD_URL }}
+          SLACK_URL: ${{ env.SLACK_URL }}
+          TELEGRAM_TOKEN: ${{ env.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ env.TELEGRAM_CHAT_ID }}
