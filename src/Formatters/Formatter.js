@@ -7,10 +7,11 @@
  * file that was distributed with this source code.
  */
 
+import { hostname } from 'node:os'
+
 import { Is } from '@secjs/utils'
 
-import { ColorHelper } from '#src/index'
-import { FormatterHelper } from '#src/Helpers/FormatterHelper'
+import { ColorHelper } from '#src/Helpers/ColorHelper'
 
 export class Formatter {
   /**
@@ -31,12 +32,20 @@ export class Formatter {
   }
 
   /**
+   * Format the message.
+   *
+   * @param {string} message
+   * @return {string}
+   */
+  format(message) {}
+
+  /**
    * Create the PID for formatter.
    *
    * @return {string}
    */
   pid() {
-    return FormatterHelper.pid()
+    return process.pid.toString()
   }
 
   /**
@@ -45,7 +54,7 @@ export class Formatter {
    * @return {string}
    */
   hostname() {
-    return FormatterHelper.hostname()
+    return hostname()
   }
 
   /**
@@ -54,13 +63,23 @@ export class Formatter {
    * @return {string}
    */
   timestamp() {
-    return FormatterHelper.timestamp()
+    const localeStringOptions = {
+      year: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+      day: '2-digit',
+      month: '2-digit',
+    }
+
+    return new Date(Date.now()).toLocaleString(undefined, localeStringOptions)
   }
 
   /**
    * Transform the message to string.
    *
    * @param message {string}
+   * @return {string}
    */
   toString(message) {
     if (Is.String(message)) {
@@ -79,6 +98,7 @@ export class Formatter {
    * option is true.
    *
    * @param message {string}
+   * @return {string}
    */
   clean(message) {
     if (this.configs.clean) {
@@ -123,7 +143,7 @@ export class Formatter {
   applyColorsByLevel(message) {
     const level = this.configs.level
 
-    return FormatterHelper.paintMessageByLevel(level, message)
+    return this.paintMessageByLevel(level, message)
   }
 
   /**
@@ -164,6 +184,62 @@ export class Formatter {
   messageLevel() {
     const level = this.configs.level
 
-    return FormatterHelper.getEmojiByLevel(level, this.configs.customEmoji)
+    return this.getEmojiByLevel(level, this.configs.customEmoji)
+  }
+
+  /**
+   * Get the emoji by level.
+   *
+   * @param {string} level
+   * @param {string} [customEmoji]
+   * @return {string}
+   */
+  getEmojiByLevel(level, customEmoji) {
+    if (customEmoji) {
+      return customEmoji
+    }
+
+    const levelEmojis = {
+      trace: '\u{1F43E}',
+      debug: '\u{1F50E}',
+      info: '\u{2139}',
+      success: '\u{2705}',
+      warn: '\u{26A0}',
+      error: '\u{274C}',
+      fatal: '\u{1F6D1}',
+    }
+
+    if (!levelEmojis[level.toLowerCase()]) {
+      return ''
+    }
+
+    return levelEmojis[level.toLowerCase()]
+  }
+
+  /**
+   * Paint the message by level.
+   *
+   * @param {string} level
+   * @param {string} message
+   * @return {string}
+   */
+  paintMessageByLevel(level, message) {
+    const levelLower = level.toLowerCase()
+
+    const levelColors = {
+      trace: ColorHelper.trace,
+      debug: ColorHelper.debug,
+      info: ColorHelper.info,
+      success: ColorHelper.success,
+      warn: ColorHelper.warn,
+      error: ColorHelper.error,
+      fatal: ColorHelper.fatal,
+    }
+
+    if (!levelColors[levelLower]) {
+      return message
+    }
+
+    return levelColors[levelLower](message)
   }
 }

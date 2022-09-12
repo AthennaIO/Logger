@@ -8,7 +8,6 @@ export * from './Facades/Log.js'
 
 export * from './Helpers/ColorHelper.js'
 export * from './Helpers/FactoryHelper.js'
-export * from './Helpers/FormatterHelper.js'
 
 export * from './Drivers/Driver.js'
 export * from './Formatters/Formatter.js'
@@ -72,7 +71,7 @@ export class Logger {
   /**
    * Call drivers to transport the log.
    *
-   * @param {string} method
+   * @param {string} level
    * @param {string} args
    * @return {any | Promise<any>}
    */

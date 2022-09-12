@@ -17,6 +17,10 @@ export class MessageFormatter extends Formatter {
    * @return {string}
    */
   format(message) {
-    return this.clean(`${this.messageLevel()} ${this.toString(message)}`)
+    return this.clean(
+      `${this.messageLevel()} - (${this.pid()}) - (${this.hostname()}): ${this.toString(
+        message,
+      )}`,
+    )
   }
 }

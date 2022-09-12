@@ -79,7 +79,7 @@ export class Driver {
    *
    * @param {string} level
    * @param {string} message
-   * @return {void}
+   * @return {any | Promise<any>}
    */
   transport(level, message) {}
 

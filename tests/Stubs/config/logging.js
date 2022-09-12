@@ -58,7 +58,7 @@ export default {
       formatter: 'message',
       formatterConfig: {},
 
-      url: 'your-slack-webhook-url',
+      url: process.env.SLACK_URL,
     },
     discord: {
       driver: 'discord',
@@ -66,15 +66,15 @@ export default {
       formatterConfig: {},
 
       username: 'Athenna',
-      url: 'your-discord-bot-token',
+      url: process.env.DISCORD_URL,
     },
     telegram: {
       driver: 'telegram',
       formatter: 'message',
       formatterConfig: {},
 
-      token: 'your-telegram-bot-token',
-      chatId: '0',
+      token: process.env.TELEGRAM_TOKEN,
+      chatId: process.env.TELEGRAM_CHAT_ID,
       parseMode: 'HTML',
     },
   },

@@ -30,6 +30,10 @@ export class SlackDriver extends Driver {
    * @return {Promise<any>}
    */
   async transport(level, message) {
+    if (!this.couldBeTransported(level)) {
+      return
+    }
+
     const formatted = this.format(level, message, true)
 
     return axios.post(this.configs.url, { text: formatted })

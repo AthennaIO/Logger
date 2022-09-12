@@ -7,11 +7,23 @@
  * file that was distributed with this source code.
  */
 
-import { pathToFileURL } from 'url'
+import { pathToFileURL } from 'node:url'
+
+import { config } from 'dotenv'
+import { Path } from '@secjs/utils'
 import { assert } from '@japa/assert'
 import { specReporter } from '@japa/spec-reporter'
 import { runFailedTests } from '@japa/run-failed-tests'
 import { processCliArgs, configure, run } from '@japa/runner'
+
+/*
+|--------------------------------------------------------------------------
+| Configure .env file
+|--------------------------------------------------------------------------
+|
+| Configure environment variables to run tests.
+*/
+config({ path: Path.pwd('.env') })
 
 /*
 |--------------------------------------------------------------------------

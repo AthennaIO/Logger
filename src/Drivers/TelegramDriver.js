@@ -33,11 +33,11 @@ export class TelegramDriver extends Driver {
       return
     }
 
-    const formatted = this.format(level, message)
+    const formatted = this.format(level, message, true)
 
     return new Telegraf(this.driverConfig.token).telegram.sendMessage(
       this.driverConfig.chatId,
-      this.clean(formatted),
+      formatted,
       {
         parse_mode: this.driverConfig.parseMode,
       },

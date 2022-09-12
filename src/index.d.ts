@@ -2,6 +2,200 @@ import { Facade } from '@athenna/ioc'
 
 export const Log: Facade & Logger
 
+export class Driver {
+  /**
+   * Holds the configuration object itself.
+   *
+   * @type {any}
+   */
+  configs: any
+
+  /**
+   * Holds the configuration object of driver.
+   *
+   * @type {any}
+   */
+  driverConfig: any
+
+  /**
+   * Holds the formatter string value.
+   *
+   * @type {string}
+   */
+  formatter: string
+
+  /**
+   * Holds the configuration object of formatter.
+   *
+   * @type {any}
+   */
+  formatterConfig: any
+
+  /**
+   * The max log level that this driver can transport.
+   *
+   * @return {string}
+   */
+  level: string
+
+  /**
+   * The log level order to check if log could
+   * be transported or not.
+   *
+   * @type {string[]}
+   */
+  levelOrder: string[]
+
+  /**
+   * Creates a new instance of ConsoleDriver.
+   *
+   * @param {any} configs
+   * @return {Driver}
+   */
+  constructor(configs: any)
+
+  /**
+   * Transport the log.
+   *
+   * @param {string} level
+   * @param {string} message
+   * @return {any | Promise<any>}
+   */
+  transport(level: string, message: string): any | Promise<any>
+
+  /**
+   * Check if message could be transported.
+   *
+   * @param level {string}
+   * @return {boolean}
+   */
+  couldBeTransported(level: string): boolean
+
+  /**
+   * Call formatter factory to format the message.
+   *
+   * @param level {string}
+   * @param message {string}
+   * @param [clean] {boolean}
+   * @return {any}
+   */
+  format(level: string, message: string, clean?: boolean): any
+
+  /**
+   * Get the stream type for level.
+   *
+   * @param level {string}
+   * @return {string}
+   */
+  getStreamTypeFor(level: string): string
+}
+
+export class Formatter {
+  /**
+   * Holds the configuration object of formatter.
+   */
+  configs: any
+
+  /**
+   * Creates a new instance of Formatter.
+   *
+   * @param {any} configs
+   * @return {Formatter}
+   */
+  config(configs: any): Formatter
+
+  /**
+   * Format the message.
+   *
+   * @param {string} message
+   * @return {string}
+   */
+  format(message: string): string
+
+  /**
+   * Create the PID for formatter.
+   *
+   * @return {string}
+   */
+  pid(): string
+
+  /**
+   * Create the hostname for formatter.
+   *
+   * @return {string}
+   */
+  hostname(): string
+
+  /**
+   * Create the timestamp for formatter.
+   *
+   * @return {string}
+   */
+  timestamp(): string
+
+  /**
+   * Transform the message to string.
+   *
+   * @param message {string}
+   * @return {string}
+   */
+  toString(message: string): string
+
+  /**
+   * Clean the message removing colors if clean
+   * option is true.
+   *
+   * @param message {string}
+   * @return {string}
+   */
+  clean(message: string): string
+
+  /**
+   * Apply all colors necessary to message.
+   *
+   * @param message {string}
+   * @return {string}
+   */
+  applyColors(message: string): string
+
+  /**
+   * Apply colors in message.
+   *
+   * @param message {string}
+   * @return {string}
+   */
+  applyColorsByChalk(message: string): string
+
+  /**
+   * Apply colors in message by level.
+   *
+   * @param message {string}
+   * @return {string}
+   */
+  applyColorsByLevel(message: string): string
+
+  /**
+   * Create the cli level string.
+   *
+   * @return {string}
+   */
+  cliLevel(): string
+
+  /**
+   * Create the simple level string.
+   *
+   * @return {string}
+   */
+  simpleLevel(): string
+
+  /**
+   * Create the message level emoji string.
+   *
+   * @return {string}
+   */
+  messageLevel(): string
+}
+
 export class ColorHelper {
   /**
    * Chalk instance.
@@ -182,9 +376,9 @@ export class ColorHelper {
    * Remove all colors and special chars of string.
    *
    * @param {string} string
-   * @return {import('chalk').ChalkInstance}
+   * @return {string}
    */
-  static removeColors(string: string): import('chalk').ChalkInstance
+  static removeColors(string: string): string
 
   /**
    * Paint by the http method.

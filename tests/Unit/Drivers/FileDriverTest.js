@@ -10,8 +10,8 @@
 import { test } from '@japa/runner'
 import { Config, File, Folder, Path } from '@secjs/utils'
 
-import { LoggerProvider } from '#src/Providers/LoggerProvider'
 import { Log } from '#src/index'
+import { LoggerProvider } from '#src/Providers/LoggerProvider'
 
 test.group('FileDriverTest', group => {
   group.each.setup(async () => {

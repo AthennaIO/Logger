@@ -62,6 +62,7 @@
     "commitizen": "4.2.5",
     "cross-env": "7.0.3",
     "cz-conventional-changelog": "3.3.0",
+    "dotenv": "^16.0.2",
     "eslint": "8.14.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-config-standard": "17.0.0",
