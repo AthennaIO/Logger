@@ -27,7 +27,7 @@ test.group('DiscordDriverTest', group => {
   })
 
   test('should be able to log in discord', async ({ assert }) => {
-    const log = Log.config({ level: 'success' }).channel('discord')
+    const log = Log.config({ level: 'error' }).channel('discord')
 
     const message = 'hello'
 
@@ -42,9 +42,9 @@ test.group('DiscordDriverTest', group => {
     assert.isUndefined(traceRes)
     assert.isUndefined(debugRes)
     assert.isUndefined(infoRes)
+    assert.isUndefined(successRes)
+    assert.isUndefined(warnRes)
 
-    assert.equal(successRes.status, 204)
-    assert.equal(warnRes.status, 204)
     assert.equal(errorRes.status, 204)
     assert.equal(fatalRes.status, 204)
   }).timeout(10000)
