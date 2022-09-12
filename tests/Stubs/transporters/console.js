@@ -15,7 +15,7 @@ simpleLogger.trace('hello')
 simpleLogger.debug('%s', 'hello')
 simpleLogger.info('hello')
 noneLogger.success('%s', 'hello')
-noneLogger.warn('hello')
+noneLogger.warn('({yellow,notFound,bold} hello) hello')
 noneLogger.error('%s', 'hello')
 noneLogger.fatal('hello')
 

@@ -95,7 +95,7 @@ export class DriverFactory {
     const channelConfig = Config.get(`logging.channels.${channelName}`)
 
     if (!channelConfig) {
-      throw new NotImplementedConfigException(channelConfig)
+      throw new NotImplementedConfigException(channelName)
     }
 
     if (!this.#drivers.has(channelConfig.driver)) {

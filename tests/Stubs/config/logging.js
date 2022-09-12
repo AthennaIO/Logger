@@ -46,6 +46,12 @@ export default {
     discard: {
       driver: 'null',
     },
+    custom: {
+      driver: 'custom',
+    },
+    notFound: {
+      driver: 'notFound',
+    },
     file: {
       driver: 'file',
       formatter: 'simple',

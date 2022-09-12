@@ -82,6 +82,9 @@
     "include": [
       "src/**/*.js"
     ],
+    "exclude": [
+      "src/Helpers/ColorHelper.js"
+    ],
     "reporter": [
       "text-summary",
       "html"
