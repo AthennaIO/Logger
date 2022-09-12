@@ -16,6 +16,9 @@ jobs:
         node-version:
           - 14.15.4
           - 18.x
+    environment:
+      name: Actions
+      url: https://github.com
     steps:
       - uses: actions/checkout@v2
         with:
@@ -29,8 +32,3 @@ jobs:
         run: npm install
       - name: Run tests
         run: npm run test:coverage
-        env:
-          DISCORD_URL: ${{ env.DISCORD_URL }}
-          SLACK_URL: ${{ env.SLACK_URL }}
-          TELEGRAM_TOKEN: ${{ env.TELEGRAM_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ env.TELEGRAM_CHAT_ID }}
