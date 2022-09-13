@@ -12,6 +12,6 @@ import { Facade } from '@athenna/ioc'
 /**
  * Log facade.
  *
- * @type {Facade & import('../index').Logger}
+ * @type {Facade & import('#src/index').Logger}
  */
 export const Log = Facade.createFor('Athenna/Core/Logger')

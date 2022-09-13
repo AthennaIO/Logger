@@ -22,9 +22,9 @@ export default {
   | Here you may configure the log channels for your application.
   |
   | Available Drivers:
-  |   "console", "debug", "discord", "file", "null", "pino", "slack", "telegram".
+  |   "console", "discord", "file", "null", "slack", "telegram".
   | Available Formatters:
-  |   "cli", "simple", "nest", "json", "request", "message", "none", "pino-pretty(only for pino driver)".
+  |   "cli", "simple", "json", "request", "message", "none".
   |
   */
 
@@ -32,11 +32,7 @@ export default {
     application: {
       driver: 'console',
       formatter: 'simple',
-      formatterConfig: {
-        context: 'Logger',
-      },
-
-      streamType: 'stdout',
+      level: 'debug',
     },
     request: {
       driver: 'console',
@@ -47,23 +43,14 @@ export default {
 
       streamType: 'stdout',
     },
-    pino: {
-      driver: 'pino',
-      formatter: 'pino-pretty',
-      formatterConfig: {
-        level: 'INFO',
-        colorize: true,
-      },
-    },
-    debug: {
-      driver: 'debug',
-      formatter: 'nest',
-      formatterConfig: {},
-
-      namespace: 'api:main',
-    },
     discard: {
       driver: 'null',
+    },
+    custom: {
+      driver: 'custom',
+    },
+    notFound: {
+      driver: 'notFound',
     },
     file: {
       driver: 'file',
@@ -77,7 +64,7 @@ export default {
       formatter: 'message',
       formatterConfig: {},
 
-      url: 'your-slack-webhook-url',
+      url: process.env.SLACK_URL,
     },
     discord: {
       driver: 'discord',
@@ -85,15 +72,15 @@ export default {
       formatterConfig: {},
 
       username: 'Athenna',
-      url: 'your-discord-bot-token',
+      url: process.env.DISCORD_URL,
     },
     telegram: {
       driver: 'telegram',
       formatter: 'message',
       formatterConfig: {},
 
-      token: 'your-telegram-bot-token',
-      chatId: '0',
+      token: process.env.TELEGRAM_TOKEN,
+      chatId: process.env.TELEGRAM_CHAT_ID,
       parseMode: 'HTML',
     },
   },

@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 /**
  * @athenna/logger
  *
@@ -8,33 +7,20 @@
  * file that was distributed with this source code.
  */
 
-import { FactoryHelper } from '#src/index'
+import { Formatter } from '#src/Formatters/Formatter'
 
-export class MessageFormatter {
-  /**
-   * The last timestamp.
-   *
-   * @type {number}
-   */
-  #lastTimestamp
-
+export class MessageFormatter extends Formatter {
   /**
    * Format the message.
    *
    * @param {string} message
-   * @param {{ level: 'info'|'INFO'|'debug'|'DEBUG'|'warn'|'WARN'|'error'|'ERROR'|'success'|'SUCCESS', customEmoji: string }} options
    * @return {string}
    */
-  format(message, options) {
-    const timestampDiff = FactoryHelper.getTimestampDiff(this.#lastTimestamp)
-
-    this.#lastTimestamp = Date.now()
-
-    const level = FactoryHelper.getEmojiByLevel(
-      options.level,
-      options.customEmoji,
+  format(message) {
+    return this.clean(
+      `${this.messageLevel()} - (${this.pid()}) - (${this.hostname()}): ${this.toString(
+        message,
+      )}`,
     )
-
-    return `${level} ${message}${timestampDiff}`
   }
 }

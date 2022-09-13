@@ -7,24 +7,18 @@
  * file that was distributed with this source code.
  */
 
-import { FactoryHelper } from '#src/index'
+import { Formatter } from '#src/Formatters/Formatter'
 
-export class CliFormatter {
+export class CliFormatter extends Formatter {
   /**
    * Format the message.
    *
    * @param {string} message
-   * @param {{ level: 'info'|'INFO'|'debug'|'DEBUG'|'warn'|'WARN'|'error'|'ERROR'|'success'|'SUCCESS', chalk: import('chalk').ChalkInstance }} options
    * @return {string}
    */
-  format(message, options) {
-    options.level = options.level.toLowerCase()
+  format(message) {
+    const level = this.cliLevel()
 
-    const level = FactoryHelper.paintByLevel(
-      options.level,
-      `[  ${options.level}  ]`,
-    )
-
-    return `${level} ${message}`
+    return this.clean(`${level} ${this.toString(message)}`)
   }
 }

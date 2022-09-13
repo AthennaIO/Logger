@@ -9,49 +9,36 @@
 
 import axios from 'axios'
 
-import { Config } from '@secjs/utils'
+import { Driver } from '#src/Drivers/Driver'
 
-import { ColorHelper, FactoryHelper, FormatterFactory } from '#src/index'
-
-export class DiscordDriver {
-  /**
-   * Holds the configuration set of DiscordDriver.
-   *
-   * @type {{ url?: string, username?: string, formatter?: any, formatterConfig?: any }}
-   */
-  configs
-
+export class DiscordDriver extends Driver {
   /**
    * Creates a new instance of DiscordDriver.
    *
-   * @param {string} channel
-   * @param {any} [configs]
+   * @param {any} configs
    * @return {DiscordDriver}
    */
-  constructor(channel, configs = {}) {
-    const channelConfig = Config.get(`logging.channels.${channel}`)
-
-    this.configs = FactoryHelper.groupConfigs(configs, channelConfig)
+  constructor(configs) {
+    super(configs)
   }
 
   /**
    * Transport the log.
    *
+   * @param {string} level
    * @param {string} message
-   * @param {{ url?: string, username?: string, formatter?: any, formatterConfig?: any }} [options]
-   * @return {Promise<void>}
+   * @return {Promise<any>}
    */
-  async transport(message, options = {}) {
-    const configs = FactoryHelper.groupConfigs(options, this.configs)
+  async transport(level, message) {
+    if (!this.couldBeTransported(level)) {
+      return
+    }
 
-    message = FormatterFactory.fabricate(configs.formatter).format(
-      message,
-      configs.formatterConfig,
-    )
+    const formatted = this.format(level, message, true)
 
-    await axios.post(configs.url, {
-      username: configs.username,
-      content: ColorHelper.removeColors(message),
+    return axios.post(this.configs.url, {
+      username: this.configs.username,
+      content: formatted,
     })
   }
 }

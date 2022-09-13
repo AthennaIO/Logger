@@ -7,15 +7,16 @@
  * file that was distributed with this source code.
  */
 
-export class NoneFormatter {
+import { Formatter } from '#src/Formatters/Formatter'
+
+export class NoneFormatter extends Formatter {
   /**
    * Format the message.
    *
    * @param {string} message
-   * @param {any} [_options]
    * @return {string}
    */
-  format(message, _options) {
-    return message
+  format(message) {
+    return this.clean(this.toString(message))
   }
 }

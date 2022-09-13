@@ -7,18 +7,30 @@
  * file that was distributed with this source code.
  */
 
-import { ColorHelper } from '#src/index'
+import { Is } from '@secjs/utils'
+import { Formatter } from '#src/Formatters/Formatter'
 
-export class JsonFormatter {
+export class JsonFormatter extends Formatter {
   /**
+   * Format the message.
    *
-   * @param {Record<any, any>} message
-   * @param {{ chalk: import('chalk').ChalkInstance }} options
+   * @param {any} message
    * @return {string}
    */
-  format(message, options) {
-    const jsonSpaced = JSON.stringify(message, null, 2)
+  format(message) {
+    const base = {
+      level: this.configs.level,
+      time: Date.now(),
+      pid: this.pid(),
+      hostname: this.hostname(),
+    }
 
-    return `${ColorHelper.bold('JSON:')} ${options.chalk(jsonSpaced)}`
+    if (Is.String(message)) {
+      base.msg = message
+
+      return JSON.stringify(base)
+    }
+
+    return JSON.stringify({ ...base, ...message })
   }
 }

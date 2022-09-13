@@ -1,25 +1,21 @@
-import Chalk from 'chalk'
+import { Chalk } from 'chalk'
+import { Is } from '@secjs/utils'
+import { format } from 'node:util'
 
-import { Is, Options } from '@secjs/utils'
-
-import { ColorHelper } from '#src/Helpers/ColorHelper'
 import { DriverFactory } from '#src/Factories/DriverFactory'
-import { FormatterFactory } from '#src/Factories/FormatterFactory'
 
 export * from './Facades/Log.js'
+
 export * from './Helpers/ColorHelper.js'
 export * from './Helpers/FactoryHelper.js'
+
+export * from './Drivers/Driver.js'
+export * from './Formatters/Formatter.js'
+
 export * from './Factories/DriverFactory.js'
 export * from './Factories/FormatterFactory.js'
 
 export class Logger {
-  /**
-   * Runtime configurations to be used inside the Drivers and Formatters.
-   *
-   * @type {any}
-   */
-  #runtimeConfig = {}
-
   /**
    * The driver responsible for transporting the logs.
    *
@@ -28,121 +24,30 @@ export class Logger {
   #drivers = []
 
   /**
+   * Runtime configurations to be used inside the Drivers and Formatters.
+   *
+   * @type {any}
+   */
+  #runtimeConfigs = {}
+
+  /**
    * Creates a new instance of Logger.
    *
    * @return {Logger}
    */
   constructor() {
-    this.#drivers.push(DriverFactory.fabricate('default', this.#runtimeConfig))
-  }
-
-  /**
-   * Return all drivers available.
-   *
-   * @return {string[]}
-   */
-  static get drivers() {
-    return DriverFactory.availableDrivers()
-  }
-
-  /**
-   * Return all formatters available.
-   *
-   * @return {string[]}
-   */
-  static get formatters() {
-    return FormatterFactory.availableFormatters()
-  }
-
-  /**
-   * Applies the log engine to execute chalk methods of string.
-   *
-   * @param {string} content
-   */
-  static #applyLogEngine(content) {
-    if (Is.String(content)) {
-      const matches = content.match(/\({(.*?)} (.*?)\)/)
-
-      if (matches) {
-        const chalkMethodsString = matches[1].replace(/\s/g, '')
-        const chalkMethodsArray = chalkMethodsString.split(',')
-        const message = matches[2]
-
-        let chalk = Chalk
-
-        chalkMethodsArray.forEach(chalkMethod => {
-          if (!chalk[chalkMethod]) return
-
-          chalk = chalk[chalkMethod]
-        })
-
-        content = content
-          .replace(`({${matches[1]}} `, '')
-          .replace(`({${matches[1]}}`, '')
-          .replace(`${matches[2]})`, chalk(message))
-      }
-
-      return content
-    }
-
-    return content
-  }
-
-  /**
-   * Transport the log.
-   *
-   * @param {string|any} message
-   * @param {any} [options]
-   * @param {any} [defaultValues]
-   * @return {void | Promise<void>}
-   */
-  #log(message, options = {}, defaultValues = {}) {
-    options = this.#createOptions(options, defaultValues)
-
-    message = Logger.#applyLogEngine(message)
-
-    const promises = this.#drivers.map(d => d.transport(message, options))
-
-    return Promise.all(promises)
-  }
-
-  /**
-   * Create options concatenating client options with default options.
-   *
-   * @param {any} options
-   * @param {any} defaultValues
-   * @return {any}
-   */
-  #createOptions(options, defaultValues) {
-    let formatterConfig = Options.create(
-      options.formatterConfig,
-      defaultValues.formatterConfig,
-    )
-
-    if (this.#runtimeConfig.formatterConfig) {
-      formatterConfig = {
-        ...this.#runtimeConfig.formatterConfig,
-        ...formatterConfig,
-      }
-    }
-
-    options = {
-      ...options,
-      formatterConfig,
-    }
-
-    return options
+    this.#drivers.push(DriverFactory.fabricate('default', this.#runtimeConfigs))
   }
 
   /**
    * Set runtime configurations for drivers and
    * formatters.
    *
-   * @param {any} runtimeConfig
+   * @param {any} runtimeConfigs
    * @return {Logger}
    */
-  config(runtimeConfig) {
-    this.#runtimeConfig = runtimeConfig
+  config(runtimeConfigs) {
+    this.#runtimeConfigs = runtimeConfigs
 
     return this
   }
@@ -150,112 +55,144 @@ export class Logger {
   /**
    * Change the log channel.
    *
-   * @param {string[]} channels
+   * @param {string} channels
    * @return {Logger}
    */
   channel(...channels) {
     this.#drivers = []
 
-    channels.forEach(channel => {
-      this.#drivers.push(DriverFactory.fabricate(channel, this.#runtimeConfig))
+    channels.forEach(c => {
+      this.#drivers.push(DriverFactory.fabricate(c, this.#runtimeConfigs))
     })
 
     return this
   }
 
   /**
-   * Creates a log of type info in channel.
+   * Call drivers to transport the log.
    *
-   * @param {string|any} message
-   * @param {any} [options]
-   * @return {void | Promise<void>}
+   * @param {string} level
+   * @param {string} args
+   * @return {any | Promise<any>}
    */
-  info(message, options = {}) {
-    return this.#log(message, options, {
-      formatterConfig: {
-        level: 'INFO',
-        chalk: ColorHelper.cyan,
-      },
-    })
+  #log(level, ...args) {
+    const message = this.#applyEngine(...args)
+
+    const promises = this.#drivers.map(d => d.transport(level, message))
+
+    return Promise.all(promises)
   }
 
   /**
-   * Creates a log of type warn in channel.
+   * Creates a log of type trace in channel.
    *
-   * @param {string|any} message
-   * @param {any} [options]
-   * @return {void | Promise<void>}
+   * @param {string|any} args
+   * @return {any | Promise<any>}
    */
-  warn(message, options = {}) {
-    return this.#log(message, options, {
-      formatterConfig: {
-        level: 'WARN',
-        chalk: ColorHelper.orange,
-      },
-    })
-  }
-
-  /**
-   * Creates a log of type error in channel.
-   *
-   * @param {string|any} message
-   * @param {any} [options]
-   * @return {void | Promise<void>}
-   */
-  error(message, options = {}) {
-    return this.#log(message, options, {
-      formatterConfig: {
-        level: 'ERROR',
-        chalk: ColorHelper.red,
-      },
-    })
-  }
-
-  /**
-   * Creates a log of type critical in channel.
-   *
-   * @param {string|any} message
-   * @param {any} [options]
-   * @return {void | Promise<void>}
-   */
-  critical(message, options = {}) {
-    return this.#log(message, options, {
-      formatterConfig: {
-        level: 'CRITICAL',
-        chalk: ColorHelper.darkRed,
-      },
-    })
+  trace(...args) {
+    return this.#log('trace', ...args)
   }
 
   /**
    * Creates a log of type debug in channel.
    *
-   * @param {string|any} message
-   * @param {any} [options]
-   * @return {void | Promise<void>}
+   * @param {string|any} args
+   * @return {any | Promise<any>}
    */
-  debug(message, options = {}) {
-    return this.#log(message, options, {
-      formatterConfig: {
-        level: 'DEBUG',
-        chalk: ColorHelper.purple,
-      },
-    })
+  debug(...args) {
+    return this.#log('debug', ...args)
+  }
+
+  /**
+   * Creates a log of type info in channel.
+   *
+   * @param {string|any} args
+   * @return {any | Promise<any>}
+   */
+  info(...args) {
+    return this.#log('info', ...args)
   }
 
   /**
    * Creates a log of type success in channel.
    *
-   * @param {string|any} message
-   * @param {any} [options]
-   * @return {void | Promise<void>}
+   * @param {string|any} args
+   * @return {any | Promise<any>}
    */
-  success(message, options = {}) {
-    return this.#log(message, options, {
-      formatterConfig: {
-        level: 'SUCCESS',
-        chalk: ColorHelper.green,
-      },
+  success(...args) {
+    return this.#log('success', ...args)
+  }
+
+  /**
+   * Creates a log of type warn in channel.
+   *
+   * @param {string|any} args
+   * @return {any | Promise<any>}
+   */
+  warn(...args) {
+    return this.#log('warn', ...args)
+  }
+
+  /**
+   * Creates a log of type error in channel.
+   *
+   * @param {string|any} args
+   * @return {any | Promise<any>}
+   */
+  error(...args) {
+    return this.#log('error', ...args)
+  }
+
+  /**
+   * Creates a log of type fatal in channel.
+   *
+   * @param {string|any} args
+   * @return {any | Promise<any>}
+   */
+  fatal(...args) {
+    return this.#log('fatal', ...args)
+  }
+
+  /**
+   * Applies the log engine to execute chalk methods.
+   *
+   * @param {string} args
+   * @return {any}
+   */
+  #applyEngine(...args) {
+    if (!Is.String(args[0])) {
+      return args[0]
+    }
+
+    let content = format(...args)
+
+    const matches = content.match(/\({(.*?)} (.*?)\)/g)
+
+    if (!matches) {
+      return content
+    }
+
+    matches.forEach(match => {
+      const [chalkMethodsInBrackets, chalkMethodsString] =
+        match.match(/\{(.*?)\}/)
+
+      const message = match
+        .replace(chalkMethodsInBrackets, '')
+        .replace(/\s*\(\s*|\s*\)\s*/g, '')
+
+      const chalkMethodsArray = chalkMethodsString.replace(/\s/g, '').split(',')
+
+      let chalk = new Chalk()
+
+      chalkMethodsArray.forEach(chalkMethod => {
+        if (!chalk[chalkMethod]) return
+
+        chalk = chalk[chalkMethod]
+      })
+
+      content = content.replace(match, chalk(message))
     })
+
+    return content
   }
 }

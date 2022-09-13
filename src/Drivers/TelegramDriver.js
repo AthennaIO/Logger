@@ -8,45 +8,38 @@
  */
 
 import { Telegraf } from 'telegraf'
+import { Driver } from '#src/Drivers/Driver'
 
-import { Config } from '@secjs/utils'
-
-import { ColorHelper, FactoryHelper, FormatterFactory } from '#src/index'
-
-export class TelegramDriver {
+export class TelegramDriver extends Driver {
   /**
-   * Holds the configuration set of SlackDriver.
+   * Creates a new instance of TelegramDriver.
    *
-   * @type {{ token?: string, chatId?: string|number, parseMode?: 'HTML'|'Markdown'|'MarkdownV2', formatter?: 'pino-pretty', formatterConfig?: import('pino-pretty').PrettyOptions }}
+   * @param {any} configs
+   * @return {TelegramDriver}
    */
-  configs
-
-  constructor(channel, configs = {}) {
-    const channelConfig = Config.get(`logging.channels.${channel}`)
-
-    this.configs = FactoryHelper.groupConfigs(configs, channelConfig)
+  constructor(configs) {
+    super(configs)
   }
 
   /**
    * Transport the log.
    *
+   * @param {string} level
    * @param {string} message
-   * @param {{ token?: string, chatId?: string|number, parseMode?: 'HTML'|'Markdown'|'MarkdownV2', formatter?: 'pino-pretty', formatterConfig?: import('pino-pretty').PrettyOptions }} [options]
-   * @return {Promise<void>}
+   * @return {Promise<any>}
    */
-  async transport(message, options = {}) {
-    const configs = FactoryHelper.groupConfigs(options, this.configs)
+  async transport(level, message) {
+    if (!this.couldBeTransported(level)) {
+      return
+    }
 
-    message = FormatterFactory.fabricate(configs.formatter).format(
-      message,
-      configs.formatterConfig,
-    )
+    const formatted = this.format(level, message, true)
 
-    await new Telegraf(configs.token).telegram.sendMessage(
-      configs.chatId,
-      ColorHelper.removeColors(message),
+    return new Telegraf(this.driverConfig.token).telegram.sendMessage(
+      this.driverConfig.chatId,
+      formatted,
       {
-        parse_mode: configs.parseMode,
+        parse_mode: this.driverConfig.parseMode,
       },
     )
   }

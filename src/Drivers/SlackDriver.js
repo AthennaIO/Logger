@@ -9,46 +9,33 @@
 
 import axios from 'axios'
 
-import { Config } from '@secjs/utils'
+import { Driver } from '#src/Drivers/Driver'
 
-import { ColorHelper, FactoryHelper, FormatterFactory } from '#src/index'
-
-export class SlackDriver {
-  /**
-   * Holds the configuration set of SlackDriver.
-   *
-   * @type {{ url?: string, formatter?: 'pino-pretty', formatterConfig?: import('pino-pretty').PrettyOptions }}
-   */
-  configs
-
+export class SlackDriver extends Driver {
   /**
    * Creates a new instance of SlackDriver.
    *
-   * @param {string} channel
-   * @param {any} [configs]
+   * @param {any} configs
    * @return {SlackDriver}
    */
-  constructor(channel, configs = {}) {
-    const channelConfig = Config.get(`logging.channels.${channel}`)
-
-    this.configs = FactoryHelper.groupConfigs(configs, channelConfig)
+  constructor(configs) {
+    super(configs)
   }
 
   /**
    * Transport the log.
    *
+   * @param {string} level
    * @param {string} message
-   * @param {{ url?: string, formatter?: 'pino-pretty', formatterConfig?: import('pino-pretty').PrettyOptions }} [options]
-   * @return {Promise<void>}
+   * @return {Promise<any>}
    */
-  async transport(message, options = {}) {
-    const configs = FactoryHelper.groupConfigs(options, this.configs)
+  async transport(level, message) {
+    if (!this.couldBeTransported(level)) {
+      return
+    }
 
-    message = FormatterFactory.fabricate(configs.formatter).format(
-      message,
-      configs.formatterConfig,
-    )
+    const formatted = this.format(level, message, true)
 
-    await axios.post(configs.url, { text: ColorHelper.removeColors(message) })
+    return axios.post(this.configs.url, { text: formatted })
   }
 }
