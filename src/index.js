@@ -164,7 +164,7 @@ export class Logger {
       return args[0]
     }
 
-    let content = format(...args)
+    let content = format(...args.filter(arg => arg !== undefined))
 
     const matches = content.match(/\({(.*?)} (.*?)\)/g)
 
