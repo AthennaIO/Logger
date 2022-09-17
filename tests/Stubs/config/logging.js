@@ -29,6 +29,10 @@ export default {
   */
 
   channels: {
+    stack: {
+      driver: 'stack',
+      channels: ['slack', 'discord'],
+    },
     application: {
       driver: 'console',
       formatter: 'simple',
