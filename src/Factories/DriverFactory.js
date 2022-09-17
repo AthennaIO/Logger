@@ -13,6 +13,7 @@ import { FactoryHelper } from '#src/index'
 import { FileDriver } from '#src/Drivers/FileDriver'
 import { NullDriver } from '#src/Drivers/NullDriver'
 import { SlackDriver } from '#src/Drivers/SlackDriver'
+import { StackDriver } from '#src/Drivers/StackDriver'
 import { ConsoleDriver } from '#src/Drivers/ConsoleDriver'
 import { DiscordDriver } from '#src/Drivers/DiscordDriver'
 import { TelegramDriver } from '#src/Drivers/TelegramDriver'
@@ -30,6 +31,7 @@ export class DriverFactory {
     .set('file', { Driver: FileDriver })
     .set('null', { Driver: NullDriver })
     .set('slack', { Driver: SlackDriver })
+    .set('stack', { Driver: StackDriver })
     .set('console', { Driver: ConsoleDriver })
     .set('discord', { Driver: DiscordDriver })
     .set('telegram', { Driver: TelegramDriver })
