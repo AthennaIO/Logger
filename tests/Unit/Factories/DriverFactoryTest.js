@@ -34,7 +34,7 @@ test.group('DriverFactoryTest', group => {
   test('should be able to list all available drivers', async ({ assert }) => {
     const drivers = DriverFactory.availableDrivers()
 
-    assert.deepEqual(drivers, ['file', 'null', 'slack', 'console', 'discord', 'telegram'])
+    assert.deepEqual(drivers, ['file', 'null', 'slack', 'stack', 'console', 'discord', 'telegram'])
   })
 
   test('should throw not implemented config exception when trying to fabricate driver without loading config file', async ({
