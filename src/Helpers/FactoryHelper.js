@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { Options } from '@secjs/utils'
+import { Options } from '@athenna/common'
 
 export class FactoryHelper {
   /**

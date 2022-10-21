@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { File } from '@secjs/utils'
+import { File } from '@athenna/common'
 
 import { Driver } from '#src/Drivers/Driver'
 

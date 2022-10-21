@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { Exception } from '@secjs/utils'
+import { Exception } from '@athenna/common'
 import { FormatterFactory } from '#src/Factories/FormatterFactory'
 
 export class FormatterExistException extends Exception {

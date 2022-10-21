@@ -7,7 +7,8 @@
  * file that was distributed with this source code.
  */
 
-import { Config, Exception } from '@secjs/utils'
+import { Config } from '@athenna/config'
+import { Exception } from '@athenna/common'
 
 export class NotImplementedConfigException extends Exception {
   /**

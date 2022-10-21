@@ -10,7 +10,7 @@
 import { exec } from 'node:child_process'
 
 import { test } from '@japa/runner'
-import { File, Path } from '@secjs/utils'
+import { File, Path } from '@athenna/common'
 
 test.group('ConsoleDriverTest', group => {
   test('should be able to log in console', async ({ assert }) => {

@@ -10,7 +10,7 @@
 import { pathToFileURL } from 'node:url'
 
 import { config } from 'dotenv'
-import { Path } from '@secjs/utils'
+import { Path } from '@athenna/common'
 import { assert } from '@japa/assert'
 import { specReporter } from '@japa/spec-reporter'
 import { runFailedTests } from '@japa/run-failed-tests'

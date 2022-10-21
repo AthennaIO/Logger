@@ -8,7 +8,8 @@
  */
 
 import { test } from '@japa/runner'
-import { Config, Folder, Path } from '@secjs/utils'
+import { Config } from '@athenna/config'
+import { Folder, Path } from '@athenna/common'
 
 import { Driver, DriverFactory } from '#src/index'
 import { DriverExistException } from '#src/Exceptions/DriverExistException'
@@ -24,7 +25,7 @@ class CustomDriver extends Driver {
 test.group('DriverFactoryTest', group => {
   group.each.setup(async () => {
     await new Folder(Path.stubs('config')).copy(Path.config())
-    await new Config().safeLoad(Path.config('logging.js'))
+    await Config.safeLoad(Path.config('logging.js'))
   })
 
   group.each.teardown(async () => {

@@ -8,7 +8,8 @@
  */
 
 import { test } from '@japa/runner'
-import { Config, Folder, Path } from '@secjs/utils'
+import { Config } from '@athenna/config'
+import { Folder, Path } from '@athenna/common'
 
 import { Log } from '#src/index'
 import { LoggerProvider } from '#src/Providers/LoggerProvider'
@@ -16,7 +17,7 @@ import { LoggerProvider } from '#src/Providers/LoggerProvider'
 test.group('TelegramDriverTest', group => {
   group.each.setup(async () => {
     await new Folder(Path.stubs('config')).copy(Path.config())
-    await new Config().safeLoad(Path.config('logging.js'))
+    await Config.safeLoad(Path.config('logging.js'))
 
     new LoggerProvider().register()
   })

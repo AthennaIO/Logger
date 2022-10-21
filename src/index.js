@@ -1,5 +1,5 @@
 import { Chalk } from 'chalk'
-import { Is } from '@secjs/utils'
+import { Is } from '@athenna/common'
 import { format } from 'node:util'
 
 import { DriverFactory } from '#src/Factories/DriverFactory'
