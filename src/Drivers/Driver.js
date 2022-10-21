@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { Json } from '@secjs/utils'
+import { Json } from '@athenna/common'
 import { FormatterFactory } from '#src/index'
 
 export class Driver {

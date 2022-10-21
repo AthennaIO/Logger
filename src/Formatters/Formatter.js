@@ -9,7 +9,7 @@
 
 import { hostname } from 'node:os'
 
-import { Is } from '@secjs/utils'
+import { Is } from '@athenna/common'
 
 import { ColorHelper } from '#src/Helpers/ColorHelper'
 

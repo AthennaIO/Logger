@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { Config } from '@secjs/utils'
+import { Config } from '@athenna/config'
 
 import { FactoryHelper } from '#src/index'
 import { FileDriver } from '#src/Drivers/FileDriver'
