@@ -68,7 +68,7 @@ export default {
       formatter: 'message',
       formatterConfig: {},
 
-      url: process.env.SLACK_URL,
+      url: Env('SLACK_URL'),
     },
     discord: {
       driver: 'discord',
@@ -76,15 +76,15 @@ export default {
       formatterConfig: {},
 
       username: 'Athenna',
-      url: process.env.DISCORD_URL,
+      url: Env('DISCORD_URL'),
     },
     telegram: {
       driver: 'telegram',
       formatter: 'message',
       formatterConfig: {},
 
-      token: process.env.TELEGRAM_TOKEN,
-      chatId: process.env.TELEGRAM_CHAT_ID,
+      token: Env('TELEGRAM_TOKEN'),
+      chatId: Env('TELEGRAM_CHAT_ID'),
       parseMode: 'HTML',
     },
   },
