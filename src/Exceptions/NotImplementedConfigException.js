@@ -32,7 +32,7 @@ export class NotImplementedConfigException extends Exception {
       help += `The "Config.get('logging.channels') is empty, maybe your configuration files are not loaded?`
     }
 
-    help += ` Create your configuration inside channels object to use it. Or load your configuration files using "new Config().safeLoad(Path.config('logging.js'))`
+    help += ` Create your configuration inside channels object to use it. Or load your configuration files using "Config.safeLoad(Path.config('logging.js'))`
 
     super(content, 500, 'E_NOT_IMPLEMENTED_CONFIG_ERROR', help)
   }
