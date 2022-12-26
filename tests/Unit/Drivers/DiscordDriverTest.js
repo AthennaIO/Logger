@@ -46,7 +46,7 @@ test.group('DiscordDriverTest', group => {
     assert.isUndefined(successRes)
     assert.isUndefined(warnRes)
 
-    assert.equal(errorRes.status, 204)
-    assert.equal(fatalRes.status, 204)
+    assert.equal(errorRes.statusCode, 204)
+    assert.equal(fatalRes.statusCode, 204)
   }).timeout(10000)
 })

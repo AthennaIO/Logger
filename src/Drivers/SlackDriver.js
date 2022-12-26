@@ -7,8 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import axios from 'axios'
-
+import { HttpClient } from '@athenna/common'
 import { Driver } from '#src/Drivers/Driver'
 
 export class SlackDriver extends Driver {
@@ -36,6 +35,6 @@ export class SlackDriver extends Driver {
 
     const formatted = this.format(level, message, true)
 
-    return axios.post(this.configs.url, { text: formatted })
+    return HttpClient.builder(true).post(this.configs.url, { text: formatted })
   }
 }

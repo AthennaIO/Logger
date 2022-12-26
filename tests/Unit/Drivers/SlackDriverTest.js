@@ -44,9 +44,9 @@ test.group('SlackDriverTest', group => {
     assert.isUndefined(debugRes)
     assert.isUndefined(infoRes)
 
-    assert.equal(successRes.status, 200)
-    assert.equal(warnRes.status, 200)
-    assert.equal(errorRes.status, 200)
-    assert.equal(fatalRes.status, 200)
+    assert.equal(successRes.statusCode, 200)
+    assert.equal(warnRes.statusCode, 200)
+    assert.equal(errorRes.statusCode, 200)
+    assert.equal(fatalRes.statusCode, 200)
   }).timeout(10000)
 })
