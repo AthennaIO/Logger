@@ -30,7 +30,7 @@ test.group('StackDriverTest', group => {
   test('should be able to log multiples channels at one time', async ({ assert }) => {
     const [[slackReq, discordReq]] = await Log.channel('stack').fatal('hello')
 
-    assert.equal(slackReq.status, 200)
-    assert.equal(discordReq.status, 204)
+    assert.equal(slackReq.statusCode, 200)
+    assert.equal(discordReq.statusCode, 204)
   }).timeout(10000)
 })

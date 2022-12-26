@@ -53,4 +53,21 @@ test.group('FileDriverTest', group => {
         else assert.equal(log.hello, 'world!')
       })
   })
+
+  test('should be able to use the log engine with new lines', async ({ assert }) => {
+    const filePath = Path.storage('athenna.log')
+
+    const log = Log.config({ level: 'success', filePath, formatter: 'cli' }).channel('file')
+
+    const object = { hello: 'world!' }
+    const objectString = JSON.stringify(object, null, 2)
+
+    await log.success('hello ({yellow, bold} world!)')
+    await log.success(`hello ({yellow, bold} ${objectString})`)
+
+    const fileContent = (await new File(filePath).load()).getContentSync().toString()
+    const logs = fileContent.split('\n').filter(log => log !== '')
+
+    assert.lengthOf(logs, 4)
+  })
 })
