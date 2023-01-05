@@ -21,13 +21,15 @@ export class RequestFormatter extends Formatter {
     const ip = ctx.request.ip
     const status = ctx.status
     const responseTimeMs = `${Math.round(ctx.responseTime)}ms`
-    const methodAndUrl = ColorHelper[ctx.request.method](
-      `${ctx.request.method}::${ctx.request.baseUrl}`,
+    const methodAndStatus = ColorHelper[ctx.request.method](
+      `[${ctx.request.method}::${ctx.status}]`,
     )
 
     if (!this.configs.asJson) {
       return this.clean(
-        `(${ip}) - [${status}] ${methodAndUrl} ${responseTimeMs}`,
+        `${methodAndStatus} - [${ip}] - ${new Date().toISOString()} - ${
+          ctx.request.baseUrl
+        } ${responseTimeMs}`,
       )
     }
 

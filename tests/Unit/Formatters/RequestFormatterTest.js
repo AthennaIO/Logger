@@ -40,9 +40,10 @@ test.group('RequestFormatterTest', group => {
 
     const message = formatter.format(ctx)
 
-    assert.isTrue(message.includes('(127.0.0.1)'))
-    assert.isTrue(message.includes('[200]'))
+    assert.isTrue(message.includes('127.0.0.1'))
+    assert.isTrue(message.includes('[GET::200]'))
     assert.isTrue(message.includes('http://localhost:1335/:id'))
+    assert.isTrue(message.includes('ms'))
   })
 
   test('should be able to format logs to request format as json', async ({ assert }) => {
