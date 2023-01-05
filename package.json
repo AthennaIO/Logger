@@ -1,6 +1,6 @@
 {
   "name": "@athenna/logger",
-  "version": "1.3.9",
+  "version": "1.4.0",
   "description": "The Athenna logging solution. Log in stdout, files and buckets.",
   "license": "MIT",
   "author": "João Lenon <lenon@athenna.io>",
