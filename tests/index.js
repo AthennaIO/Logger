@@ -10,8 +10,8 @@
 import { pathToFileURL } from 'node:url'
 
 import { config } from 'dotenv'
-import { Path } from '@athenna/common'
 import { assert } from '@japa/assert'
+import { Path } from '@athenna/common'
 import { specReporter } from '@japa/spec-reporter'
 import { runFailedTests } from '@japa/run-failed-tests'
 import { processCliArgs, configure, run } from '@japa/runner'
