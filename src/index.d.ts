@@ -1,6 +1,6 @@
 import { Facade } from '@athenna/ioc'
 
-export const Log: Facade & Logger
+export const Log: typeof Facade & Logger
 
 export class Driver {
   /**
