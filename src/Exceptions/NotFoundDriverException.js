@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { Exception } from '@athenna/common'
+import { Exception, Path } from '@athenna/common'
 import { DriverFactory } from '#src/Factories/DriverFactory'
 
 export class NotFoundDriverException extends Exception {
@@ -25,7 +25,7 @@ export class NotFoundDriverException extends Exception {
       content,
       500,
       'E_NOT_FOUND',
-      `Available drivers are: ${availableDrivers}. Look into your config/logger.js file if ${driverName} driver is implemented by logger. Or create ${driverName} driver implementation using DriverFactory.createDriver("${driverName}", ...) method.`,
+      `Available drivers are: ${availableDrivers}. Look into your config/logger.${Path.ext()} file if ${driverName} driver is implemented by logger. Or create ${driverName} driver implementation using DriverFactory.createDriver("${driverName}", ...) method.`,
     )
   }
 }
