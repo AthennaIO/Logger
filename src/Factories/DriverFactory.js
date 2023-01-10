@@ -91,7 +91,7 @@ export class DriverFactory {
    */
   static #getChannelConfig(channelName) {
     if (channelName === 'default') {
-      channelName = Config.get('logging.default')
+      channelName = Config.get('logging.default') || channelName
     }
 
     const channelConfig = Config.get(`logging.channels.${channelName}`)
