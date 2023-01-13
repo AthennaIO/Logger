@@ -7,12 +7,11 @@
  * file that was distributed with this source code.
  */
 
+import rTracer from 'cls-rtracer'
+
 import { hostname } from 'node:os'
 import { Is } from '@athenna/common'
-import { createRequire } from 'node:module'
 import { ColorHelper } from '#src/Helpers/ColorHelper'
-
-const require = createRequire(import.meta.url)
 
 export class Formatter {
   /**
@@ -73,13 +72,7 @@ export class Formatter {
    * @return {string | null}
    */
   traceId() {
-    try {
-      const rTracer = require('cls-rtracer')
-
-      return rTracer.id()
-    } catch (err) {
-      return null
-    }
+    return rTracer.id() || null
   }
 
   /**
