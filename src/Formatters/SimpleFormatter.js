@@ -17,12 +17,11 @@ export class SimpleFormatter extends Formatter {
    * @return {string}
    */
   format(message) {
+    const pid = this.pid()
+    const time = this.timestamp()
     const level = this.simpleLevel()
+    const colorizedMsg = this.applyColors(message)
 
-    return this.clean(
-      `${level} - ${this.timestamp()} - (${this.pid()}) ${this.applyColors(
-        message,
-      )}`,
-    )
+    return this.clean(`${level} - ${time} - (${pid}) ${colorizedMsg}`)
   }
 }

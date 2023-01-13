@@ -1,6 +1,6 @@
 import { Chalk } from 'chalk'
-import { Is } from '@athenna/common'
 import { format } from 'node:util'
+import { Is } from '@athenna/common'
 
 import { DriverFactory } from '#src/Factories/DriverFactory'
 

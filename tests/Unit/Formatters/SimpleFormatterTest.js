@@ -20,4 +20,11 @@ test.group('SimpleFormatterTest', group => {
     assert.isTrue(message.includes('hello'))
     assert.isTrue(message.includes(`(${process.pid})`))
   })
+
+  test('should be able to format logs to simple format and force to clean the logs', async ({ assert }) => {
+    const formatter = new SimpleFormatter().config({ level: 'info' })
+    const message = formatter.clean(formatter.format('hello'), true)
+
+    assert.isFalse(message.includes('\x1B[38;5;51m\x1B[1m'))
+  })
 })

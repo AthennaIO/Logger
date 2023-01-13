@@ -19,10 +19,11 @@ export class JsonFormatter extends Formatter {
    */
   format(message) {
     const base = {
-      level: this.configs.level,
+      level: this.level(),
       time: Date.now(),
       pid: this.pid(),
       hostname: this.hostname(),
+      traceId: this.traceId(),
     }
 
     if (Is.String(message)) {
