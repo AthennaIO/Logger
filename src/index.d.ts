@@ -127,6 +127,20 @@ export class Formatter {
   hostname(): string
 
   /**
+   * Get the level without any color or format.
+   *
+   * @return {string}
+   */
+  level(): string
+
+  /**
+   * Get the trace id for formatter.
+   *
+   * @return {string | null}
+   */
+  traceId(): string | null
+
+  /**
    * Create the timestamp for formatter.
    *
    * @return {string}
@@ -143,12 +157,15 @@ export class Formatter {
 
   /**
    * Clean the message removing colors if clean
-   * option is true.
+   * option is true. If force is true, then colors
+   * will be removed even if configs clean option
+   * is false.
    *
    * @param message {string}
+   * @param [force] {boolean}
    * @return {string}
    */
-  clean(message: string): string
+  clean(message, force?: boolean): string
 
   /**
    * Apply all colors necessary to message.

@@ -8,10 +8,11 @@
  */
 
 import { hostname } from 'node:os'
-
 import { Is } from '@athenna/common'
-
+import { createRequire } from 'node:module'
 import { ColorHelper } from '#src/Helpers/ColorHelper'
+
+const require = createRequire(import.meta.url)
 
 export class Formatter {
   /**
@@ -58,6 +59,30 @@ export class Formatter {
   }
 
   /**
+   * Get the level without any color or format.
+   *
+   * @return {string}
+   */
+  level() {
+    return this.configs.level
+  }
+
+  /**
+   * Get the trace id for formatter.
+   *
+   * @return {string | null}
+   */
+  traceId() {
+    try {
+      const rTracer = require('cls-rtracer')
+
+      return rTracer.id()
+    } catch (err) {
+      return null
+    }
+  }
+
+  /**
    * Create the timestamp for formatter.
    *
    * @return {string}
@@ -95,13 +120,16 @@ export class Formatter {
 
   /**
    * Clean the message removing colors if clean
-   * option is true.
+   * option is true. If force is true, then colors
+   * will be removed even if configs clean option
+   * is false.
    *
    * @param message {string}
+   * @param [force] {boolean}
    * @return {string}
    */
-  clean(message) {
-    if (this.configs.clean) {
+  clean(message, force = false) {
+    if (this.configs.clean || force) {
       return ColorHelper.removeColors(message)
     }
 

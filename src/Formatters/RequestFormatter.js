@@ -41,6 +41,7 @@ export class RequestFormatter extends Formatter {
       url: ctx.request.hostUrl,
       path: ctx.request.baseUrl,
       createdAt: Date.now(),
+      traceId: this.traceId(),
       data: ctx.data,
     }
 
