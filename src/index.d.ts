@@ -1,3 +1,12 @@
+/**
+ * @athenna/logger
+ *
+ * (c) João Lenon <lenon@athenna.io>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 import { Facade } from '@athenna/ioc'
 
 export const Log: typeof Facade & Logger
@@ -404,6 +413,14 @@ export class ColorHelper {
    * @return {import('chalk').ChalkInstance}
    */
   static httpMethod(method: any): import('chalk').ChalkInstance
+
+  /**
+   * Applies the log engine to execute chalk methods.
+   *
+   * @param {string} args
+   * @return {any}
+   */
+  static applyLogEngine(...args): any
 }
 
 export class FactoryHelper {
@@ -446,6 +463,16 @@ export class DriverFactory {
    * @return {any}
    */
   static fabricate(channelName: string, runtimeConfig?: any): any
+
+  /**
+   * Fabricate a new instance of a driver without
+   * configurations.
+   *
+   * @param {string} driverName
+   * @param {any} runtimeConfig
+   * @return {any}
+   */
+  static fabricateOnly(driverName: string, runtimeConfig?: any): any
 
   /**
    * Creates a new driver implementation.
@@ -496,7 +523,113 @@ export class FormatterFactory {
   static createFormatter(name: string, formatter: () => any): void
 }
 
+export class ConsoleLogger {
+  /**
+   * Creates a log of type trace in channel.
+   *
+   * @param {string|any} message
+   * @return {any | Promise<any>}
+   */
+  trace(message: string | any): any | Promise<any>
+
+  /**
+   * Creates a log of type trace in channel.
+   *
+   * @param {string[]|any[]} args
+   * @return {any | Promise<any>}
+   */
+  trace(...args: string[] | any[]): any | Promise<any>
+
+  /**
+   * Creates a log of type debug in channel.
+   *
+   * @param {string|any} message
+   * @return {any | Promise<any>}
+   */
+  debug(message: string | any): any | Promise<any>
+
+  /**
+   * Creates a log of type debug in channel.
+   *
+   * @param {string[]|any[]} args
+   * @return {any | Promise<any>}
+   */
+  debug(...args: string[] | any[]): any | Promise<any>
+
+  /**
+   * Creates a log of type info in channel.
+   *
+   * @param {string|any} message
+   * @return {any | Promise<any>}
+   */
+  info(message: string | any): any | Promise<any>
+
+  /**
+   * Creates a log of type info in channel.
+   *
+   * @param {string[]|any[]} args
+   * @return {any | Promise<any>}
+   */
+  info(...args: string[] | any[]): any | Promise<any>
+
+  /**
+   * Creates a log of type success in channel.
+   *
+   * @param {string|any} message
+   * @return {any | Promise<any>}
+   */
+  success(message: string | any): any | Promise<any>
+
+  /**
+   * Creates a log of type success in channel.
+   *
+   * @param {string[]|any[]} args
+   * @return {any | Promise<any>}
+   */
+  success(...args: string[] | any[]): any | Promise<any>
+
+  /**
+   * Creates a log of type warn in channel.
+   *
+   * @param {string|any} message
+   * @return {any | Promise<any>}
+   */
+  warn(message: string | any): any | Promise<any>
+
+  /**
+   * Creates a log of type warn in channel.
+   *
+   * @param {string[]|any[]} args
+   * @return {any | Promise<any>}
+   */
+  warn(...args: string[] | any[]): any | Promise<any>
+
+  /**
+   * Creates a log of type error in channel.
+   *
+   * @param {string|any} message
+   * @return {any | Promise<any>}
+   */
+  error(message: string | any): any | Promise<any>
+
+  /**
+   * Creates a log of type error in channel.
+   *
+   * @param {string[]|any[]} args
+   * @return {any | Promise<any>}
+   */
+  error(...args: string[] | any[]): any | Promise<any>
+}
+
 export class Logger {
+  /**
+   * Get a new instance of the ConsoleLogger.
+   *
+   * @param {any} [runtimeConfigs]
+   * @return {ConsoleLogger}
+   */
+  static getConsoleLogger(runtimeConfigs?: any): ConsoleLogger
+
   /**
    * Set runtime configurations for drivers and
    * formatters.

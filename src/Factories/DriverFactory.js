@@ -70,6 +70,20 @@ export class DriverFactory {
   }
 
   /**
+   * Fabricate a new instance of a driver without
+   * configurations.
+   *
+   * @param {string} driverName
+   * @param {any} runtimeConfig
+   * @return {any}
+   */
+  static fabricateOnly(driverName, runtimeConfig = {}) {
+    const { Driver } = this.#drivers.get(driverName)
+
+    return new Driver(runtimeConfig)
+  }
+
+  /**
    * Creates a new driver implementation.
    *
    * @param {string} name

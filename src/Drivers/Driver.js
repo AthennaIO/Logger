@@ -60,7 +60,7 @@ export class Driver {
    * @param {any} configs
    * @return {ConsoleDriver}
    */
-  constructor(configs) {
+  constructor(configs = {}) {
     this.configs = configs
 
     const json = Json.copy(configs)
@@ -70,8 +70,8 @@ export class Driver {
 
     this.driverConfig = json
     this.level = json.level || 'info'
-    this.formatter = configs.formatter
-    this.formatterConfig = configs.formatterConfig
+    this.formatter = configs.formatter || 'none'
+    this.formatterConfig = configs.formatterConfig || {}
   }
 
   /**
