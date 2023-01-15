@@ -7,7 +7,9 @@
  * file that was distributed with this source code.
  */
 
-import chalk from 'chalk'
+import { Is } from '@athenna/common'
+import { format } from 'node:util'
+import chalk, { Chalk } from 'chalk'
 
 export class ColorHelper {
   /**
@@ -273,5 +275,48 @@ export class ColorHelper {
    */
   static httpMethod(method) {
     return this[method]
+  }
+
+  /**
+   * Applies the log engine to execute chalk methods.
+   *
+   * @param {string} args
+   * @return {any}
+   */
+  static applyLogEngine(...args) {
+    if (!Is.String(args[0])) {
+      return args[0]
+    }
+
+    let content = format(...args.filter(arg => arg !== undefined))
+
+    const matches = content.match(/\({(.*?)} ([\s\S]*?)\)/g)
+
+    if (!matches) {
+      return content
+    }
+
+    matches.forEach(match => {
+      const [chalkMethodsInBrackets, chalkMethodsString] =
+        match.match(/\{(.*?)\}/)
+
+      const message = match
+        .replace(chalkMethodsInBrackets, '')
+        .replace(/\s*\(\s*|\s*\)\s*/g, '')
+
+      const chalkMethodsArray = chalkMethodsString.replace(/\s/g, '').split(',')
+
+      let chalk = new Chalk()
+
+      chalkMethodsArray.forEach(chalkMethod => {
+        if (!chalk[chalkMethod]) return
+
+        chalk = chalk[chalkMethod]
+      })
+
+      content = content.replace(match, chalk(message))
+    })
+
+    return content
   }
 }

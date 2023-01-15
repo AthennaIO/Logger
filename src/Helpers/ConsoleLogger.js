@@ -8,32 +8,9 @@
  */
 
 import { ColorHelper } from '#src/index'
-import { ConsoleLogger } from '#src/Helpers/ConsoleLogger'
 import { DriverFactory } from '#src/Factories/DriverFactory'
 
-export * from './Facades/Log.js'
-
-export * from './Helpers/ColorHelper.js'
-export * from './Helpers/ConsoleLogger.js'
-export * from './Helpers/FactoryHelper.js'
-
-export * from './Drivers/Driver.js'
-export * from './Formatters/Formatter.js'
-
-export * from './Factories/DriverFactory.js'
-export * from './Factories/FormatterFactory.js'
-
-export class Logger {
-  /**
-   * Get a new instance of the ConsoleLogger.
-   *
-   * @param {any} [runtimeConfigs]
-   * @return {ConsoleLogger}
-   */
-  static getConsoleLogger(runtimeConfigs) {
-    return new ConsoleLogger(runtimeConfigs)
-  }
-
+export class ConsoleLogger {
   /**
    * The driver responsible for transporting the logs.
    *
@@ -42,47 +19,31 @@ export class Logger {
   #drivers = []
 
   /**
-   * Runtime configurations to be used inside the Drivers and Formatters.
+   * Creates a new instance of ConsoleLogger.
    *
-   * @type {any}
+   * @param {any} [runtimeConfigs]
+   * @return {ConsoleLogger}
    */
-  #runtimeConfigs = {}
-
-  /**
-   * Creates a new instance of Logger.
-   *
-   * @return {Logger}
-   */
-  constructor() {
-    this.#drivers.push(DriverFactory.fabricate('default', this.#runtimeConfigs))
+  constructor(runtimeConfigs) {
+    this.#drivers.push(DriverFactory.fabricateOnly('console', runtimeConfigs))
   }
 
   /**
    * Set runtime configurations for drivers and
    * formatters.
    *
-   * @param {any} runtimeConfigs
-   * @return {Logger}
+   * @return {ConsoleLogger}
    */
-  config(runtimeConfigs) {
-    this.#runtimeConfigs = runtimeConfigs
-
+  config() {
     return this
   }
 
   /**
    * Change the log channel.
    *
-   * @param {string} channels
-   * @return {Logger}
+   * @return {ConsoleLogger}
    */
-  channel(...channels) {
-    this.#drivers = []
-
-    channels.forEach(c => {
-      this.#drivers.push(DriverFactory.fabricate(c, this.#runtimeConfigs))
-    })
-
+  channel() {
     return this
   }
 
