@@ -1,6 +1,6 @@
 import { Logger } from '#src/index'
 
-const consoleLogger = Logger.getConsoleLogger()
+const consoleLogger = new Logger().getConsoleLogger()
 
 consoleLogger.trace('hello')
 consoleLogger.debug('%s', 'hello')
