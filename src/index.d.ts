@@ -8,6 +8,7 @@
  */
 
 import { Facade } from '@athenna/ioc'
+import { Options } from '@athenna/common'
 
 export const Log: typeof Facade & Logger
 
@@ -465,14 +466,13 @@ export class DriverFactory {
   static fabricate(channelName: string, runtimeConfig?: any): any
 
   /**
-   * Fabricate a new instance of a driver without
+   * Fabricate a new instance of a driver with vanilla
    * configurations.
    *
-   * @param {string} driverName
-   * @param {any} runtimeConfig
+   * @param {any} configs
    * @return {any}
    */
-  static fabricateOnly(driverName: string, runtimeConfig?: any): any
+  static fabricateVanilla(configs?: any): any
 
   /**
    * Creates a new driver implementation.
