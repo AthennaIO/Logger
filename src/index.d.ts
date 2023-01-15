@@ -523,7 +523,24 @@ export class FormatterFactory {
   static createFormatter(name: string, formatter: () => any): void
 }
 
-export class ConsoleLogger {
+export class VanillaLogger {
+  /**
+   * Set runtime configurations for drivers and
+   * formatters.
+   *
+   * @param {any} runtimeConfig
+   * @return {VanillaLogger}
+   */
+  config(runtimeConfig: any): VanillaLogger
+
+  /**
+   * Change the log channel.
+   *
+   * @param {string[]} channels
+   * @return {VanillaLogger}
+   */
+  channel(...channels: string[]): VanillaLogger
+
   /**
    * Creates a log of type trace in channel.
    *
@@ -619,6 +636,22 @@ export class ConsoleLogger {
    * @return {any | Promise<any>}
    */
   error(...args: string[] | any[]): any | Promise<any>
+
+  /**
+   * Creates a log of type fatal in channel.
+   *
+   * @param {string|any} message
+   * @return {any | Promise<any>}
+   */
+  fatal(message: string | any): any | Promise<any>
+
+  /**
+   * Creates a log of type fatal in channel.
+   *
+   * @param {string[]|any[]} args
+   * @return {any | Promise<any>}
+   */
+  fatal(...args: string[] | any[]): any | Promise<any>
 }
 
 export class Logger {
@@ -736,18 +769,29 @@ export class Logger {
   error(...args: string[] | any[]): any | Promise<any>
 
   /**
-   * Get a new instance of the ConsoleLogger.
+   * Creates a log of type fatal in channel.
    *
-   * @param {any} [runtimeConfigs]
-   * @return {ConsoleLogger}
+   * @param {string|any} message
+   * @return {any | Promise<any>}
    */
-  getConsoleLogger(runtimeConfigs?: any): ConsoleLogger
+  fatal(message: string | any): any | Promise<any>
 
   /**
-   * Get a new instance of the ConsoleLogger.
+   * Creates a log of type fatal in channel.
    *
-   * @param {any} [runtimeConfigs]
-   * @return {ConsoleLogger}
+   * @param {string[]|any[]} args
+   * @return {any | Promise<any>}
    */
-  static getConsoleLogger(runtimeConfigs?: any): ConsoleLogger
+  fatal(...args: string[] | any[]): any | Promise<any>
+
+  /**
+   * Get a new instance of any log driver
+   * with vanilla configurations. By default,
+   * vanilla logger will use the "console" driver
+   * and "none" formatter.
+   *
+   * @param {any} [configs]
+   * @return {VanillaLogger}
+   */
+  static getVanillaLogger(configs?: any): VanillaLogger
 }

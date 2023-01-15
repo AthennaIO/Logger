@@ -8,13 +8,13 @@
  */
 
 import { ColorHelper } from '#src/index'
-import { ConsoleLogger } from '#src/Helpers/ConsoleLogger'
+import { VanillaLogger } from '#src/Helpers/VanillaLogger'
 import { DriverFactory } from '#src/Factories/DriverFactory'
 
 export * from './Facades/Log.js'
 
 export * from './Helpers/ColorHelper.js'
-export * from './Helpers/ConsoleLogger.js'
+export * from './Helpers/VanillaLogger.js'
 export * from './Helpers/FactoryHelper.js'
 
 export * from './Drivers/Driver.js'
@@ -166,22 +166,15 @@ export class Logger {
   }
 
   /**
-   * Get a new instance of the ConsoleLogger.
+   * Get a new instance of any log driver
+   * with vanilla configurations. By default,
+   * vanilla logger will use the "console" driver
+   * and "none" formatter.
    *
-   * @param {any} [runtimeConfigs]
-   * @return {ConsoleLogger}
+   * @param {any} [configs]
+   * @return {VanillaLogger}
    */
-  getConsoleLogger(runtimeConfigs) {
-    return Logger.getConsoleLogger(runtimeConfigs)
-  }
-
-  /**
-   * Get a new instance of the ConsoleLogger.
-   *
-   * @param {any} [runtimeConfigs]
-   * @return {ConsoleLogger}
-   */
-  static getConsoleLogger(runtimeConfigs) {
-    return new ConsoleLogger(runtimeConfigs)
+  static getVanillaLogger(configs = {}) {
+    return new VanillaLogger(configs)
   }
 }

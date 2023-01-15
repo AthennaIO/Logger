@@ -12,9 +12,9 @@ import { exec } from 'node:child_process'
 import { test } from '@japa/runner'
 import { File, Path } from '@athenna/common'
 
-test.group('ConsoleLoggerTest', group => {
+test.group('VanillaLoggerTest', group => {
   test('should be able to log in console using console logger', async ({ assert }) => {
-    const file = await new File(Path.stubs('transporters/consoleLogger.js')).load()
+    const file = await new File(Path.stubs('transporters/vanillaLogger.js')).load()
 
     await exec(`node --input-type=module --eval="${file.getContentSync().toString()}"`, (_, stdout, stderr) => {
       const logs = [...stdout.split('\n').filter(l => l !== ''), ...stderr.split('\n').filter(l => l !== '')]
