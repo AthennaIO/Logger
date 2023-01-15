@@ -623,14 +623,6 @@ export class ConsoleLogger {
 
 export class Logger {
   /**
-   * Get a new instance of the ConsoleLogger.
-   *
-   * @param {any} [runtimeConfigs]
-   * @return {ConsoleLogger}
-   */
-  static getConsoleLogger(runtimeConfigs?: any): ConsoleLogger
-
-  /**
    * Set runtime configurations for drivers and
    * formatters.
    *
@@ -742,4 +734,20 @@ export class Logger {
    * @return {any | Promise<any>}
    */
   error(...args: string[] | any[]): any | Promise<any>
+
+  /**
+   * Get a new instance of the ConsoleLogger.
+   *
+   * @param {any} [runtimeConfigs]
+   * @return {ConsoleLogger}
+   */
+  getConsoleLogger(runtimeConfigs?: any): ConsoleLogger
+
+  /**
+   * Get a new instance of the ConsoleLogger.
+   *
+   * @param {any} [runtimeConfigs]
+   * @return {ConsoleLogger}
+   */
+  static getConsoleLogger(runtimeConfigs?: any): ConsoleLogger
 }

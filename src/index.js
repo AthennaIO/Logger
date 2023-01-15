@@ -25,16 +25,6 @@ export * from './Factories/FormatterFactory.js'
 
 export class Logger {
   /**
-   * Get a new instance of the ConsoleLogger.
-   *
-   * @param {any} [runtimeConfigs]
-   * @return {ConsoleLogger}
-   */
-  static getConsoleLogger(runtimeConfigs) {
-    return new ConsoleLogger(runtimeConfigs)
-  }
-
-  /**
    * The driver responsible for transporting the logs.
    *
    * @type {any[]}
@@ -54,6 +44,10 @@ export class Logger {
    * @return {Logger}
    */
   constructor() {
+    if (!Config.exists(`logging.channels.${Config.get('logging.default')}`)) {
+      return this
+    }
+
     this.#drivers.push(DriverFactory.fabricate('default', this.#runtimeConfigs))
   }
 
@@ -169,5 +163,25 @@ export class Logger {
    */
   fatal(...args) {
     return this.#log('fatal', ...args)
+  }
+
+  /**
+   * Get a new instance of the ConsoleLogger.
+   *
+   * @param {any} [runtimeConfigs]
+   * @return {ConsoleLogger}
+   */
+  getConsoleLogger(runtimeConfigs) {
+    return Logger.getConsoleLogger(runtimeConfigs)
+  }
+
+  /**
+   * Get a new instance of the ConsoleLogger.
+   *
+   * @param {any} [runtimeConfigs]
+   * @return {ConsoleLogger}
+   */
+  static getConsoleLogger(runtimeConfigs) {
+    return new ConsoleLogger(runtimeConfigs)
   }
 }
