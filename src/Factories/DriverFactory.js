@@ -20,6 +20,7 @@ import { TelegramDriver } from '#src/Drivers/TelegramDriver'
 import { DriverExistException } from '#src/Exceptions/DriverExistException'
 import { NotFoundDriverException } from '#src/Exceptions/NotFoundDriverException'
 import { NotImplementedConfigException } from '#src/Exceptions/NotImplementedConfigException'
+import { Options } from '@athenna/common'
 
 export class DriverFactory {
   /**
@@ -70,17 +71,21 @@ export class DriverFactory {
   }
 
   /**
-   * Fabricate a new instance of a driver without
+   * Fabricate a new instance of a driver with vanilla
    * configurations.
    *
-   * @param {string} driverName
-   * @param {any} runtimeConfig
+   * @param {any} configs
    * @return {any}
    */
-  static fabricateOnly(driverName, runtimeConfig = {}) {
-    const { Driver } = this.#drivers.get(driverName)
+  static fabricateVanilla(configs = {}) {
+    configs = Options.create(configs, {
+      driver: 'console',
+      formatter: 'none',
+    })
 
-    return new Driver(runtimeConfig)
+    const { Driver } = this.#drivers.get(configs.driver)
+
+    return new Driver(configs)
   }
 
   /**

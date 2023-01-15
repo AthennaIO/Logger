@@ -10,7 +10,7 @@
 import { ColorHelper } from '#src/index'
 import { DriverFactory } from '#src/Factories/DriverFactory'
 
-export class ConsoleLogger {
+export class VanillaLogger {
   /**
    * The driver responsible for transporting the logs.
    *
@@ -21,18 +21,18 @@ export class ConsoleLogger {
   /**
    * Creates a new instance of ConsoleLogger.
    *
-   * @param {any} [runtimeConfigs]
-   * @return {ConsoleLogger}
+   * @param {any} [configs]
+   * @return {VanillaLogger}
    */
-  constructor(runtimeConfigs) {
-    this.#drivers.push(DriverFactory.fabricateOnly('console', runtimeConfigs))
+  constructor(configs) {
+    this.#drivers.push(DriverFactory.fabricateVanilla(configs))
   }
 
   /**
    * Set runtime configurations for drivers and
    * formatters.
    *
-   * @return {ConsoleLogger}
+   * @return {VanillaLogger}
    */
   config() {
     return this
@@ -41,7 +41,7 @@ export class ConsoleLogger {
   /**
    * Change the log channel.
    *
-   * @return {ConsoleLogger}
+   * @return {VanillaLogger}
    */
   channel() {
     return this
