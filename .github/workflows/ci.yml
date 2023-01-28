@@ -14,7 +14,7 @@ jobs:
     strategy:
       matrix:
         node-version:
-          - 14.15.4
+          - 16.13.1
           - 18.x
     steps:
       - uses: actions/checkout@v2
@@ -27,6 +27,7 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+
       - name: Run tests
         run: npm run test:coverage
         env:
@@ -34,3 +35,34 @@ jobs:
           DISCORD_URL: ${{ secrets.DISCORD_URL }}
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+
+      - name: Test code transpilation
+        run: npm run build
+
+  windows:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        node-version:
+          - 16.13.1
+          - 18.x
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm run test:coverage
+        env:
+          SLACK_URL: ${{ secrets.SLACK_URL }}
+          DISCORD_URL: ${{ secrets.DISCORD_URL }}
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+
+      - name: Test code transpilation
+        run: npm run build
