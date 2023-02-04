@@ -7,9 +7,9 @@
  * file that was distributed with this source code.
  */
 
+import { Color } from '@athenna/common'
 import { Config } from '@athenna/config'
 import { Driver } from '#src/Drivers/Driver'
-import { ColorHelper } from '#src/Helpers/ColorHelper'
 import { VanillaLogger } from '#src/Logger/VanillaLogger'
 import { DriverFactory } from '#src/Factories/DriverFactory'
 
@@ -59,7 +59,7 @@ export class Logger {
    * Call drivers to transport the log.
    */
   private async log(level: string, ...args: any[]): Promise<any> {
-    const message = ColorHelper.applyLogEngine(...args)
+    const message = Color.apply(...args)
 
     const promises = this.drivers.map((driver: Driver) =>
       driver.transport(level, message),

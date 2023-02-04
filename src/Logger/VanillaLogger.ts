@@ -7,8 +7,8 @@
  * file that was distributed with this source code.
  */
 
+import { Color } from '@athenna/common'
 import { Driver } from '#src/Drivers/Driver'
-import { ColorHelper } from '#src/Helpers/ColorHelper'
 import { DriverFactory } from '#src/Factories/DriverFactory'
 
 export class VanillaLogger {
@@ -19,6 +19,14 @@ export class VanillaLogger {
 
   public constructor(configs: any) {
     this.drivers.push(DriverFactory.fabricateVanilla(configs))
+  }
+
+  /**
+   * Log a simple log message without using the log driver
+   * but using the Color engine.
+   */
+  public simple(...args: any[]): void {
+    process.stdout.write(Color.apply(...args).concat('\n'))
   }
 
   /**
@@ -44,7 +52,7 @@ export class VanillaLogger {
    * @return {any | Promise<any>}
    */
   private log(level: string, ...args: any[]): any | Promise<any> {
-    const message = ColorHelper.applyLogEngine(...args)
+    const message = Color.apply(...args)
 
     const promises = this.drivers.map((driver: Driver) =>
       driver.transport(level, message),

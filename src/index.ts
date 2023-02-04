@@ -10,7 +10,6 @@
 export * from './Facades/Log.js'
 export * from './Logger/Logger.js'
 export * from './Drivers/Driver.js'
-export * from './Helpers/ColorHelper.js'
 export * from './Formatters/Formatter.js'
 export * from './Logger/VanillaLogger.js'
 export * from './Helpers/FactoryHelper.js'

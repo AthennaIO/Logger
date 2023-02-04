@@ -10,8 +10,7 @@
 import rTracer from 'cls-rtracer'
 
 import { hostname } from 'node:os'
-import { Is } from '@athenna/common'
-import { ColorHelper } from '#src/Helpers/ColorHelper'
+import { Is, Color } from '@athenna/common'
 
 export abstract class Formatter {
   /**
@@ -100,7 +99,7 @@ export abstract class Formatter {
    */
   public clean(message: string, force = false): string {
     if (this.configs.clean || force) {
-      return ColorHelper.removeColors(message)
+      return Color.removeColors(message)
     }
 
     return message
@@ -141,11 +140,11 @@ export abstract class Formatter {
   public cliLevel(): string {
     const level = this.configs.level
 
-    if (!ColorHelper[level]) {
+    if (!Color[level]) {
       return level
     }
 
-    return ColorHelper[level].bold(`[  ${level}  ]`)
+    return Color[level].bold(`[  ${level}  ]`)
   }
 
   /**
@@ -154,11 +153,11 @@ export abstract class Formatter {
   public simpleLevel(): string {
     const level = this.configs.level
 
-    if (!ColorHelper[level]) {
+    if (!Color[level]) {
       return level
     }
 
-    return ColorHelper[level].bold(`[${level.toUpperCase()}]`)
+    return Color[level].bold(`[${level.toUpperCase()}]`)
   }
 
   /**
@@ -202,13 +201,13 @@ export abstract class Formatter {
     const levelLower = level.toLowerCase()
 
     const levelColors = {
-      trace: ColorHelper.trace,
-      debug: ColorHelper.debug,
-      info: ColorHelper.info,
-      success: ColorHelper.success,
-      warn: ColorHelper.warn,
-      error: ColorHelper.error,
-      fatal: ColorHelper.fatal,
+      trace: Color.trace,
+      debug: Color.debug,
+      info: Color.info,
+      success: Color.success,
+      warn: Color.warn,
+      error: Color.error,
+      fatal: Color.fatal,
     }
 
     if (!levelColors[levelLower]) {
