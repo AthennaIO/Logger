@@ -1,6 +1,6 @@
 {
   "name": "@athenna/logger",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "The Athenna logging solution. Log in stdout, files and buckets.",
   "license": "MIT",
   "author": "João Lenon <lenon@athenna.io>",
@@ -13,7 +13,6 @@
     "telegram",
     "console",
     "debug",
-    "pino",
     "buckets",
     "logger",
     "drivers",
@@ -22,10 +21,10 @@
     "esm"
   ],
   "scripts": {
-    "build": "rimraf build && tsc",
+    "build": "ts-node bin/build.ts",
     "lint:fix": "eslint \"{src,tests}/**/*.ts\" --fix",
-    "test": "npm run --silent lint:fix && ts-node ./bin/test.ts",
-    "test:debug": "cross-env DEBUG=api:* ts-node ./bin/test.ts --inspect",
+    "test": "npm run --silent lint:fix && ts-node bin/test.ts",
+    "test:debug": "cross-env DEBUG=api:* ts-node bin/test.ts --inspect",
     "test:coverage": "c8 npm run --silent test"
   },
   "files": [
@@ -49,7 +48,6 @@
     "./providers/LoggerProvider": "./build/Providers/LoggerProvider.js"
   },
   "dependencies": {
-    "chalk": "^5.2.0",
     "telegraf": "^4.11.2"
   },
   "devDependencies": {
@@ -153,7 +151,8 @@
       "ioc": true,
       "Env": true,
       "Path": true,
-      "Config": true
+      "Config": true,
+      "container": true
     },
     "plugins": [
       "prettier",

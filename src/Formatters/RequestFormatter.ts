@@ -7,15 +7,19 @@
  * file that was distributed with this source code.
  */
 
-import { ColorHelper } from '#src/index'
+import { Color, Is } from '@athenna/common'
 import { Formatter } from '#src/Formatters/Formatter'
 
 export class RequestFormatter extends Formatter {
   public format(ctx: any): string {
+    if (Is.String(ctx)) {
+      return ctx
+    }
+
     const ip = ctx.request.ip
     const status = ctx.status
     const responseTimeMs = `${Math.round(ctx.responseTime)}ms`
-    const methodAndStatus = ColorHelper[ctx.request.method](
+    const methodAndStatus = Color[ctx.request.method](
       `[${ctx.request.method}::${ctx.status}]`,
     )
 
