@@ -11,7 +11,7 @@ import { test } from '@japa/runner'
 import { Exec, Path } from '@athenna/common'
 
 test.group('VanillaLoggerTest', () => {
-  test('should be able to log in console using console logger', async ({ assert }) => {
+  test('should be able to log in console using vanilla logger', async ({ assert }) => {
     const { stdout, stderr } = await Exec.command(`ts-node --esm ${Path.stubs('transporters/vanillaLogger.ts')}`)
 
     const logs = [...stdout.split('\n').filter(l => l !== ''), ...stderr.split('\n').filter(l => l !== '')]

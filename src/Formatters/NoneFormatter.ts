@@ -11,6 +11,6 @@ import { Formatter } from '#src/Formatters/Formatter'
 
 export class NoneFormatter extends Formatter {
   public format(message: string): string {
-    return this.clean(this.toString(message))
+    return this.clean(this.applyColorsByChalk(this.toString(message)))
   }
 }

@@ -1,8 +1,7 @@
 import { Logger } from '#src'
 
-const vanillaLogger = Logger.getVanillaLogger()
+const vanillaLogger = new Logger().standalone()
 
-vanillaLogger.simple('({yellow,notFound,bold} hello) hello')
 vanillaLogger.trace('hello')
 vanillaLogger.debug('%s', 'hello')
 vanillaLogger.info('hello')

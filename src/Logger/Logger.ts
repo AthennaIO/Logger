@@ -10,8 +10,8 @@
 import { Color } from '@athenna/common'
 import { Config } from '@athenna/config'
 import { Driver } from '#src/Drivers/Driver'
-import { VanillaLogger } from '#src/Logger/VanillaLogger'
 import { DriverFactory } from '#src/Factories/DriverFactory'
+import { VANILLA_CHANNELS } from '../Constants/VanillaChannels.js'
 
 export class Logger {
   /**
@@ -25,18 +25,27 @@ export class Logger {
   private runtimeConfigs = {}
 
   public constructor() {
-    if (!Config.exists(`logging.channels.${Config.get('logging.default')}`)) {
-      return this
-    }
+    this.channelOrVanilla(Config.get('logging.default'))
+  }
 
-    this.drivers.push(DriverFactory.fabricate('default', this.runtimeConfigs))
+  /**
+   * Create a new standalone logger instance. Very
+   * useful to create new loggers without changing the
+   * channels that are already defined in the main instance.
+   */
+  public static standalone(...configs: any[]) {
+    const logger = new Logger()
+
+    logger.vanilla(...configs)
+
+    return logger
   }
 
   /**
    * Set runtime configurations for drivers and
    * formatters.
    */
-  public config(runtimeConfigs: any) {
+  public config(runtimeConfigs: any): Logger {
     this.runtimeConfigs = runtimeConfigs
 
     return this
@@ -45,27 +54,66 @@ export class Logger {
   /**
    * Change the log channel.
    */
-  public channel(...channels: string[]) {
+  public channel(...channels: string[]): Logger {
     this.drivers = []
 
-    channels.forEach(c => {
-      this.drivers.push(DriverFactory.fabricate(c, this.runtimeConfigs))
+    channels.forEach(channel => {
+      this.drivers.push(DriverFactory.fabricate(channel, this.runtimeConfigs))
     })
 
     return this
   }
 
   /**
-   * Call drivers to transport the log.
+   * Change the log drivers using vanilla configurations.
+   * This method does not depend in Athenna configuration
+   * files to be executed.
    */
-  private async log(level: string, ...args: any[]): Promise<any> {
-    const message = Color.apply(...args)
+  public vanilla(...configs: any[]): Logger {
+    this.drivers = []
 
-    const promises = this.drivers.map((driver: Driver) =>
-      driver.transport(level, message),
-    )
+    if (!configs.length) {
+      this.drivers.push(DriverFactory.fabricateVanilla())
 
-    return Promise.all(promises)
+      return this
+    }
+
+    configs.forEach(config => {
+      this.drivers.push(DriverFactory.fabricateVanilla(config))
+    })
+
+    return this
+  }
+
+  /**
+   * Verify if channel configuration exists. If not, Athenna will
+   * use the default vanilla configurations as drivers.
+   */
+  public channelOrVanilla(channel: string, configs = {}): Logger {
+    if (channel === 'default') {
+      channel = Config.get(
+        `logging.channels.${Config.get('logging.default')}`,
+        'default',
+      )
+    }
+
+    if (Config.exists(`logging.channels.${channel}`)) {
+      return this.channel(channel)
+    }
+
+    return this.vanilla({
+      ...VANILLA_CHANNELS[channel],
+      ...configs,
+    })
+  }
+
+  /**
+   * Create a new standalone logger instance. Very
+   * useful to create new loggers without changing the
+   * channels that are already defined in the main instance.
+   */
+  public standalone(...configs: any[]) {
+    return Logger.standalone(configs)
   }
 
   /**
@@ -78,7 +126,7 @@ export class Logger {
   /**
    * Creates a log of type debug in channel.
    */
-  public debug(...args): any | Promise<any> {
+  public debug(...args: any[]): any | Promise<any> {
     return this.log('debug', ...args)
   }
 
@@ -118,12 +166,15 @@ export class Logger {
   }
 
   /**
-   * Get a new instance of any log driver
-   * with vanilla configurations. By default,
-   * vanilla logger will use the "console" driver
-   * and "none" formatter.
+   * Call drivers to transport the log.
    */
-  public static getVanillaLogger(configs: any = {}): VanillaLogger {
-    return new VanillaLogger(configs)
+  private async log(level: string, ...args: any[]): Promise<any> {
+    const message = Color.apply(...args)
+
+    const promises = this.drivers.map((driver: Driver) =>
+      driver.transport(level, message),
+    )
+
+    return Promise.all(promises)
   }
 }
