@@ -1,5 +1,5 @@
 import { Env } from '@athenna/config'
-import { Path } from '@athenna/common'
+import { Color, Path } from '@athenna/common'
 
 export default {
   /*
@@ -50,6 +50,14 @@ export default {
     },
     discard: {
       driver: 'null',
+    },
+    chalk: {
+      driver: 'console',
+      formatter: 'none',
+      formatterConfig: {
+        clean: false,
+        chalk: Color.dim,
+      },
     },
     custom: {
       driver: 'custom',

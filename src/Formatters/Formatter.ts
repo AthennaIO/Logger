@@ -141,7 +141,7 @@ export abstract class Formatter {
     const level = this.configs.level
 
     if (!Color[level]) {
-      return level
+      return Color.bold(`[  ${level}  ]`)
     }
 
     return Color[level].bold(`[  ${level}  ]`)
@@ -154,7 +154,7 @@ export abstract class Formatter {
     const level = this.configs.level
 
     if (!Color[level]) {
-      return level
+      return Color.bold(`[${level.toUpperCase()}]`)
     }
 
     return Color[level].bold(`[${level.toUpperCase()}]`)

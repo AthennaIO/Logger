@@ -7,13 +7,15 @@
  * file that was distributed with this source code.
  */
 
-import { Path, Exception } from '@athenna/common'
+import { Path, Exception, Is } from '@athenna/common'
 
 export class NotImplementedConfigException extends Exception {
-  constructor(channelName: string, channels?: any[]) {
+  constructor(channelName: string) {
     let help = ''
 
-    if (channels && channels.length) {
+    const channels = Config.get('logging.channels')
+
+    if (channels && !Is.Empty(channels)) {
       const availableConfigs = Object.keys(channels).join(', ')
 
       help += `Available configurations are: ${availableConfigs}.`

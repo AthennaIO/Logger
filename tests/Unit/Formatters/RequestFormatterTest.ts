@@ -83,4 +83,12 @@ test.group('RequestFormatterTest', () => {
     assert.equal(message.metadata.path, ctx.request.baseUrl)
     assert.isDefined(message.metadata.createdAt)
   })
+
+  test('should be able to set a string as ctx and dont get errors', async ({ assert }) => {
+    const formatter = new RequestFormatter().config({ level: 'info', asJson: true })
+
+    const ctx = 'hello'
+
+    assert.equal(formatter.format(ctx), 'hello')
+  })
 })
