@@ -113,7 +113,7 @@ export class Logger {
    * channels that are already defined in the main instance.
    */
   public standalone(...configs: any[]) {
-    return Logger.standalone(configs)
+    return Logger.standalone(...configs)
   }
 
   /**
