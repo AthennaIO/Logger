@@ -39,7 +39,7 @@ test.group('FileDriverTest', group => {
     await log.error({ hello: 'world!' })
     await log.fatal(message)
 
-    const fileContent = (await new File(filePath).load()).getContentSync().toString()
+    const fileContent = await new File(filePath).getContentAsString()
     const logs = fileContent.split('\n')
 
     logs
@@ -63,7 +63,7 @@ test.group('FileDriverTest', group => {
     await log.success('hello ({yellow, bold} world!)')
     await log.success(`hello ({yellow, bold} ${objectString})`)
 
-    const fileContent = (await new File(filePath).load()).getContentSync().toString()
+    const fileContent = await new File(filePath).getContentAsString()
     const logs = fileContent.split('\n').filter(log => log !== '')
 
     assert.lengthOf(logs, 4)
