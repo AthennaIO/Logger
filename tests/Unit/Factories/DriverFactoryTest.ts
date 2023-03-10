@@ -7,11 +7,11 @@
  * file that was distributed with this source code.
  */
 
-import { test } from '@japa/runner'
 import { Config } from '@athenna/config'
 import { Folder, ObjectBuilder, Path } from '@athenna/common'
 
 import { Driver, DriverFactory } from '#src'
+import { AfterEach, BeforeEach, Test, TestContext } from '@athenna/test'
 import { DriverExistException } from '#src/Exceptions/DriverExistException'
 import { NotFoundDriverException } from '#src/Exceptions/NotFoundDriverException'
 import { NotImplementedConfigException } from '#src/Exceptions/NotImplementedConfigException'
@@ -22,40 +22,47 @@ class CustomDriver extends Driver {
   }
 }
 
-test.group('DriverFactoryTest', group => {
-  group.each.setup(async () => {
+export default class DriverFactoryTest {
+  @BeforeEach()
+  public async beforeEach() {
     await new Folder(Path.stubs('config')).copy(Path.config())
     await Config.safeLoad(Path.config('logging.ts'))
-  })
+  }
 
-  group.each.teardown(async () => {
+  @AfterEach()
+  public async afterEach() {
     await Folder.safeRemove(Path.config())
-  })
+  }
 
-  test('should be able to list all available drivers', async ({ assert }) => {
+  @Test()
+  public async shouldBeAbleToListAllAvailableDrivers({ assert }: TestContext) {
     const drivers = DriverFactory.availableDrivers()
 
     assert.deepEqual(drivers, ['file', 'null', 'slack', 'stack', 'console', 'discord', 'telegram'])
-  })
+  }
 
-  test('should throw not implemented config exception when trying to fabricate driver without loading config file', async ({
+  @Test()
+  public async shouldThrowNotImplementedConfigExceptionWhenTryingToFabricateDriverWithoutLoadingConfigFile({
     assert,
-  }) => {
+  }: TestContext) {
     Config.configs = new ObjectBuilder()
     assert.throws(() => DriverFactory.fabricate('not-found'), NotImplementedConfigException)
-  })
+  }
 
-  test('should throw not implemented config exception when trying to fabricate driver when trying to load channel that does not exist', async ({
+  @Test()
+  public async shouldThrowNotImplementedConfigExceptionWhenTryingToFabricateDriverWhenTryingToLoadChannelThatDoesNotExist({
     assert,
-  }) => {
+  }: TestContext) {
     assert.throws(() => DriverFactory.fabricate('not-found'), NotImplementedConfigException)
-  })
+  }
 
-  test('should throw not found driver exception when trying to fabricate driver', async ({ assert }) => {
+  @Test()
+  public async shouldThrowNotFoundDriverExceptionWhenTryingToFabricateDriver({ assert }: TestContext) {
     assert.throws(() => DriverFactory.fabricate('notFound'), NotFoundDriverException)
-  })
+  }
 
-  test('should be able to create custom driver', async ({ assert }) => {
+  @Test()
+  public async shouldBeAbleToCreateCustomerDriver({ assert }: TestContext) {
     DriverFactory.createDriver('custom', CustomDriver)
 
     const driver = DriverFactory.fabricate('custom')
@@ -63,9 +70,10 @@ test.group('DriverFactoryTest', group => {
     const message = driver.transport('info', 'hello')
 
     assert.equal(message, 'LOG: info:hello')
-  })
+  }
 
-  test('should throw driver exist exception when trying to create driver', async ({ assert }) => {
+  @Test()
+  public async shouldThrowDriverExistExceptionWhenTryingToCreateDriver({ assert }: TestContext) {
     assert.throws(() => DriverFactory.createDriver('file', CustomDriver), DriverExistException)
-  })
-})
+  }
+}

@@ -7,11 +7,12 @@
  * file that was distributed with this source code.
  */
 
-import { test } from '@japa/runner'
 import { Path, Exec } from '@athenna/common'
+import { Test, TestContext } from '@athenna/test'
 
-test.group('ConsoleDriverTest', () => {
-  test('should be able to log in console', async ({ assert }) => {
+export default class ConsoleDriverTest {
+  @Test()
+  public async shouldBeAbleToLogInConsole({ assert }: TestContext) {
     const { stdout, stderr } = await Exec.command(`ts-node --esm ${Path.stubs('transporters/console.ts')}`)
 
     const logs = [...stdout.split('\n').filter(l => l !== ''), ...stderr.split('\n').filter(l => l !== '')]
@@ -20,5 +21,5 @@ test.group('ConsoleDriverTest', () => {
       assert.isFalse(log.includes('TRACE'))
       assert.isTrue(log.includes('hello'))
     })
-  })
-})
+  }
+}

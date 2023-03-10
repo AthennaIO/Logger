@@ -7,28 +7,32 @@
  * file that was distributed with this source code.
  */
 
-import { test } from '@japa/runner'
 import { Config } from '@athenna/config'
 import { Log, LoggerProvider } from '#src'
 import { Folder, Path } from '@athenna/common'
+import { AfterEach, BeforeEach, Test, Timeout } from '@athenna/test'
 
-test.group('StackDriverTest', group => {
-  group.each.setup(async () => {
+export default class StackDriverTest {
+  @BeforeEach()
+  public async beforeEach() {
     await new Folder(Path.stubs('config')).copy(Path.config())
     await Config.safeLoad(Path.config('logging.ts'))
 
     new LoggerProvider().register()
-  })
+  }
 
-  group.each.teardown(async () => {
+  @AfterEach()
+  public async afterEach() {
     await Folder.safeRemove(Path.config())
     await Folder.safeRemove(Path.storage())
-  })
+  }
 
-  test('should be able to log multiples channels at one time', async ({ assert }) => {
+  @Test()
+  @Timeout(10000)
+  public async shouldBeAbleToLogMultiplesChannelsAtOneTime({ assert }) {
     const [[slackReq, discordReq]] = await Log.channel('stack').fatal('hello')
 
     assert.equal(slackReq.statusCode, 200)
     assert.equal(discordReq.statusCode, 204)
-  }).timeout(10000)
-})
+  }
+}

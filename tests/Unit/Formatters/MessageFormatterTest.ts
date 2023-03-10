@@ -8,11 +8,12 @@
  */
 
 import { hostname } from 'node:os'
-import { test } from '@japa/runner'
+import { Test, TestContext } from '@athenna/test'
 import { MessageFormatter } from '#src/Formatters/MessageFormatter'
 
-test.group('MessageFormatterTest', () => {
-  test('should be able to format logs to message format', async ({ assert }) => {
+export default class MessageFormatterTest {
+  @Test()
+  public async shouldBeAbleToFormatLogsToMessageFormat({ assert }: TestContext) {
     const formatter = new MessageFormatter().config({ level: 'info' })
 
     const message = formatter.format('hello')
@@ -21,5 +22,5 @@ test.group('MessageFormatterTest', () => {
     assert.isTrue(message.includes(`(${hostname()})`))
     assert.isTrue(message.includes(`(${process.pid})`))
     assert.isTrue(message.includes(formatter.getEmojiByLevel('info')))
-  })
-})
+  }
+}

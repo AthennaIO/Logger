@@ -7,11 +7,12 @@
  * file that was distributed with this source code.
  */
 
-import { test } from '@japa/runner'
+import { Test, TestContext } from '@athenna/test'
 import { SimpleFormatter } from '#src/Formatters/SimpleFormatter'
 
-test.group('SimpleFormatterTest', () => {
-  test('should be able to format logs to simple format', async ({ assert }) => {
+export default class SimpleFormatterTest {
+  @Test()
+  public async shouldBeAbleToFormatLogsToSimpleFormat({ assert }: TestContext) {
     const formatter = new SimpleFormatter().config({ level: 'info' })
 
     const message = formatter.format('hello')
@@ -19,12 +20,13 @@ test.group('SimpleFormatterTest', () => {
     assert.isTrue(message.includes('[INFO]'))
     assert.isTrue(message.includes('hello'))
     assert.isTrue(message.includes(`(${process.pid})`))
-  })
+  }
 
-  test('should be able to format logs to simple format and force to clean the logs', async ({ assert }) => {
+  @Test()
+  public async shouldBeAbleToFormatLogsToSimpleFormatAndForceToCleanTheLogs({ assert }: TestContext) {
     const formatter = new SimpleFormatter().config({ level: 'info' })
     const message = formatter.clean(formatter.format('hello'), true)
 
     assert.isFalse(message.includes('\x1B[38;5;51m\x1B[1m'))
-  })
-})
+  }
+}
