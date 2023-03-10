@@ -7,25 +7,29 @@
  * file that was distributed with this source code.
  */
 
-import { test } from '@japa/runner'
 import { Config } from '@athenna/config'
 import { Log, LoggerProvider } from '#src'
 import { Folder, Path } from '@athenna/common'
+import { AfterEach, BeforeEach, Test, Timeout } from '@athenna/test'
 
-test.group('TelegramDriverTest', group => {
-  group.each.setup(async () => {
+export default class TelegramDriverTest {
+  @BeforeEach()
+  public async beforeEach() {
     await new Folder(Path.stubs('config')).copy(Path.config())
     await Config.safeLoad(Path.config('logging.ts'))
 
     new LoggerProvider().register()
-  })
+  }
 
-  group.each.teardown(async () => {
+  @AfterEach()
+  public async afterEach() {
     await Folder.safeRemove(Path.config())
     await Folder.safeRemove(Path.storage())
-  })
+  }
 
-  test('should be able to log in telegram', async ({ assert }) => {
+  @Test()
+  @Timeout(10000)
+  public async shouldBeAbleToLogInTelegram({ assert }) {
     const log = Log.config({ level: 'success' }).channel('telegram')
 
     const message = 'hello'
@@ -46,5 +50,5 @@ test.group('TelegramDriverTest', group => {
     assert.equal(warnRes.from.first_name, 'Athenna')
     assert.equal(errorRes.from.first_name, 'Athenna')
     assert.equal(fatalRes.from.first_name, 'Athenna')
-  }).timeout(10000)
-})
+  }
+}

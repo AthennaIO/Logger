@@ -7,25 +7,28 @@
  * file that was distributed with this source code.
  */
 
-import { test } from '@japa/runner'
 import { Config } from '@athenna/config'
 import { Log, LoggerProvider } from '#src'
 import { Folder, Path } from '@athenna/common'
+import { Test, AfterEach, BeforeEach, TestContext } from '@athenna/test'
 
-test.group('DiscordDriverTest', group => {
-  group.each.setup(async () => {
+export default class DiscordDriverTest {
+  @BeforeEach()
+  public async beforeEach() {
     await new Folder(Path.stubs('config')).copy(Path.config())
     await Config.safeLoad(Path.config('logging.ts'))
 
     new LoggerProvider().register()
-  })
+  }
 
-  group.each.teardown(async () => {
+  @AfterEach()
+  public async afterEach() {
     await Folder.safeRemove(Path.config())
     await Folder.safeRemove(Path.storage())
-  })
+  }
 
-  test('should be able to log in discord', async ({ assert }) => {
+  @Test()
+  public async shouldBeAbleToLogInDiscord({ assert }: TestContext) {
     const log = Log.config({ level: 'error' }).channel('discord')
 
     const message = 'hello'
@@ -46,5 +49,5 @@ test.group('DiscordDriverTest', group => {
 
     assert.equal(errorRes.statusCode, 204)
     assert.equal(fatalRes.statusCode, 204)
-  }).timeout(10000)
-})
+  }
+}

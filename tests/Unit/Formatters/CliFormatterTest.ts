@@ -7,16 +7,17 @@
  * file that was distributed with this source code.
  */
 
-import { test } from '@japa/runner'
+import { Test, TestContext } from '@athenna/test'
 import { CliFormatter } from '#src/Formatters/CliFormatter'
 
-test.group('CliFormatterTest', () => {
-  test('should be able to format logs to cli format', async ({ assert }) => {
+export default class CliFormatterTest {
+  @Test()
+  public shouldBeAbleToFormatLogsToCliFormat({ assert }: TestContext) {
     const formatter = new CliFormatter().config({ level: 'info' })
 
     const message = formatter.format('hello')
 
     assert.isTrue(message.includes('info'))
     assert.isTrue(message.includes('hello'))
-  })
-})
+  }
+}

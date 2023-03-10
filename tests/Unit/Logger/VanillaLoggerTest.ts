@@ -7,11 +7,12 @@
  * file that was distributed with this source code.
  */
 
-import { test } from '@japa/runner'
 import { Exec, Path } from '@athenna/common'
+import { Test, TestContext } from '@athenna/test'
 
-test.group('VanillaLoggerTest', () => {
-  test('should be able to log in console using vanilla logger', async ({ assert }) => {
+export default class VanillaLoggerTest {
+  @Test()
+  public async shouldBeAbleToLogInConsoleUsingVanillaLogger({ assert }: TestContext) {
     const { stdout, stderr } = await Exec.command(`ts-node --esm ${Path.stubs('transporters/vanillaLogger.ts')}`)
 
     const logs = [...stdout.split('\n').filter(l => l !== ''), ...stderr.split('\n').filter(l => l !== '')]
@@ -20,5 +21,5 @@ test.group('VanillaLoggerTest', () => {
       assert.isFalse(log.includes('TRACE'))
       assert.isTrue(log.includes('hello'))
     })
-  })
-})
+  }
+}

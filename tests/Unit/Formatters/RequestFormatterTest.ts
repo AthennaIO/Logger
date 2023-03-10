@@ -7,11 +7,12 @@
  * file that was distributed with this source code.
  */
 
-import { test } from '@japa/runner'
+import { Test, TestContext } from '@athenna/test'
 import { RequestFormatter } from '#src/Formatters/RequestFormatter'
 
-test.group('RequestFormatterTest', () => {
-  test('should be able to format logs to request format', async ({ assert }) => {
+export default class RequestFormatterTest {
+  @Test()
+  public async shouldBeAbleToFormatLogsToRequestFormat({ assert }: TestContext) {
     const formatter = new RequestFormatter().config({ level: 'info' })
 
     const ctx = {
@@ -44,9 +45,10 @@ test.group('RequestFormatterTest', () => {
     assert.isTrue(message.includes('[GET::200]'))
     assert.isTrue(message.includes('http://localhost:1335/:id'))
     assert.isTrue(message.includes('ms'))
-  })
+  }
 
-  test('should be able to format logs to request format as json', async ({ assert }) => {
+  @Test()
+  public async shouldBeAbleToFormatLogsToRequestFormatAsJson({ assert }: TestContext) {
     const formatter = new RequestFormatter().config({ level: 'info', asJson: true })
 
     const ctx = {
@@ -82,13 +84,14 @@ test.group('RequestFormatterTest', () => {
     assert.equal(message.metadata.url, ctx.request.hostUrl)
     assert.equal(message.metadata.path, ctx.request.baseUrl)
     assert.isDefined(message.metadata.createdAt)
-  })
+  }
 
-  test('should be able to set a string as ctx and dont get errors', async ({ assert }) => {
+  @Test()
+  public async shouldBeAbleToSetAStringAsCtxAndDontGetErrors({ assert }: TestContext) {
     const formatter = new RequestFormatter().config({ level: 'info', asJson: true })
 
     const ctx = 'hello'
 
     assert.equal(formatter.format(ctx), 'hello')
-  })
-})
+  }
+}

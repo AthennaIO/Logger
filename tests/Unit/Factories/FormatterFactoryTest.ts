@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { test } from '@japa/runner'
+import { Test, TestContext } from '@athenna/test'
 import { Formatter, FormatterFactory } from '#src'
 import { FormatterExistException } from '#src/Exceptions/FormatterExistException'
 import { NotFoundFormatterException } from '#src/Exceptions/NotFoundFormatterException'
@@ -18,18 +18,21 @@ class CustomFormatter extends Formatter {
   }
 }
 
-test.group('FormatterFactoryTest', () => {
-  test('should be able to list all available formatters', async ({ assert }) => {
+export default class FormatterFactoryTest {
+  @Test()
+  public async shouldBeAbleToListAllAvailableFormatters({ assert }: TestContext) {
     const formatters = FormatterFactory.availableFormatters()
 
     assert.deepEqual(formatters, ['cli', 'json', 'none', 'simple', 'message', 'request'])
-  })
+  }
 
-  test('should throw not found formatter exception when trying to fabricate formatter', async ({ assert }) => {
+  @Test()
+  public async shouldThrowNotFoundFormatterExceptionWhenTryingToFabricateFormatter({ assert }: TestContext) {
     assert.throws(() => FormatterFactory.fabricate('not-found'), NotFoundFormatterException)
-  })
+  }
 
-  test('should be able to create custom formatter', async ({ assert }) => {
+  @Test()
+  public async shouldBeAbleToCreateCustomFormatter({ assert }: TestContext) {
     FormatterFactory.createFormatter('custom', CustomFormatter)
 
     const formatter = FormatterFactory.fabricate('custom')
@@ -37,9 +40,10 @@ test.group('FormatterFactoryTest', () => {
     const message = formatter.format('hello')
 
     assert.equal(message, 'FORMATTED: hello')
-  })
+  }
 
-  test('should throw formatter exist exception when trying to create formatter', async ({ assert }) => {
+  @Test()
+  public async shouldThrowFormatterExistExceptionWhenTryingToCreateFormatter({ assert }: TestContext) {
     assert.throws(() => FormatterFactory.createFormatter('cli', CustomFormatter), FormatterExistException)
-  })
-})
+  }
+}

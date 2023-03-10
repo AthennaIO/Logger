@@ -7,25 +7,28 @@
  * file that was distributed with this source code.
  */
 
-import { test } from '@japa/runner'
 import { Config } from '@athenna/config'
 import { Log, LoggerProvider } from '#src'
 import { File, Folder, Path } from '@athenna/common'
+import { Test, AfterEach, BeforeEach, TestContext } from '@athenna/test'
 
-test.group('FileDriverTest', group => {
-  group.each.setup(async () => {
+export default class FileDriverTest {
+  @BeforeEach()
+  public async beforeEach() {
     await new Folder(Path.stubs('config')).copy(Path.config())
     await Config.safeLoad(Path.config('logging.ts'))
 
     new LoggerProvider().register()
-  })
+  }
 
-  group.each.teardown(async () => {
+  @AfterEach()
+  public async afterEach() {
     await Folder.safeRemove(Path.config())
     await Folder.safeRemove(Path.storage())
-  })
+  }
 
-  test('should be able to log in files', async ({ assert }) => {
+  @Test()
+  public async shouldBeAbleToLogInFiles({ assert }: TestContext) {
     const filePath = Path.storage('athenna.log')
 
     const log = Log.config({ level: 'success', filePath, formatter: 'json' }).channel('file')
@@ -50,9 +53,10 @@ test.group('FileDriverTest', group => {
         if (log.msg) assert.equal(log.msg, 'hello')
         else assert.equal(log.hello, 'world!')
       })
-  })
+  }
 
-  test('should be able to use the log engine with new lines', async ({ assert }) => {
+  @Test()
+  public async shouldBeAbleToUseTheLogEngineWithNewLines({ assert }: TestContext) {
     const filePath = Path.storage('athenna.log')
 
     const log = Log.config({ level: 'success', filePath, formatter: 'cli' }).channel('file')
@@ -67,5 +71,5 @@ test.group('FileDriverTest', group => {
     const logs = fileContent.split('\n').filter(log => log !== '')
 
     assert.lengthOf(logs, 4)
-  })
-})
+  }
+}

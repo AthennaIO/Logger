@@ -7,13 +7,14 @@
  * file that was distributed with this source code.
  */
 
-import { test } from '@japa/runner'
 import { Is } from '@athenna/common'
 import { runWithId } from 'cls-rtracer'
+import { Test, TestContext } from '@athenna/test'
 import { JsonFormatter } from '#src/Formatters/JsonFormatter'
 
-test.group('JsonFormatterTest', () => {
-  test('should be able to format logs to json format', async ({ assert }) => {
+export default class JsonFormatterTest {
+  @Test()
+  public async shouldBeAbleToFormatLogsToJsonFormat({ assert }: TestContext) {
     const formatter = new JsonFormatter().config({ level: 'info' })
 
     const message = JSON.parse(formatter.format('hello'))
@@ -22,9 +23,10 @@ test.group('JsonFormatterTest', () => {
     assert.equal(message.level, 'info')
     assert.equal(message.pid, process.pid)
     assert.equal(message.traceId, null)
-  })
+  }
 
-  test('should be able to format logs to json format with the traceId', async ({ assert }) => {
+  @Test()
+  public async shouldBeAbleToFormatLogsToJsonFormatWithTheTraceId({ assert }: TestContext) {
     const formatter = new JsonFormatter().config({ level: 'info' })
 
     runWithId(() => {
@@ -35,5 +37,5 @@ test.group('JsonFormatterTest', () => {
       assert.equal(message.pid, process.pid)
       assert.isTrue(Is.Uuid(message.traceId))
     })
-  })
-})
+  }
+}
