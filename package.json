@@ -50,7 +50,7 @@
   },
   "dependencies": {
     "telegraf": "^4.12.2",
-    "cls-rtracer": "^2.6.2"
+    "cls-rtracer": "^2.6.3"
   },
   "devDependencies": {
     "@athenna/common": "^3.6.0",
