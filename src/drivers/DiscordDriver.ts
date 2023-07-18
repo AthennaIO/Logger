@@ -9,6 +9,7 @@
 
 import { HttpClient } from '@athenna/common'
 import { Driver } from '#src/drivers/Driver'
+import { debug } from '#src/debug'
 
 export class DiscordDriver extends Driver {
   public async transport(level: string, message: any): Promise<any> {
@@ -17,6 +18,13 @@ export class DiscordDriver extends Driver {
     }
 
     const formatted = this.format(level, message, true)
+
+    debug(
+      '[%s] Transporting logs with username %s and in url %s.',
+      DiscordDriver.name,
+      this.configs.username,
+      this.configs.url,
+    )
 
     return HttpClient.builder(true).post(this.configs.url, {
       username: this.configs.username,

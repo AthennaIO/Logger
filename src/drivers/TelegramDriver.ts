@@ -9,6 +9,7 @@
 
 import { Telegraf } from 'telegraf'
 import { Driver } from '#src/drivers/Driver'
+import { debug } from '#src/debug'
 
 export class TelegramDriver extends Driver {
   public async transport(level: string, message: any): Promise<any> {
@@ -17,6 +18,14 @@ export class TelegramDriver extends Driver {
     }
 
     const formatted = this.format(level, message, true)
+
+    debug(
+      '[%s] Transporting logs with parse mode as %s, using %s token and %s chatId.',
+      TelegramDriver.name,
+      this.driverConfig.parseMode,
+      this.driverConfig.token,
+      this.driverConfig.chatId,
+    )
 
     return new Telegraf(this.driverConfig.token).telegram.sendMessage(
       this.driverConfig.chatId,

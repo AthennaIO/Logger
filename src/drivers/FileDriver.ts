@@ -9,6 +9,7 @@
 
 import { File } from '@athenna/common'
 import { Driver } from '#src/drivers/Driver'
+import { debug } from '#src/debug'
 
 export class FileDriver extends Driver {
   public async transport(level: string, message: any): Promise<any> {
@@ -20,7 +21,14 @@ export class FileDriver extends Driver {
     const formatted = this.format(level, message, true)
     const buffer = Buffer.from(`${formatted}\n`, 'utf-8')
 
+    debug('[%s] Transporting logs in %s file path.', FileDriver.name, filePath)
+
     if (await File.exists(filePath)) {
+      debug(
+        '[%s] File already exist, appending the data to it.',
+        FileDriver.name,
+      )
+
       return new File(filePath).append(buffer)
     }
 

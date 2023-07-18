@@ -17,7 +17,7 @@ export abstract class Driver {
   public configs: any = {}
 
   /**
-   * Holds the configuration object of driver,
+   * Holds the configuration object of a driver.
    */
   public driverConfig: any = {}
 

@@ -9,6 +9,7 @@
 
 import { Driver } from '#src/drivers/Driver'
 import { HttpClient } from '@athenna/common'
+import { debug } from '#src/debug'
 
 export class SlackDriver extends Driver {
   public async transport(level: string, message: any): Promise<any> {
@@ -17,6 +18,12 @@ export class SlackDriver extends Driver {
     }
 
     const formatted = this.format(level, message, true)
+
+    debug(
+      '[%s] Transporting logs in url %s.',
+      SlackDriver.name,
+      this.configs.url,
+    )
 
     return HttpClient.builder(true).post(this.configs.url, { text: formatted })
   }

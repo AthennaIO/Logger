@@ -7,10 +7,13 @@
  * file that was distributed with this source code.
  */
 
+import { debug } from '#src/debug'
 import { Driver } from '#src/drivers/Driver'
 
 export class NullDriver extends Driver {
   public transport() {
+    debug('[%s] Ignoring log messages.', NullDriver.name)
+
     return null
   }
 }

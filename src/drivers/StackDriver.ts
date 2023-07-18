@@ -10,6 +10,7 @@
 import { Json } from '@athenna/common'
 import { Driver } from '#src/drivers/Driver'
 import { DriverFactory } from '#src/factories/DriverFactory'
+import { debug } from '#src/debug'
 
 export class StackDriver extends Driver {
   public transport(level: string, message: any): Promise<any> {
@@ -17,6 +18,12 @@ export class StackDriver extends Driver {
 
     delete configs.driver
     delete configs.channels
+
+    debug(
+      '[%s] Transporting logs in channels: %s.',
+      StackDriver.name,
+      this.driverConfig.channels.join(', '),
+    )
 
     return Promise.all(
       this.driverConfig.channels.map(c =>
