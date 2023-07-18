@@ -7,11 +7,11 @@
  * file that was distributed with this source code.
  */
 
-export * from './Facades/Log.js'
-export * from './Logger/Logger.js'
-export * from './Drivers/Driver.js'
-export * from './Formatters/Formatter.js'
-export * from './Helpers/FactoryHelper.js'
-export * from './Factories/DriverFactory.js'
-export * from './Providers/LoggerProvider.js'
-export * from './Factories/FormatterFactory.js'
+export * from './facades/Log.js'
+export * from './logger/Logger.js'
+export * from './drivers/Driver.js'
+export * from './formatters/Formatter.js'
+export * from './helpers/FactoryHelper.js'
+export * from './factories/DriverFactory.js'
+export * from './providers/LoggerProvider.js'
+export * from './factories/FormatterFactory.js'
