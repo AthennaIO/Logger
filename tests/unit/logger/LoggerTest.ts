@@ -11,7 +11,7 @@ import { Test } from '@athenna/test'
 import { Exec, Path } from '@athenna/common'
 import type { Context } from '@athenna/test/types'
 
-export default class VanillaLoggerTest {
+export default class LoggerTest {
   @Test()
   public async shouldBeAbleToLogInConsoleUsingVanillaLogger({ assert }: Context) {
     const { stdout, stderr } = await Exec.command(`ts-node --esm ${Path.stubs('transporters/vanillaLogger.ts')}`)

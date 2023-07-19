@@ -7,7 +7,11 @@
  * file that was distributed with this source code.
  */
 
+import { Path } from '@athenna/common'
 import { Runner } from '@athenna/test'
+import { EnvHelper } from '@athenna/config'
+
+EnvHelper.resolveFilePath(Path.pwd('.env'))
 
 await Runner.setTsEnv()
   .addAssertPlugin()

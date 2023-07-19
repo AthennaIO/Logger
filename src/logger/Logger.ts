@@ -90,13 +90,6 @@ export class Logger {
    * use the default vanilla configurations as drivers.
    */
   public channelOrVanilla(channel: string, configs = {}): Logger {
-    if (channel === 'default') {
-      channel = Config.get(
-        `logging.channels.${Config.get('logging.default')}`,
-        'default',
-      )
-    }
-
     if (Config.exists(`logging.channels.${channel}`)) {
       return this.channel(channel)
     }

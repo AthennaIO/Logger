@@ -16,6 +16,8 @@ import { AfterEach, BeforeEach, Test } from '@athenna/test'
 import { DriverExistException } from '#src/exceptions/DriverExistException'
 import { NotFoundDriverException } from '#src/exceptions/NotFoundDriverException'
 import { NotImplementedConfigException } from '#src/exceptions/NotImplementedConfigException'
+import { ConsoleDriver } from '#src/drivers/ConsoleDriver'
+import { FileDriver } from '#src/drivers/FileDriver'
 
 class CustomDriver extends Driver {
   public transport(level: string, message: any): any {
@@ -75,5 +77,31 @@ export default class DriverFactoryTest {
   @Test()
   public async shouldThrowDriverExistExceptionWhenTryingToCreateDriver({ assert }: Context) {
     assert.throws(() => DriverFactory.createDriver('file', CustomDriver), DriverExistException)
+  }
+
+  @Test()
+  public async shouldBeAbleToCreateVanillaDrivers({ assert }: Context) {
+    const driver = DriverFactory.fabricateVanilla()
+
+    assert.instanceOf(driver, ConsoleDriver)
+  }
+
+  @Test()
+  public async shouldBeAbleToCreateVanillaDriversForDifferentDrivers({ assert }: Context) {
+    const driver = DriverFactory.fabricateVanilla({ driver: 'file' })
+
+    assert.instanceOf(driver, FileDriver)
+  }
+
+  @Test()
+  public async shouldThrowIfVanillaDriverDoesNotExist({ assert }: Context) {
+    assert.throws(() => DriverFactory.fabricateVanilla({ driver: 'not-found' }), NotFoundDriverException)
+  }
+
+  @Test()
+  public async shouldGetTheDefaultChannelValueIfDefaultIsUsedInGetChannelConfig({ assert }: Context) {
+    const config = DriverFactory.getChannelConfig('default')
+
+    assert.deepEqual(config, Config.get('logging.channels.application'))
   }
 }
