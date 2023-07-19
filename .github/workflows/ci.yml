@@ -48,7 +48,7 @@ jobs:
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
 
       - name: Test code compilation
-        run: sh scripts/build
+        run: npm run build
 
   windows:
     runs-on: windows-latest
@@ -76,4 +76,4 @@ jobs:
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
 
       - name: Test code compilation
-        run: sh scripts/build
+        run: npm run build
