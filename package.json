@@ -1,6 +1,6 @@
 {
   "name": "@athenna/logger",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "description": "The Athenna logging solution. Log in stdout, files and buckets.",
   "license": "MIT",
   "author": "João Lenon <lenon@athenna.io>",
@@ -39,7 +39,7 @@
   "types": "./src/index.d.ts",
   "exports": {
     ".": "./src/index.js",
-    "./providers/LoggerProvider": "./src/Providers/LoggerProvider.js",
+    "./providers/LoggerProvider": "./src/providers/LoggerProvider.js",
     "./types": "./src/types/index.js",
     "./package.json": "./package.json"
   },
