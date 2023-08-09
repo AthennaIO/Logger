@@ -9,9 +9,8 @@
 
 import { Config } from '@athenna/config'
 import { Log, LoggerProvider } from '#src'
-import type { Context } from '@athenna/test/types'
 import { File, Folder, Path } from '@athenna/common'
-import { Test, AfterEach, BeforeEach } from '@athenna/test'
+import { Test, AfterEach, BeforeEach, type Context } from '@athenna/test'
 
 export default class FileDriverTest {
   @BeforeEach()

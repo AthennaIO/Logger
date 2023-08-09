@@ -7,9 +7,8 @@
  * file that was distributed with this source code.
  */
 
-import { Test } from '@athenna/test'
+import { Test, type Context } from '@athenna/test'
 import { Formatter, FormatterFactory } from '#src'
-import type { Context } from '@athenna/test/types'
 import { FormatterExistException } from '#src/exceptions/FormatterExistException'
 import { NotFoundFormatterException } from '#src/exceptions/NotFoundFormatterException'
 
