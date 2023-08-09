@@ -7,9 +7,8 @@
  * file that was distributed with this source code.
  */
 
-import { Test } from '@athenna/test'
 import { Exec, Path } from '@athenna/common'
-import type { Context } from '@athenna/test/types'
+import { Test, type Context } from '@athenna/test'
 
 export default class LoggerTest {
   @Test()

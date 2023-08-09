@@ -8,16 +8,14 @@
  */
 
 import { Config } from '@athenna/config'
-import { ObjectBuilder, Path } from '@athenna/common'
-
 import { Driver, DriverFactory } from '#src'
-import type { Context } from '@athenna/test/types'
-import { AfterEach, BeforeEach, Test } from '@athenna/test'
+import { FileDriver } from '#src/drivers/FileDriver'
+import { ObjectBuilder, Path } from '@athenna/common'
+import { ConsoleDriver } from '#src/drivers/ConsoleDriver'
+import { Test, AfterEach, BeforeEach, type Context } from '@athenna/test'
 import { DriverExistException } from '#src/exceptions/DriverExistException'
 import { NotFoundDriverException } from '#src/exceptions/NotFoundDriverException'
 import { NotImplementedConfigException } from '#src/exceptions/NotImplementedConfigException'
-import { ConsoleDriver } from '#src/drivers/ConsoleDriver'
-import { FileDriver } from '#src/drivers/FileDriver'
 
 class CustomDriver extends Driver {
   public transport(level: string, message: any): any {

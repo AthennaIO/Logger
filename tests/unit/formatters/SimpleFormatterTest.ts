@@ -7,8 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { Test } from '@athenna/test'
-import type { Context } from '@athenna/test/types'
+import { Test, type Context } from '@athenna/test'
 import { SimpleFormatter } from '#src/formatters/SimpleFormatter'
 
 export default class SimpleFormatterTest {

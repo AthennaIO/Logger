@@ -8,9 +8,8 @@
  */
 
 import { Is } from '@athenna/common'
-import { Test } from '@athenna/test'
 import { runWithId } from 'cls-rtracer'
-import type { Context } from '@athenna/test/types'
+import { Test, type Context } from '@athenna/test'
 import { JsonFormatter } from '#src/formatters/JsonFormatter'
 
 export default class JsonFormatterTest {

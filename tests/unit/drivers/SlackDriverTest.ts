@@ -10,8 +10,7 @@
 import { Path } from '@athenna/common'
 import { Config } from '@athenna/config'
 import { Log, LoggerProvider } from '#src'
-import type { Context } from '@athenna/test/types'
-import { AfterEach, BeforeEach, Test, Timeout } from '@athenna/test'
+import { Test, Timeout, AfterEach, BeforeEach, type Context } from '@athenna/test'
 
 export default class SlackDriverTest {
   @BeforeEach()
