@@ -15,14 +15,14 @@
 export const VANILLA_CHANNELS = {
   default: {
     driver: 'stack',
-    channels: ['application'],
+    channels: ['application']
   },
   stack: {
     driver: 'stack',
-    channels: ['application'],
+    channels: ['application']
   },
   discard: {
-    driver: 'null',
+    driver: 'null'
   },
   file: {
     driver: 'file',
@@ -30,27 +30,27 @@ export const VANILLA_CHANNELS = {
     filePath: Path.logs('athenna.log'),
 
     formatter: 'simple',
-    formatterConfig: {},
+    formatterConfig: {}
   },
   console: {
     level: 'trace',
     formatter: 'cli',
-    driver: 'console',
+    driver: 'console'
   },
   request: {
     level: 'trace',
     formatter: 'request',
-    driver: 'console',
+    driver: 'console'
   },
   exception: {
     level: 'trace',
     formatter: 'none',
     driver: 'console',
-    streamType: 'stderr',
+    streamType: 'stderr'
   },
   application: {
     level: 'trace',
     driver: 'console',
-    formatter: 'simple',
-  },
+    formatter: 'simple'
+  }
 }

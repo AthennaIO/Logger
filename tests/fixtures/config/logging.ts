@@ -32,52 +32,52 @@ export default {
   channels: {
     stack: {
       driver: 'stack',
-      channels: ['slack', 'discord'],
+      channels: ['slack', 'discord']
     },
     application: {
       driver: 'console',
       formatter: 'simple',
-      level: 'debug',
+      level: 'debug'
     },
     request: {
       driver: 'console',
       formatter: 'request',
       formatterConfig: {
-        asJson: false,
+        asJson: false
       },
 
-      streamType: 'stdout',
+      streamType: 'stdout'
     },
     discard: {
-      driver: 'null',
+      driver: 'null'
     },
     chalk: {
       driver: 'console',
       formatter: 'none',
       formatterConfig: {
         clean: false,
-        chalk: Color.dim,
-      },
+        chalk: Color.dim
+      }
     },
     custom: {
-      driver: 'custom',
+      driver: 'custom'
     },
     notFound: {
-      driver: 'notFound',
+      driver: 'notFound'
     },
     file: {
       driver: 'file',
       formatter: 'simple',
       formatterConfig: {},
 
-      filePath: Path.logs('athenna.log'),
+      filePath: Path.logs('athenna.log')
     },
     slack: {
       driver: 'slack',
       formatter: 'message',
       formatterConfig: {},
 
-      url: Env('SLACK_URL'),
+      url: Env('SLACK_URL')
     },
     discord: {
       driver: 'discord',
@@ -85,7 +85,7 @@ export default {
       formatterConfig: {},
 
       username: 'Athenna',
-      url: Env('DISCORD_URL'),
+      url: Env('DISCORD_URL')
     },
     telegram: {
       driver: 'telegram',
@@ -94,7 +94,7 @@ export default {
 
       token: Env('TELEGRAM_TOKEN'),
       chatId: Env('TELEGRAM_CHAT_ID'),
-      parseMode: 'HTML',
-    },
-  },
+      parseMode: 'HTML'
+    }
+  }
 }

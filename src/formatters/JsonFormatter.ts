@@ -17,7 +17,7 @@ export class JsonFormatter extends Formatter {
       time: Date.now(),
       pid: this.pid(),
       hostname: this.hostname(),
-      traceId: this.traceId(),
+      traceId: this.traceId()
     }
 
     if (Is.String(message)) {

@@ -20,14 +20,14 @@ export class RequestFormatter extends Formatter {
     const status = ctx.status
     const responseTimeMs = `${Math.round(ctx.responseTime)}ms`
     const methodAndStatus = Color[ctx.request.method](
-      `[${ctx.request.method}::${ctx.status}]`,
+      `[${ctx.request.method}::${ctx.status}]`
     )
 
     if (!this.configs.asJson) {
       return this.clean(
         `${methodAndStatus} - [${ip}] - ${new Date().toISOString()} - ${
           ctx.request.baseUrl
-        } ${responseTimeMs}`,
+        } ${responseTimeMs}`
       )
     }
 
@@ -40,7 +40,7 @@ export class RequestFormatter extends Formatter {
       path: ctx.request.baseUrl,
       createdAt: Date.now(),
       traceId: this.traceId(),
-      data: ctx.data,
+      data: ctx.data
     }
 
     const request = {
@@ -49,12 +49,12 @@ export class RequestFormatter extends Formatter {
       body: ctx.request.body,
       params: ctx.request.params,
       queries: ctx.request.queries,
-      headers: ctx.request.headers,
+      headers: ctx.request.headers
     }
 
     const response = {
       body: ctx.body,
-      headers: ctx.headers,
+      headers: ctx.headers
     }
 
     return JSON.stringify({ request, response, metadata })

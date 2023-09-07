@@ -17,7 +17,7 @@ export class FactoryHelper {
     const formatter = object.formatter || defaultValue.formatter
     const formatterConfig = Options.create(
       object.formatterConfig,
-      defaultValue.formatterConfig,
+      defaultValue.formatterConfig
     )
 
     const driverConfig = Options.create(object, defaultValue)

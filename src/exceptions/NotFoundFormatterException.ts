@@ -18,7 +18,7 @@ export class NotFoundFormatterException extends Exception {
       status: 500,
       code: 'E_NOT_FOUND',
       message: `The formatter ${formatterName} has not been found.`,
-      help: `Available formatters are: ${availableDrivers}. Look into your config/logger file if ${formatterName} formatter is implemented by logger. Or create ${formatterName} formatter implementation using FormatterFactory.createFormatter("${formatterName}", ...) method.`,
+      help: `Available formatters are: ${availableDrivers}. Look into your config/logger file if ${formatterName} formatter is implemented by logger. Or create ${formatterName} formatter implementation using FormatterFactory.createFormatter("${formatterName}", ...) method.`
     })
   }
 }

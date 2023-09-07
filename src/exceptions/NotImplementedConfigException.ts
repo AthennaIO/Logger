@@ -29,7 +29,7 @@ export class NotImplementedConfigException extends Exception {
       status: 500,
       code: 'E_NOT_IMPLEMENTED_CONFIG_ERROR',
       message: `Channel ${channelName} is not configured inside logging.channels object from config/logging.${Path.ext()} file.`,
-      help,
+      help
     })
   }
 }

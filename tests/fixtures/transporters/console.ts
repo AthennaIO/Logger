@@ -2,7 +2,7 @@ import { Config } from '@athenna/config'
 import { Log, LoggerProvider } from '#src'
 import { Folder, Path } from '@athenna/common'
 
-await new Folder(Path.stubs('config')).copy(Path.config())
+await new Folder(Path.fixtures('config')).copy(Path.config())
 await Config.safeLoad(Path.config('logging.ts'))
 
 new LoggerProvider().register()

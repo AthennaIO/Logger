@@ -26,7 +26,7 @@ export class FileDriver extends Driver {
     if (await File.exists(filePath)) {
       debug(
         '[%s] File already exist, appending the data to it.',
-        FileDriver.name,
+        FileDriver.name
       )
 
       return new File(filePath).append(buffer)

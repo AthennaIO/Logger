@@ -26,7 +26,7 @@ class CustomDriver extends Driver {
 export default class DriverFactoryTest {
   @BeforeEach()
   public async beforeEach() {
-    await Config.loadAll(Path.stubs('config'))
+    await Config.loadAll(Path.fixtures('config'))
   }
 
   @AfterEach()
@@ -43,7 +43,7 @@ export default class DriverFactoryTest {
 
   @Test()
   public async shouldThrowNotImplementedConfigExceptionWhenTryingToFabricateDriverWithoutLoadingConfigFile({
-    assert,
+    assert
   }: Context) {
     Config.configs = new ObjectBuilder()
     assert.throws(() => DriverFactory.fabricate('not-found'), NotImplementedConfigException)
@@ -51,7 +51,7 @@ export default class DriverFactoryTest {
 
   @Test()
   public async shouldThrowNotImplementedConfigExceptionWhenTryingToFabricateDriverWhenTryingToLoadChannelThatDoesNotExist({
-    assert,
+    assert
   }: Context) {
     assert.throws(() => DriverFactory.fabricate('not-found'), NotImplementedConfigException)
   }

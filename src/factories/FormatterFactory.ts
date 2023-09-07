@@ -60,7 +60,7 @@ export class FormatterFactory {
    */
   public static createFormatter(
     name: string,
-    formatter: typeof Formatter,
+    formatter: typeof Formatter
   ): void {
     if (this.formatters.has(name)) {
       throw new FormatterExistException(name)

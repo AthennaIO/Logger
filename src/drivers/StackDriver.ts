@@ -22,13 +22,13 @@ export class StackDriver extends Driver {
     debug(
       '[%s] Transporting logs in channels: %s.',
       StackDriver.name,
-      this.driverConfig.channels.join(', '),
+      this.driverConfig.channels.join(', ')
     )
 
     return Promise.all(
       this.driverConfig.channels.map(c =>
-        DriverFactory.fabricate(c, configs).transport(level, message),
-      ),
+        DriverFactory.fabricate(c, configs).transport(level, message)
+      )
     )
   }
 }

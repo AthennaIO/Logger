@@ -15,7 +15,7 @@ import { Test, AfterEach, BeforeEach, type Context } from '@athenna/test'
 export default class FileDriverTest {
   @BeforeEach()
   public async beforeEach() {
-    await Config.loadAll(Path.stubs('config'))
+    await Config.loadAll(Path.fixtures('config'))
 
     new LoggerProvider().register()
   }

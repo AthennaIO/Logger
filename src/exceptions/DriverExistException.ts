@@ -18,7 +18,7 @@ export class DriverExistException extends Exception {
       status: 500,
       code: 'E_EXIST_DRIVER',
       message: `The driver ${driverName} already exists in DriverFactory.`,
-      help: `Available drivers are: ${availableDrivers}. The name ${driverName} is already in use inside DriverFactory. Try using a different name for your driver implementation.`,
+      help: `Available drivers are: ${availableDrivers}. The name ${driverName} is already in use inside DriverFactory. Try using a different name for your driver implementation.`
     })
   }
 }
