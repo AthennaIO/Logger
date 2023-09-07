@@ -19,7 +19,7 @@ export class FormatterExistException extends Exception {
       status: 500,
       code: 'E_EXIST_FORMATTER',
       message: `The formatter ${formatterName} already exists in FormatterFactory.`,
-      help: `Available formatters are: ${availableFormatters}. The name ${formatterName} is already in use inside FormatterFactory. Try using a different name for your formatter implementation.`,
+      help: `Available formatters are: ${availableFormatters}. The name ${formatterName} is already in use inside FormatterFactory. Try using a different name for your formatter implementation.`
     })
   }
 }

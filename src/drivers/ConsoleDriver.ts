@@ -22,7 +22,7 @@ export class ConsoleDriver extends Driver {
     debug(
       '[%s] Transporting logs in %s stream.',
       ConsoleDriver.name,
-      streamType,
+      streamType
     )
 
     return process[streamType].write(`${formatted}\n`)

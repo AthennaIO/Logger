@@ -22,7 +22,7 @@ export class SlackDriver extends Driver {
     debug(
       '[%s] Transporting logs in url %s.',
       SlackDriver.name,
-      this.configs.url,
+      this.configs.url
     )
 
     return HttpClient.builder(true).post(this.configs.url, { text: formatted })

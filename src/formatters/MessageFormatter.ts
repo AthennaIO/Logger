@@ -13,8 +13,8 @@ export class MessageFormatter extends Formatter {
   public format(message: string): string {
     return this.clean(
       `${this.messageLevel()} - (${this.pid()}) - (${this.hostname()}): ${this.toString(
-        message,
-      )}`,
+        message
+      )}`
     )
   }
 }

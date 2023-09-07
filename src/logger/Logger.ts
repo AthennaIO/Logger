@@ -96,7 +96,7 @@ export class Logger {
 
     return this.vanilla({
       ...VANILLA_CHANNELS[channel],
-      ...configs,
+      ...configs
     })
   }
 
@@ -165,7 +165,7 @@ export class Logger {
     const message = Color.apply(...args)
 
     const promises = this.drivers.map((driver: Driver) =>
-      driver.transport(level, message),
+      driver.transport(level, message)
     )
 
     return Promise.all(promises)

@@ -18,7 +18,7 @@ export class NotFoundDriverException extends Exception {
       status: 500,
       code: 'E_NOT_FOUND',
       message: `The driver ${driverName} has not been found.`,
-      help: `Available drivers are: ${availableDrivers}. Look into your config/logger.${Path.ext()} file if ${driverName} driver is implemented by logger. Or create ${driverName} driver implementation using DriverFactory.createDriver("${driverName}", ...) method.`,
+      help: `Available drivers are: ${availableDrivers}. Look into your config/logger.${Path.ext()} file if ${driverName} driver is implemented by logger. Or create ${driverName} driver implementation using DriverFactory.createDriver("${driverName}", ...) method.`
     })
   }
 }

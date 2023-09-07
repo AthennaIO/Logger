@@ -24,15 +24,15 @@ export class TelegramDriver extends Driver {
       TelegramDriver.name,
       this.driverConfig.parseMode,
       this.driverConfig.token,
-      this.driverConfig.chatId,
+      this.driverConfig.chatId
     )
 
     return new Telegraf(this.driverConfig.token).telegram.sendMessage(
       this.driverConfig.chatId,
       formatted,
       {
-        parse_mode: this.driverConfig.parseMode,
-      },
+        parse_mode: this.driverConfig.parseMode
+      }
     )
   }
 }

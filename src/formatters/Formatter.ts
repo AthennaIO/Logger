@@ -70,7 +70,7 @@ export abstract class Formatter {
       minute: 'numeric',
       second: 'numeric',
       day: '2-digit',
-      month: '2-digit',
+      month: '2-digit'
     }
 
     return new Date(Date.now()).toLocaleString(undefined, localeStringOptions)
@@ -184,7 +184,7 @@ export abstract class Formatter {
       success: '\u{2705}',
       warn: '\u{26A0}',
       error: '\u{274C}',
-      fatal: '\u{1F6D1}',
+      fatal: '\u{1F6D1}'
     }
 
     if (!levelEmojis[level.toLowerCase()]) {
@@ -207,7 +207,7 @@ export abstract class Formatter {
       success: Color.success,
       warn: Color.warn,
       error: Color.error,
-      fatal: Color.fatal,
+      fatal: Color.fatal
     }
 
     if (!levelColors[levelLower]) {

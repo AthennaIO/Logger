@@ -19,10 +19,10 @@ export default class RequestFormatterTest {
       status: 200,
       responseTime: 1,
       body: {
-        hello: 'world',
+        hello: 'world'
       },
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
       request: {
         ip: '127.0.0.1',
@@ -30,13 +30,13 @@ export default class RequestFormatterTest {
         hostUrl: 'http://localhost:1335',
         baseUrl: 'http://localhost:1335/:id',
         params: {
-          id: 1,
+          id: 1
         },
         queries: {},
         headers: {
-          'Content-Type': 'application/json',
-        },
-      },
+          'Content-Type': 'application/json'
+        }
+      }
     }
 
     const message = formatter.format(ctx)
@@ -55,10 +55,10 @@ export default class RequestFormatterTest {
       status: 200,
       responseTime: 1,
       body: {
-        hello: 'world',
+        hello: 'world'
       },
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
       request: {
         ip: '127.0.0.1',
@@ -66,13 +66,13 @@ export default class RequestFormatterTest {
         hostUrl: 'http://localhost:1335',
         baseUrl: 'http://localhost:1335/:id',
         params: {
-          id: 1,
+          id: 1
         },
         queries: {},
         headers: {
-          'Content-Type': 'application/json',
-        },
-      },
+          'Content-Type': 'application/json'
+        }
+      }
     }
 
     const message = JSON.parse(formatter.format(ctx))

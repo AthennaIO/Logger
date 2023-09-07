@@ -67,7 +67,7 @@ export class DriverFactory {
   public static fabricateVanilla(configs: any = {}): Driver {
     configs = Options.create(configs, {
       driver: 'console',
-      formatter: 'none',
+      formatter: 'none'
     })
 
     if (!this.drivers.has(configs.driver)) {

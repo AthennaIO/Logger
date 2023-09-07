@@ -47,7 +47,7 @@ export abstract class Driver {
     'success',
     'warn',
     'error',
-    'fatal',
+    'fatal'
   ]
 
   public constructor(configs: any = {}) {

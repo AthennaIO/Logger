@@ -23,12 +23,12 @@ export class DiscordDriver extends Driver {
       '[%s] Transporting logs with username %s and in url %s.',
       DiscordDriver.name,
       this.configs.username,
-      this.configs.url,
+      this.configs.url
     )
 
     return HttpClient.builder(true).post(this.configs.url, {
       username: this.configs.username,
-      content: formatted,
+      content: formatted
     })
   }
 }

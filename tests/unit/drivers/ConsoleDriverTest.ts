@@ -13,7 +13,7 @@ import { Test, type Context } from '@athenna/test'
 export default class ConsoleDriverTest {
   @Test()
   public async shouldBeAbleToLogInConsole({ assert }: Context) {
-    const { stdout, stderr } = await Exec.command(`ts-node --esm ${Path.stubs('transporters/console.ts')}`)
+    const { stdout, stderr } = await Exec.command(`ts-node --esm ${Path.fixtures('transporters/console.ts')}`)
 
     const logs = [...stdout.split('\n').filter(l => l !== ''), ...stderr.split('\n').filter(l => l !== '')]
 
