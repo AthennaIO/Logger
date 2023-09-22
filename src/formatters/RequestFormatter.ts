@@ -16,26 +16,22 @@ export class RequestFormatter extends Formatter {
       return ctx
     }
 
-    const ip = ctx.request.ip
-    const status = ctx.status
     const responseTimeMs = `${Math.round(ctx.responseTime)}ms`
-    const methodAndStatus = Color[ctx.request.method](
-      `[${ctx.request.method}::${ctx.status}]`
-    )
+    const status = Color.statusCode(ctx.status)
+    const method = Color.httpMethod(ctx.request.method)
+    const date = new Date().toISOString()
 
     if (!this.configs.asJson) {
       return this.clean(
-        `${methodAndStatus} - [${ip}] - ${new Date().toISOString()} - ${
-          ctx.request.baseUrl
-        } ${responseTimeMs}`
+        `${method}${status} ${ctx.request.baseUrl} - ${date} - ${responseTimeMs}`
       )
     }
 
     const metadata = {
       method: ctx.request.method,
       duration: responseTimeMs,
-      status: status <= 399 ? 'SUCCESS' : 'ERROR',
-      statusCode: status,
+      status: ctx.status <= 399 ? 'SUCCESS' : 'ERROR',
+      statusCode: ctx.status,
       url: ctx.request.hostUrl,
       path: ctx.request.baseUrl,
       createdAt: Date.now(),
