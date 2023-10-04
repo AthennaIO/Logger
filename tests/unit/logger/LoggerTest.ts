@@ -13,7 +13,7 @@ import { Test, type Context } from '@athenna/test'
 export default class LoggerTest {
   @Test()
   public async shouldBeAbleToLogInConsoleUsingVanillaLogger({ assert }: Context) {
-    const { stdout, stderr } = await Exec.command(`ts-node --esm ${Path.fixtures('transporters/vanillaLogger.ts')}`)
+    const { stdout, stderr } = await Exec.node(Path.fixtures('transporters/vanillaLogger.ts'))
 
     const logs = [...stdout.split('\n').filter(l => l !== ''), ...stderr.split('\n').filter(l => l !== '')]
 
