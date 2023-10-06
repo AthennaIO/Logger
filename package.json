@@ -1,6 +1,6 @@
 {
   "name": "@athenna/logger",
-  "version": "4.7.0",
+  "version": "4.8.0",
   "description": "The Athenna logging solution. Log in stdout, files and buckets.",
   "license": "MIT",
   "author": "João Lenon <lenon@athenna.io>",
@@ -65,11 +65,11 @@
     "cls-rtracer": "^2.6.3"
   },
   "devDependencies": {
-    "@athenna/common": "^4.17.2",
-    "@athenna/config": "^4.6.0",
-    "@athenna/ioc": "^4.6.0",
-    "@athenna/test": "^4.11.0",
-    "@athenna/tsconfig": "^4.8.2",
+    "@athenna/common": "^4.18.0",
+    "@athenna/config": "^4.7.0",
+    "@athenna/ioc": "^4.7.0",
+    "@athenna/test": "^4.12.0",
+    "@athenna/tsconfig": "^4.9.1",
     "@typescript-eslint/eslint-plugin": "^6.7.4",
     "@typescript-eslint/parser": "^6.7.4",
     "commitizen": "^4.2.6",
