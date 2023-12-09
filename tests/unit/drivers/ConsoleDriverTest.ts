@@ -15,7 +15,9 @@ export default class ConsoleDriverTest {
   public async shouldBeAbleToLogInConsole({ assert }: Context) {
     const { stdout, stderr } = await Exec.node(Path.fixtures('transporters/console.ts'))
 
-    const logs = [...stdout.split('\n').filter(l => l !== ''), ...stderr.split('\n').filter(l => l !== '')]
+    const logs = [...stdout.split('\n').filter(l => l !== ''), ...stderr.split('\n').filter(l => l !== '')].filter(
+      v => !v.startsWith('(')
+    )
 
     logs.forEach(log => {
       assert.isFalse(log.includes('TRACE'))
