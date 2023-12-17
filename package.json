@@ -1,6 +1,6 @@
 {
   "name": "@athenna/logger",
-  "version": "4.10.0",
+  "version": "4.11.0",
   "description": "The Athenna logging solution. Log in stdout, files and buckets.",
   "license": "MIT",
   "author": "João Lenon <lenon@athenna.io>",
@@ -68,7 +68,7 @@
     "@athenna/common": "^4.23.0",
     "@athenna/config": "^4.9.0",
     "@athenna/ioc": "^4.10.0",
-    "@athenna/test": "^4.14.0",
+    "@athenna/test": "^4.15.0",
     "@athenna/tsconfig": "^4.12.0",
     "@typescript-eslint/eslint-plugin": "^6.7.4",
     "@typescript-eslint/parser": "^6.7.4",
