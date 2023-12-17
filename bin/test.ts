@@ -15,7 +15,6 @@ EnvHelper.resolveFilePath(Path.pwd('.env'))
 
 await Runner.setTsEnv()
   .addAssertPlugin()
-  .addSpecReporter()
   .addPath('tests/unit/**/*.ts')
   .setCliArgs(process.argv.slice(2))
   .setGlobalTimeout(30000)
