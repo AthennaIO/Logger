@@ -25,6 +25,10 @@ export class SlackDriver extends Driver {
       this.configs.url
     )
 
-    return HttpClient.builder(true).post(this.configs.url, { text: formatted })
+    return HttpClient.builder(true).post(this.configs.url, {
+      body: {
+        text: formatted
+      }
+    })
   }
 }
