@@ -27,8 +27,10 @@ export class DiscordDriver extends Driver {
     )
 
     return HttpClient.builder(true).post(this.configs.url, {
-      username: this.configs.username,
-      content: formatted
+      body: {
+        username: this.configs.username,
+        content: formatted
+      }
     })
   }
 }
