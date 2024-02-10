@@ -37,6 +37,11 @@ export const VANILLA_CHANNELS = {
     formatter: 'cli',
     driver: 'console'
   },
+  lambda: {
+    level: 'trace',
+    formatter: 'json',
+    driver: 'lambda'
+  },
   request: {
     level: 'trace',
     formatter: 'request',
