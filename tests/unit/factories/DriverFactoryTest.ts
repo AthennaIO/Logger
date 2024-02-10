@@ -38,7 +38,7 @@ export default class DriverFactoryTest {
   public async shouldBeAbleToListAllAvailableDrivers({ assert }: Context) {
     const drivers = DriverFactory.availableDrivers()
 
-    assert.deepEqual(drivers, ['file', 'null', 'slack', 'stack', 'console', 'discord', 'telegram'])
+    assert.deepEqual(drivers, ['file', 'null', 'slack', 'stack', 'lambda', 'console', 'discord', 'telegram'])
   }
 
   @Test()

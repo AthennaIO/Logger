@@ -32,7 +32,7 @@ export default {
   | Here you may configure the log channels for your application.
   |
   | Available Drivers:
-  |   "console", "discord", "file", "null", "slack", "telegram".
+  |   "console", "discord", "file", "null", "slack", "telegram", "lambda".
   | Available Formatters:
   |   "cli", "simple", "json", "request", "message", "none".
   |
@@ -47,6 +47,10 @@ export default {
       driver: 'console',
       formatter: 'simple',
       level: 'debug'
+    },
+    lambda: {
+      driver: 'lambda',
+      formatter: 'json'
     },
     request: {
       driver: 'console',
