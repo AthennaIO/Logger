@@ -7,6 +7,8 @@
  * file that was distributed with this source code.
  */
 
+import { Path } from '@athenna/common'
+
 /**
  * Athenna default vanilla channels. This configuration
  * will be used by the "channelOrVanilla" method. If the
