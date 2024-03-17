@@ -63,7 +63,7 @@
   "dependencies": {
     "@aws-lambda-powertools/logger": "^1.18.0",
     "cls-rtracer": "^2.6.3",
-    "telegraf": "^4.15.3"
+    "telegraf": "^4.16.1"
   },
   "devDependencies": {
     "@athenna/common": "^4.35.0",
