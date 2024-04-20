@@ -16,8 +16,9 @@ export class RequestFormatter extends Formatter {
       return ctx
     }
 
-    const responseTimeMs = `${Math.round(ctx.responseTime)}ms`
-    const status = Color.statusCode(ctx.status)
+    const statusCode = ctx.response.statusCode
+    const responseTimeMs = `${Math.round(ctx.response.responseTime)}ms`
+    const status = Color.statusCode(ctx.response.statusCode)
     const method = Color.httpMethod(ctx.request.method)
     const date = new Date().toISOString()
 
@@ -30,8 +31,8 @@ export class RequestFormatter extends Formatter {
     const metadata = {
       method: ctx.request.method,
       duration: responseTimeMs,
-      status: ctx.status <= 399 ? 'SUCCESS' : 'ERROR',
-      statusCode: ctx.status,
+      status: statusCode <= 399 ? 'SUCCESS' : 'ERROR',
+      statusCode,
       url: ctx.request.hostUrl,
       path: ctx.request.baseUrl,
       createdAt: Date.now(),
@@ -49,8 +50,8 @@ export class RequestFormatter extends Formatter {
     }
 
     const response = {
-      body: ctx.body,
-      headers: ctx.headers
+      body: ctx.response.body,
+      headers: ctx.response.headers
     }
 
     return JSON.stringify({ request, response, metadata })

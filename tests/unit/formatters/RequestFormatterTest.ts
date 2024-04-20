@@ -16,8 +16,6 @@ export default class RequestFormatterTest {
     const formatter = new RequestFormatter().config({ level: 'info' })
 
     const ctx = {
-      status: 200,
-      responseTime: 1,
       body: {
         hello: 'world'
       },
@@ -36,6 +34,16 @@ export default class RequestFormatterTest {
         headers: {
           'Content-Type': 'application/json'
         }
+      },
+      response: {
+        statusCode: 200,
+        responseTime: 1,
+        body: {
+          hello: 'world'
+        },
+        headers: {
+          'Content-Type': 'application/json'
+        }
       }
     }
 
@@ -51,14 +59,6 @@ export default class RequestFormatterTest {
     const formatter = new RequestFormatter().config({ level: 'info', asJson: true })
 
     const ctx = {
-      status: 200,
-      responseTime: 1,
-      body: {
-        hello: 'world'
-      },
-      headers: {
-        'Content-Type': 'application/json'
-      },
       request: {
         ip: '127.0.0.1',
         method: 'GET',
@@ -68,6 +68,16 @@ export default class RequestFormatterTest {
           id: 1
         },
         queries: {},
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      },
+      response: {
+        statusCode: 200,
+        responseTime: 1,
+        body: {
+          hello: 'world'
+        },
         headers: {
           'Content-Type': 'application/json'
         }
