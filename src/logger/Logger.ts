@@ -7,13 +7,13 @@
  * file that was distributed with this source code.
  */
 
-import { Color } from '@athenna/common'
 import { Config } from '@athenna/config'
 import { Driver } from '#src/drivers/Driver'
+import { Color, Macroable } from '@athenna/common'
 import { DriverFactory } from '#src/factories/DriverFactory'
 import { VANILLA_CHANNELS } from '#src/constants/VanillaChannels'
 
-export class Logger {
+export class Logger extends Macroable {
   /**
    * The drivers responsible for transporting the logs.
    */
@@ -25,6 +25,7 @@ export class Logger {
   private runtimeConfigs = {}
 
   public constructor() {
+    super()
     this.channelOrVanilla(Config.get('logging.default'))
   }
 
