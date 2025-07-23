@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { Path } from '@athenna/common'
+import { Is, Path } from '@athenna/common'
 import { Config } from '@athenna/config'
 import { Log, LoggerProvider } from '#src'
 import { Test, AfterEach, BeforeEach, type Context } from '@athenna/test'
@@ -27,6 +27,14 @@ export default class LokiDriverTest {
 
   @Test()
   public async shouldBeAbleToLogInLoki({ assert }: Context) {
+    /**
+     * Running Loki container instance is not supported on
+     * Windows CI of GitHub Actions.
+     */
+    if (Is.Windows()) {
+      return
+    }
+
     const log = Log.config({ level: 'error' }).channel('loki')
 
     const message = 'hello'
