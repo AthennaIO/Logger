@@ -136,3 +136,6 @@ build
 
 # MacOS folder mapper file
 .DS_Store
+
+# Docker volumes
+.docker

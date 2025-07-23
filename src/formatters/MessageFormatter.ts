@@ -10,7 +10,7 @@
 import { Formatter } from '#src/formatters/Formatter'
 
 export class MessageFormatter extends Formatter {
-  public format(message: string): string {
+  public format(message: string) {
     return this.clean(
       `${this.messageLevel()} - (${this.pid()}) - (${this.hostname()}): ${this.toString(
         message
