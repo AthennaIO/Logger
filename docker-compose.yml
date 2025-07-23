@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  athenna_loki:
+    image: grafana/loki:2.9.1
+    ports:
+      - "3100:3100"
+    volumes:
+      - .docker/loki_data:/tmp/loki
+      - ./loki-config.yaml:/etc/loki/loki-config.yaml
+    command:
+      - "-config.file=/etc/loki/loki-config.yaml"
+
+  athenna_grafana:
+    image: grafana/grafana:9.3.2
+    ports:
+      - "3000:3000"
+    depends_on:
+      - athenna_loki
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: "admin"
+    volumes:
+      - grafana-storage:/var/lib/grafana
+
+volumes:
+  loki-data:
+  grafana-storage:

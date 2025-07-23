@@ -12,6 +12,7 @@ import { Options } from '@athenna/common'
 import { Driver } from '#src/drivers/Driver'
 import { FileDriver } from '#src/drivers/FileDriver'
 import { NullDriver } from '#src/drivers/NullDriver'
+import { LokiDriver } from '#src/drivers/LokiDriver'
 import { SlackDriver } from '#src/drivers/SlackDriver'
 import { StackDriver } from '#src/drivers/StackDriver'
 import { LambdaDriver } from '#src/drivers/LambdaDriver'
@@ -30,6 +31,7 @@ export class DriverFactory {
   public static drivers: Map<string, { Driver: any }> = new Map()
     .set('file', { Driver: FileDriver })
     .set('null', { Driver: NullDriver })
+    .set('loki', { Driver: LokiDriver })
     .set('slack', { Driver: SlackDriver })
     .set('stack', { Driver: StackDriver })
     .set('lambda', { Driver: LambdaDriver })

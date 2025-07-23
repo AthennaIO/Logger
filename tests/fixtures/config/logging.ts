@@ -52,6 +52,12 @@ export default {
       driver: 'lambda',
       formatter: 'json'
     },
+    loki: {
+      driver: 'loki',
+      formatter: 'json',
+      url: 'http://localhost:3100/loki/api/v1/push',
+      job: 'athenna'
+    },
     request: {
       driver: 'console',
       formatter: 'request',

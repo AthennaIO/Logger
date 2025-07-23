@@ -11,6 +11,13 @@ on:
 jobs:
   linux:
     runs-on: ubuntu-latest
+    services:
+      athenna_loki:
+        image: grafana/loki:2.9.1
+        volumes:
+          - ./loki-config.yaml:/etc/loki/loki-config.yaml
+        ports:
+          - '3100:3100'
     strategy:
       matrix:
         node-version:
