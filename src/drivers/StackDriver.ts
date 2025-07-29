@@ -7,10 +7,10 @@
  * file that was distributed with this source code.
  */
 
+import { debug } from '#src/debug'
 import { Json } from '@athenna/common'
 import { Driver } from '#src/drivers/Driver'
 import { DriverFactory } from '#src/factories/DriverFactory'
-import { debug } from '#src/debug'
 
 export class StackDriver extends Driver {
   public transport(level: string, message: any): Promise<any> {
@@ -25,10 +25,15 @@ export class StackDriver extends Driver {
       this.driverConfig.channels.join(', ')
     )
 
-    return Promise.all(
-      this.driverConfig.channels.map(c =>
-        DriverFactory.fabricate(c, configs).transport(level, message)
+    const promises = this.driverConfig.channels.map(channel => {
+      const channelConfig = configs?.[channel]
+
+      return DriverFactory.fabricate(channel, channelConfig).transport(
+        level,
+        message
       )
-    )
+    })
+
+    return Promise.all(promises)
   }
 }
