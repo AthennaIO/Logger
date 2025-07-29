@@ -7,9 +7,9 @@
  * file that was distributed with this source code.
  */
 
+import { debug } from '#src/debug'
 import { File } from '@athenna/common'
 import { Driver } from '#src/drivers/Driver'
-import { debug } from '#src/debug'
 
 export class FileDriver extends Driver {
   public async transport(level: string, message: any): Promise<any> {

@@ -77,6 +77,32 @@ export abstract class Formatter {
   }
 
   /**
+   * Get the circular replacer function to be used in
+   * JSON.stringify().
+   */
+  public getCircularReplacer() {
+    const ancestors = []
+
+    return function (key, value) {
+      if (!Is.Object(value) || value === null) {
+        return value
+      }
+
+      while (ancestors.length > 0 && ancestors.at(-1) !== this) {
+        ancestors.pop()
+      }
+
+      if (ancestors.includes(value)) {
+        return '[Circular]'
+      }
+
+      ancestors.push(value)
+
+      return value
+    }
+  }
+
+  /**
    * Transform the message to string.
    */
   public toString(message: string): string {
@@ -85,7 +111,7 @@ export abstract class Formatter {
     }
 
     if (Is.Object(message)) {
-      message = JSON.stringify(message)
+      message = JSON.stringify(message, this.getCircularReplacer())
     }
 
     return `${message}`
