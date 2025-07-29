@@ -23,9 +23,9 @@ export class JsonFormatter extends Formatter {
     if (Is.String(message)) {
       base.msg = message
 
-      return JSON.stringify(base)
+      return JSON.stringify(base, this.getCircularReplacer())
     }
 
-    return JSON.stringify({ ...base, ...message })
+    return JSON.stringify({ ...base, ...message }, this.getCircularReplacer())
   }
 }

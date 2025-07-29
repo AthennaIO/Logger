@@ -54,6 +54,9 @@ export class RequestFormatter extends Formatter {
       headers: ctx.response.headers
     }
 
-    return JSON.stringify({ request, response, metadata })
+    return JSON.stringify(
+      { request, response, metadata },
+      this.getCircularReplacer()
+    )
   }
 }
