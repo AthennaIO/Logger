@@ -49,6 +49,11 @@ export const VANILLA_CHANNELS = {
     formatter: 'request',
     driver: 'console'
   },
+  cronjob: {
+    level: 'trace',
+    formatter: 'json',
+    driver: 'console'
+  },
   exception: {
     level: 'trace',
     formatter: 'none',
