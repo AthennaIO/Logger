@@ -26,6 +26,32 @@ export class JsonFormatter extends Formatter {
       return JSON.stringify(base, this.getCircularReplacer())
     }
 
+    if (Is.Exception(message)) {
+      return this.handleExceptionLog(base, message)
+    }
+
+    if (Is.Error(message)) {
+      return this.handleExceptionLog(base, message.toAthennaException())
+    }
+
     return JSON.stringify({ ...base, ...message }, this.getCircularReplacer())
+  }
+
+  private handleExceptionLog(base: any, message: any) {
+    return JSON.stringify(
+      {
+        ...base,
+        name: message.name,
+        code: message.code,
+        msg: message.message,
+        help: message.help,
+        status: message.status,
+        cause: message.cause,
+        details: message.details,
+        metadata: message.otherInfos,
+        stack: message.stack
+      },
+      this.getCircularReplacer()
+    )
   }
 }
