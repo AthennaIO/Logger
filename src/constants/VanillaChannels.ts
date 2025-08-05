@@ -54,6 +54,16 @@ export const VANILLA_CHANNELS = {
     formatter: 'json',
     driver: 'console'
   },
+  queue: {
+    level: 'trace',
+    formatter: 'json',
+    driver: 'console'
+  },
+  worker: {
+    level: 'trace',
+    formatter: 'json',
+    driver: 'console'
+  },
   exception: {
     level: 'trace',
     formatter: 'none',
