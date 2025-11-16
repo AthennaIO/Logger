@@ -1,6 +1,6 @@
 {
   "name": "@athenna/logger",
-  "version": "5.10.0",
+  "version": "5.11.0",
   "description": "The Athenna logging solution. Log in stdout, files and buckets.",
   "license": "MIT",
   "author": "João Lenon <lenon@athenna.io>",
@@ -48,6 +48,7 @@
     "./types": "./src/types/index.js",
     "./package": "./package.json",
     "./package.json": "./package.json",
+    "./standalone": "./src/standalone/index.js",
     "./providers/LoggerProvider": "./src/providers/LoggerProvider.js"
   },
   "imports": {
@@ -66,7 +67,7 @@
     "telegraf": "^4.16.3"
   },
   "devDependencies": {
-    "@athenna/common": "^5.14.0",
+    "@athenna/common": "^5.25.0",
     "@athenna/config": "^5.4.0",
     "@athenna/ioc": "^5.2.0",
     "@athenna/test": "^5.5.0",
