@@ -11,6 +11,10 @@ import { Formatter } from '#src/formatters/Formatter'
 
 export class NoneFormatter extends Formatter {
   public format(message: string): string {
+    if (this.configs.withoutParsers) {
+      return message
+    }
+
     return this.clean(this.applyColorsByChalk(this.toString(message)))
   }
 }
