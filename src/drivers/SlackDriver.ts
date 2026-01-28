@@ -7,9 +7,9 @@
  * file that was distributed with this source code.
  */
 
-import { Driver } from '#src/drivers/Driver'
-import { HttpClient } from '@athenna/common'
 import { debug } from '#src/debug'
+import { Driver } from '#src/drivers/Driver'
+import { HttpClient, Is } from '@athenna/common'
 
 export class SlackDriver extends Driver {
   public async transport(level: string, message: any): Promise<any> {
@@ -25,10 +25,14 @@ export class SlackDriver extends Driver {
       this.configs.url
     )
 
+    if (Is.Object(formatted) && formatted.text && formatted.blocks) {
+      return HttpClient.builder(true).post(this.configs.url, {
+        body: { text: formatted.text, blocks: formatted.blocks }
+      })
+    }
+
     return HttpClient.builder(true).post(this.configs.url, {
-      body: {
-        text: formatted
-      }
+      body: { text: formatted }
     })
   }
 }
