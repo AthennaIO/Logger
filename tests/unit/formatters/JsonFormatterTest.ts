@@ -38,4 +38,20 @@ export default class JsonFormatterTest {
       assert.isTrue(Is.Uuid(message.traceId))
     })
   }
+
+  @Test()
+  public async shouldBeAbleToFormatLogsToJsonFormatWithDefaults({ assert }: Context) {
+    const formatter = new JsonFormatter().config({
+      level: 'info',
+      defaults: {
+        namespace: 'UserService'
+      }
+    })
+
+    const message = JSON.parse(formatter.format('hello'))
+
+    assert.equal(message.msg, 'hello')
+    assert.equal(message.namespace, 'UserService')
+    assert.equal(message.level, 'info')
+  }
 }

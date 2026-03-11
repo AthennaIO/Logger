@@ -24,4 +24,18 @@ export default class LoggerTest {
       assert.isTrue(log.includes('hello'))
     })
   }
+
+  @Test()
+  public async shouldBeAbleToCreateLoggerWithDefaultMessageContent({ assert }: Context) {
+    const { stdout, stderr } = await Exec.node(Path.fixtures('transporters/loggerCreate.ts'))
+
+    const logs = [...stdout.split('\n').filter(l => l !== ''), ...stderr.split('\n').filter(l => l !== '')].filter(
+      v => !v.startsWith('(')
+    )
+    const message = JSON.parse(logs[0])
+
+    assert.equal(message.msg, 'failed to retrieve user')
+    assert.equal(message.level, 'error')
+    assert.equal(message.namespace, 'UserService')
+  }
 }
