@@ -9,7 +9,7 @@
 
 import { Config } from '@athenna/config'
 import { Driver } from '#src/drivers/Driver'
-import { Color, Macroable } from '@athenna/common'
+import { Color, Json, Macroable } from '@athenna/common'
 import { DriverFactory } from '#src/factories/DriverFactory'
 import { VANILLA_CHANNELS } from '#src/constants/VanillaChannels'
 
@@ -23,6 +23,21 @@ export class Logger extends Macroable {
    * Runtime configurations to be used inside the Drivers and Formatters.
    */
   private runtimeConfigs = {}
+
+  /**
+   * Default message content that should be included
+   * in every structured log emitted by this instance.
+   */
+  private messageDefaults = {}
+
+  /**
+   * Store the current logger strategy so create()
+   * can clone the logger preserving its behavior.
+   */
+  private selection: { type: 'channel' | 'vanilla'; values: any[] } = {
+    type: 'vanilla',
+    values: []
+  }
 
   public constructor() {
     super()
@@ -53,13 +68,35 @@ export class Logger extends Macroable {
   }
 
   /**
+   * Create a new logger instance inheriting the current
+   * configuration and adding default message content.
+   */
+  public create(defaults: any = {}): Logger {
+    const logger = new Logger()
+
+    logger.runtimeConfigs = Json.copy(this.runtimeConfigs)
+    logger.messageDefaults = {
+      ...Json.copy(this.messageDefaults),
+      ...Json.copy(defaults || {})
+    }
+
+    return logger[this.selection.type](...Json.copy(this.selection.values))
+  }
+
+  /**
    * Change the log channel.
    */
   public channel(...channels: string[]): Logger {
     this.drivers = []
+    this.selection = {
+      type: 'channel',
+      values: [...channels]
+    }
+
+    const runtimeConfigs = this.withDefaultFormatterConfig(this.runtimeConfigs)
 
     channels.forEach(channel => {
-      this.drivers.push(DriverFactory.fabricate(channel, this.runtimeConfigs))
+      this.drivers.push(DriverFactory.fabricate(channel, runtimeConfigs))
     })
 
     return this
@@ -72,15 +109,23 @@ export class Logger extends Macroable {
    */
   public vanilla(...configs: any[]): Logger {
     this.drivers = []
+    this.selection = {
+      type: 'vanilla',
+      values: Json.copy(configs)
+    }
 
     if (!configs.length) {
-      this.drivers.push(DriverFactory.fabricateVanilla())
+      this.drivers.push(
+        DriverFactory.fabricateVanilla(this.withDefaultFormatterConfig())
+      )
 
       return this
     }
 
     configs.forEach(config => {
-      this.drivers.push(DriverFactory.fabricateVanilla(config))
+      this.drivers.push(
+        DriverFactory.fabricateVanilla(this.withDefaultFormatterConfig(config))
+      )
     })
 
     return this
@@ -170,5 +215,26 @@ export class Logger extends Macroable {
     )
 
     return Promise.all(promises)
+  }
+
+  /**
+   * Attach message defaults to formatter configs so
+   * structured formatters can enrich the output.
+   */
+  private withDefaultFormatterConfig(configs: any = {}): any {
+    if (!Object.keys(this.messageDefaults).length) {
+      return configs
+    }
+
+    return {
+      ...configs,
+      formatterConfig: {
+        ...(configs.formatterConfig || {}),
+        defaults: {
+          ...((configs.formatterConfig || {}).defaults || {}),
+          ...this.messageDefaults
+        }
+      }
+    }
   }
 }

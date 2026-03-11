@@ -13,6 +13,7 @@ import { Formatter } from '#src/formatters/Formatter'
 export class JsonFormatter extends Formatter {
   public format(message: any): string {
     const base: any = {
+      ...(this.configs.defaults || {}),
       level: this.level(),
       time: Date.now(),
       pid: this.pid(),
