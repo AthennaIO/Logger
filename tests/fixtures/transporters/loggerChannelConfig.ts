@@ -16,7 +16,14 @@ await Config.safeLoad(Path.config('logging.ts'))
 
 new LoggerProvider().register()
 
-const logger = Log.config({ formatter: 'json' }).create({ namespace: 'UserService' }).channel('application')
+const logger = Log.channel('application').config({
+  formatter: 'json',
+  formatterConfig: {
+    defaults: {
+      namespace: 'UserService'
+    }
+  }
+})
 
 logger.error('failed to retrieve user')
 
