@@ -10,6 +10,7 @@
 import rTracer from 'cls-rtracer'
 
 import { hostname } from 'node:os'
+import { trace } from '@opentelemetry/api'
 import { Is, Color } from '@athenna/common'
 
 export abstract class Formatter {
@@ -57,7 +58,17 @@ export abstract class Formatter {
    * Get the trace id for formatter.
    */
   public traceId(): string | null {
-    return (rTracer.id() || null) as any
+    return (
+      trace.getActiveSpan()?.spanContext().traceId ||
+      ((rTracer.id() || null) as any)
+    )
+  }
+
+  /**
+   * Get the span id for formatter.
+   */
+  public spanId(): string | null {
+    return trace.getActiveSpan()?.spanContext().spanId || null
   }
 
   /**

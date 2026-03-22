@@ -7,10 +7,22 @@
  * file that was distributed with this source code.
  */
 
-import { Test, type Context } from '@athenna/test'
 import { RequestFormatter } from '#src/formatters/RequestFormatter'
+import { Test, BeforeEach, AfterEach, type Context } from '@athenna/test'
+import { context, ROOT_CONTEXT, trace, TraceFlags } from '@opentelemetry/api'
+import { AsyncLocalStorageContextManager } from '@opentelemetry/context-async-hooks'
 
 export default class RequestFormatterTest {
+  @BeforeEach()
+  public async beforeEach() {
+    context.setGlobalContextManager(new AsyncLocalStorageContextManager().enable())
+  }
+
+  @AfterEach()
+  public async afterEach() {
+    context.disable()
+  }
+
   @Test()
   public async shouldBeAbleToFormatLogsToRequestFormat({ assert }: Context) {
     const formatter = new RequestFormatter().config({ level: 'info' })
@@ -93,6 +105,7 @@ export default class RequestFormatterTest {
     assert.equal(message.metadata.url, ctx.request.hostUrl)
     assert.equal(message.metadata.path, ctx.request.baseUrl)
     assert.isDefined(message.metadata.createdAt)
+    assert.equal(message.metadata.spanId, null)
   }
 
   @Test()
@@ -102,5 +115,47 @@ export default class RequestFormatterTest {
     const ctx = 'hello'
 
     assert.equal(formatter.format(ctx), 'hello')
+  }
+
+  @Test()
+  public async shouldIncludeActiveOtelSpanCorrelationWhenFormattingAsJson({ assert }: Context) {
+    const formatter = new RequestFormatter().config({ level: 'info', asJson: true })
+    const spanContext = {
+      traceId: '11111111111111111111111111111111',
+      spanId: '2222222222222222',
+      traceFlags: TraceFlags.SAMPLED
+    }
+    const ctx = {
+      request: {
+        ip: '127.0.0.1',
+        method: 'GET',
+        hostUrl: 'http://localhost:1335',
+        baseUrl: 'http://localhost:1335/:id',
+        params: {
+          id: 1
+        },
+        queries: {},
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      },
+      response: {
+        statusCode: 200,
+        responseTime: 1,
+        body: {
+          hello: 'world'
+        },
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    }
+
+    const message = context.with(trace.setSpanContext(ROOT_CONTEXT, spanContext), () =>
+      JSON.parse(formatter.format(ctx))
+    )
+
+    assert.equal(message.metadata.traceId, spanContext.traceId)
+    assert.equal(message.metadata.spanId, spanContext.spanId)
   }
 }

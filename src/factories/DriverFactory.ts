@@ -13,6 +13,7 @@ import { Driver } from '#src/drivers/Driver'
 import { FileDriver } from '#src/drivers/FileDriver'
 import { NullDriver } from '#src/drivers/NullDriver'
 import { LokiDriver } from '#src/drivers/LokiDriver'
+import { OtelDriver } from '#src/drivers/OtelDriver'
 import { SlackDriver } from '#src/drivers/SlackDriver'
 import { StackDriver } from '#src/drivers/StackDriver'
 import { LambdaDriver } from '#src/drivers/LambdaDriver'
@@ -32,6 +33,7 @@ export class DriverFactory {
     .set('file', { Driver: FileDriver })
     .set('null', { Driver: NullDriver })
     .set('loki', { Driver: LokiDriver })
+    .set('otel', { Driver: OtelDriver })
     .set('slack', { Driver: SlackDriver })
     .set('stack', { Driver: StackDriver })
     .set('lambda', { Driver: LambdaDriver })
