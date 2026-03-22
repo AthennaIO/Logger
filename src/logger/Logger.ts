@@ -70,10 +70,10 @@ export class Logger extends Macroable {
     const runtimeConfigs: any = Json.copy(this.runtimeConfigs)
 
     if (!runtimeConfigs.formatterConfig) {
-      runtimeConfigs.formatterConfig = {} 
+      runtimeConfigs.formatterConfig = {}
     }
 
-    runtimeConfigs.formatterConfig.defaults = Json.copy(defaults) 
+    runtimeConfigs.formatterConfig.defaults = Json.copy(defaults)
 
     logger.selection = {
       method: this.selection.method,
@@ -121,7 +121,10 @@ export class Logger extends Macroable {
     }
 
     configs.forEach(config => {
-      const driver = DriverFactory.fabricateVanilla({ ...config, ...this.runtimeConfigs })
+      const driver = DriverFactory.fabricateVanilla({
+        ...config,
+        ...this.runtimeConfigs
+      })
 
       this.drivers.push(driver)
     })
