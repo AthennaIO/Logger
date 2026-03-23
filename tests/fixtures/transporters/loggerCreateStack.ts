@@ -11,12 +11,12 @@ import { Config } from '@athenna/config'
 import { Log, LoggerProvider } from '#src'
 import { Folder, Path } from '@athenna/common'
 
-await new Folder(Path.fixtures('config')).copy(Path.config())
+await new Folder(Path.fixtures('config-stack-defaults')).copy(Path.config())
 await Config.safeLoad(Path.config('logging.ts'))
 
 new LoggerProvider().register()
 
-const logger = Log.config({ formatter: 'json' }).create({ namespace: 'UserService' })
+const logger = Log.create({ namespace: 'UserService' })
 
 logger.error('failed to retrieve user')
 
