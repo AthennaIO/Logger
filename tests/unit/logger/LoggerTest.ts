@@ -40,6 +40,20 @@ export default class LoggerTest {
   }
 
   @Test()
+  public async shouldBeAbleToCreateLoggerWithDefaultMessageContentUsingStackChannel({ assert }: Context) {
+    const { stdout, stderr } = await Exec.node(Path.fixtures('transporters/loggerCreateStack.ts'))
+
+    const logs = [...stdout.split('\n').filter(l => l !== ''), ...stderr.split('\n').filter(l => l !== '')].filter(
+      v => !v.startsWith('(')
+    )
+    const message = JSON.parse(logs[0])
+
+    assert.equal(message.msg, 'failed to retrieve user')
+    assert.equal(message.level, 'error')
+    assert.equal(message.namespace, 'UserService')
+  }
+
+  @Test()
   public async shouldBeAbleToReapplyDriversWhenConfigIsCalledAfterChannel({ assert }: Context) {
     const { stdout, stderr } = await Exec.node(Path.fixtures('transporters/loggerChannelConfig.ts'))
 
