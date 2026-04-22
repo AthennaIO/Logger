@@ -10,8 +10,11 @@
 import rTracer from 'cls-rtracer'
 
 import { hostname } from 'node:os'
-import { trace } from '@opentelemetry/api'
-import { Is, Color } from '@athenna/common'
+import { Is, Color, Module } from '@athenna/common'
+import type { ContextBinding } from '#src/types/ContextBinding'
+import type { Context as OtelContext } from '@opentelemetry/api'
+
+const otelApi = await Module.safeImport('@opentelemetry/api')
 
 export abstract class Formatter {
   /**
@@ -58,17 +61,46 @@ export abstract class Formatter {
    * Get the trace id for formatter.
    */
   public traceId(): string | null {
-    return (
-      trace.getActiveSpan()?.spanContext().traceId ||
-      ((rTracer.id() || null) as any)
-    )
+    if (otelApi?.trace?.getActiveSpan()?.spanContext().traceId) {
+      return otelApi?.trace?.getActiveSpan()?.spanContext().traceId
+    }
+
+    return (rTracer.id() || null) as string | null
   }
 
   /**
    * Get the span id for formatter.
    */
   public spanId(): string | null {
-    return trace.getActiveSpan()?.spanContext().spanId || null
+    return otelApi?.trace?.getActiveSpan()?.spanContext().spanId || null
+  }
+
+  /**
+   * Resolve configured context bindings using the active OpenTelemetry context.
+   */
+  public contextBindings(activeContext?: OtelContext) {
+    if (!otelApi) {
+      throw new Error('The package @opentelemetry/api is not installed')
+    }
+
+    if (!activeContext) {
+      activeContext = otelApi.context.active()
+    }
+
+    const contextBindings = this.configs.contextBindings || []
+    const resolved: Record<string, any> = {}
+
+    for (const binding of contextBindings as ContextBinding[]) {
+      const value = binding.resolver(activeContext)
+
+      if (Is.Undefined(value)) {
+        continue
+      }
+
+      resolved[binding.field] = value
+    }
+
+    return resolved
   }
 
   /**

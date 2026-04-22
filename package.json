@@ -1,6 +1,6 @@
 {
   "name": "@athenna/logger",
-  "version": "5.17.0",
+  "version": "5.18.0",
   "description": "The Athenna logging solution. Log in stdout, files and buckets.",
   "license": "MIT",
   "author": "João Lenon <lenon@athenna.io>",
@@ -63,7 +63,6 @@
   },
   "dependencies": {
     "@aws-lambda-powertools/logger": "^1.18.1",
-    "@opentelemetry/api": "^1.9.0",
     "@opentelemetry/api-logs": "^0.213.0",
     "cls-rtracer": "^2.6.3",
     "telegraf": "^4.16.3"
@@ -74,7 +73,8 @@
     "@athenna/ioc": "^5.2.0",
     "@athenna/test": "^5.5.0",
     "@athenna/tsconfig": "^5.0.0",
-    "@opentelemetry/context-async-hooks": "^2.6.0",
+    "@opentelemetry/api": "^1.9.1",
+    "@opentelemetry/context-async-hooks": "^2.7.0",
     "@typescript-eslint/eslint-plugin": "^8.38.0",
     "@typescript-eslint/parser": "^8.38.0",
     "commitizen": "^4.3.1",
