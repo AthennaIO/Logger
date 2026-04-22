@@ -7,5 +7,9 @@
  * file that was distributed with this source code.
  */
 
-export * from '#src/types/Level'
-export * from '#src/types/ContextBinding'
+import type { Context } from '@opentelemetry/api'
+
+export type ContextBinding = {
+  field: string
+  resolver: (activeContext: Context) => any
+}

@@ -14,6 +14,7 @@ export class JsonFormatter extends Formatter {
   public format(message: any): string {
     const base: any = {
       ...(this.configs.defaults || {}),
+      ...this.contextBindings(),
       level: this.level(),
       time: Date.now(),
       pid: this.pid(),

@@ -10,9 +10,9 @@
 import { Is } from '@athenna/common'
 import { runWithId } from 'cls-rtracer'
 import { JsonFormatter } from '#src/formatters/JsonFormatter'
-import { context, ROOT_CONTEXT, trace, TraceFlags } from '@opentelemetry/api'
-import { AsyncLocalStorageContextManager } from '@opentelemetry/context-async-hooks'
 import { Test, BeforeEach, AfterEach, type Context } from '@athenna/test'
+import { AsyncLocalStorageContextManager } from '@opentelemetry/context-async-hooks'
+import { context, ROOT_CONTEXT, trace, TraceFlags, createContextKey } from '@opentelemetry/api'
 
 export default class JsonFormatterTest {
   @BeforeEach()
@@ -84,5 +84,70 @@ export default class JsonFormatterTest {
     assert.equal(message.msg, 'hello')
     assert.equal(message.namespace, 'UserService')
     assert.equal(message.level, 'info')
+  }
+
+  @Test()
+  public async shouldBeAbleToResolveContextBindingsFromTheActiveOtelContext({ assert }: Context) {
+    const tenantIdKey = createContextKey('tenant.id')
+    const formatter = new JsonFormatter().config({
+      level: 'info',
+      contextBindings: [
+        {
+          field: 'tenantId',
+          resolver: activeContext => activeContext.getValue(tenantIdKey)
+        }
+      ]
+    })
+
+    const message = context.with(context.active().setValue(tenantIdKey, 'tenant-1'), () =>
+      JSON.parse(formatter.format('hello'))
+    )
+
+    assert.equal(message.msg, 'hello')
+    assert.equal(message.tenantId, 'tenant-1')
+  }
+
+  @Test()
+  public async shouldAllowExplicitPayloadToOverrideResolvedContextBindings({ assert }: Context) {
+    const namespaceKey = createContextKey('log.namespace')
+    const formatter = new JsonFormatter().config({
+      level: 'info',
+      defaults: {
+        namespace: 'default'
+      },
+      contextBindings: [
+        {
+          field: 'namespace',
+          resolver: activeContext => activeContext.getValue(namespaceKey)
+        }
+      ]
+    })
+
+    const message = context.with(context.active().setValue(namespaceKey, 'from-context'), () =>
+      JSON.parse(
+        formatter.format({
+          namespace: 'from-payload'
+        })
+      )
+    )
+
+    assert.equal(message.namespace, 'from-payload')
+  }
+
+  @Test()
+  public async shouldOmitUndefinedContextBindingsWhenFormattingLogs({ assert }: Context) {
+    const formatter = new JsonFormatter().config({
+      level: 'info',
+      contextBindings: [
+        {
+          field: 'tenantId',
+          resolver: () => undefined
+        }
+      ]
+    })
+
+    const message = JSON.parse(formatter.format('hello'))
+
+    assert.isFalse(Object.hasOwn(message, 'tenantId'))
   }
 }
