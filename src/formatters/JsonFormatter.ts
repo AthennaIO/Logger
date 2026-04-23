@@ -15,6 +15,7 @@ export class JsonFormatter extends Formatter {
     const base: any = {
       ...(this.configs.defaults || {}),
       level: this.level(),
+      msg: undefined,
       date: new Date().toISOString(),
       timestamp: Date.now(),
       pid: this.pid(),
@@ -38,7 +39,11 @@ export class JsonFormatter extends Formatter {
       return this.handleExceptionLog(base, message.toAthennaException())
     }
 
-    return JSON.stringify({ ...base, ...message }, this.getCircularReplacer())
+    Object.keys(message).forEach(key => {
+      base[key] = message[key]
+    })
+
+    return JSON.stringify(base, this.getCircularReplacer())
   }
 
   private handleExceptionLog(base: any, message: any) {
