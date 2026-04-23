@@ -98,6 +98,13 @@ export default class RequestFormatterTest {
 
     const message = JSON.parse(formatter.format(ctx))
 
+    assert.equal(message.level, 'info')
+    assert.isDefined(message.date)
+    assert.isDefined(message.timestamp)
+    assert.isDefined(message.pid)
+    assert.isDefined(message.hostname)
+    assert.equal(message.traceId, null)
+    assert.equal(message.spanId, null)
     assert.equal(message.metadata.method, ctx.request.method)
     assert.equal(message.metadata.duration, '1ms')
     assert.equal(message.metadata.status, 'SUCCESS')
@@ -155,7 +162,59 @@ export default class RequestFormatterTest {
       JSON.parse(formatter.format(ctx))
     )
 
-    assert.equal(message.metadata.traceId, spanContext.traceId)
-    assert.equal(message.metadata.spanId, spanContext.spanId)
+    assert.equal(message.traceId, spanContext.traceId)
+    assert.equal(message.spanId, spanContext.spanId)
+  }
+
+  @Test()
+  public async shouldIncludeResolvedContextBindingsAtRootWhenFormattingAsJson({
+    assert
+  }: Context) {
+    const exampleIdKey = Symbol('exampleId')
+    const formatter = new RequestFormatter().config({
+      level: 'info',
+      asJson: true,
+      contextBindings: [
+        {
+          field: 'exampleId',
+          resolve: activeContext => activeContext.getValue(exampleIdKey)
+        }
+      ]
+    })
+    const ctx = {
+      request: {
+        ip: '127.0.0.1',
+        method: 'GET',
+        hostUrl: 'http://localhost:1335',
+        baseUrl: 'http://localhost:1335/:id',
+        params: {
+          id: 1
+        },
+        queries: {},
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      },
+      response: {
+        statusCode: 200,
+        responseTime: 1,
+        body: {
+          hello: 'world'
+        },
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    }
+
+    const message = context.with(
+      context.active().setValue(exampleIdKey as any, 'example-id-from-context'),
+      () => JSON.parse(formatter.format(ctx))
+    )
+
+    assert.equal(message.exampleId, 'example-id-from-context')
+    assert.notProperty(message.metadata, 'exampleId')
+    assert.equal(message.traceId, null)
+    assert.equal(message.spanId, null)
   }
 }

@@ -11,5 +11,5 @@ import type { Context } from '@opentelemetry/api'
 
 export type ContextBinding = {
   field: string
-  resolver: (activeContext: Context) => any
+  resolve: (activeContext: Context) => any
 }

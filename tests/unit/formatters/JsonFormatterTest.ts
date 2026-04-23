@@ -14,6 +14,8 @@ import { Test, BeforeEach, AfterEach, type Context } from '@athenna/test'
 import { AsyncLocalStorageContextManager } from '@opentelemetry/context-async-hooks'
 import { context, ROOT_CONTEXT, trace, TraceFlags, createContextKey } from '@opentelemetry/api'
 
+const otelCurrentContextBagKey = Symbol.for('athenna.otel.currentContextBag')
+
 export default class JsonFormatterTest {
   @BeforeEach()
   public async beforeEach() {
@@ -149,5 +151,34 @@ export default class JsonFormatterTest {
     const message = JSON.parse(formatter.format('hello'))
 
     assert.isFalse(Object.hasOwn(message, 'tenantId'))
+  }
+
+  @Test()
+  public async shouldAllowResolversToUseGetCurrentContextValueWithoutWithContextValue({ assert }: Context) {
+    const { OtelImpl } = await import(new URL('../../../../Otel/src/otel/OtelImpl.js', import.meta.url).href)
+    const otel = new OtelImpl()
+    const formatter = new JsonFormatter().config({
+      level: 'info',
+      contextBindings: [
+        {
+          field: 'exampleId',
+          resolver: activeContext => otel.getCurrentContextValue('exampleId', activeContext)
+        }
+      ]
+    })
+    const requestBag = new Map<string | symbol, unknown>([['exampleId', 'example-id-from-binding']])
+
+    const message = context.with(context.active().setValue(otelCurrentContextBagKey as any, requestBag), () => {
+      otel.setCurrentContextValue('exampleId', 'example-id-from-controller')
+
+      return JSON.parse(
+        formatter.format({
+          msg: 'AppController.show'
+        })
+      )
+    })
+
+    assert.equal(message.msg, 'AppController.show')
+    assert.equal(message.exampleId, 'example-id-from-controller')
   }
 }
