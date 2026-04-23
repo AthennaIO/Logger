@@ -91,7 +91,7 @@ export abstract class Formatter {
     const resolved: Record<string, any> = {}
 
     for (const binding of contextBindings as ContextBinding[]) {
-      const value = binding.resolver(activeContext)
+      const value = binding.resolve(activeContext)
 
       if (Is.Undefined(value)) {
         continue

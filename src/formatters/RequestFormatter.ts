@@ -28,6 +28,7 @@ export class RequestFormatter extends Formatter {
       )
     }
 
+    const contextBindings = this.contextBindings()
     const metadata = {
       method: ctx.request.method,
       duration: responseTimeMs,
@@ -38,6 +39,7 @@ export class RequestFormatter extends Formatter {
       createdAt: Date.now(),
       traceId: this.traceId(),
       spanId: this.spanId(),
+      ...contextBindings,
       data: ctx.data
     }
 

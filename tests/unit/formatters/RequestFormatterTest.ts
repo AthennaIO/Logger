@@ -158,4 +158,55 @@ export default class RequestFormatterTest {
     assert.equal(message.metadata.traceId, spanContext.traceId)
     assert.equal(message.metadata.spanId, spanContext.spanId)
   }
+
+  @Test()
+  public async shouldIncludeResolvedContextBindingsInsideMetadataWhenFormattingAsJson({
+    assert
+  }: Context) {
+    const exampleIdKey = Symbol('exampleId')
+    const formatter = new RequestFormatter().config({
+      level: 'info',
+      asJson: true,
+      contextBindings: [
+        {
+          field: 'exampleId',
+          resolve: activeContext => activeContext.getValue(exampleIdKey)
+        }
+      ]
+    })
+    const ctx = {
+      request: {
+        ip: '127.0.0.1',
+        method: 'GET',
+        hostUrl: 'http://localhost:1335',
+        baseUrl: 'http://localhost:1335/:id',
+        params: {
+          id: 1
+        },
+        queries: {},
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      },
+      response: {
+        statusCode: 200,
+        responseTime: 1,
+        body: {
+          hello: 'world'
+        },
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    }
+
+    const message = context.with(
+      context.active().setValue(exampleIdKey as any, 'example-id-from-context'),
+      () => JSON.parse(formatter.format(ctx))
+    )
+
+    assert.equal(message.metadata.exampleId, 'example-id-from-context')
+    assert.equal(message.metadata.traceId, null)
+    assert.equal(message.metadata.spanId, null)
+  }
 }
