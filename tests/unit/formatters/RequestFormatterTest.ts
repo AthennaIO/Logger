@@ -98,6 +98,13 @@ export default class RequestFormatterTest {
 
     const message = JSON.parse(formatter.format(ctx))
 
+    assert.equal(message.level, 'info')
+    assert.isDefined(message.date)
+    assert.isDefined(message.timestamp)
+    assert.isDefined(message.pid)
+    assert.isDefined(message.hostname)
+    assert.equal(message.traceId, null)
+    assert.equal(message.spanId, null)
     assert.equal(message.metadata.method, ctx.request.method)
     assert.equal(message.metadata.duration, '1ms')
     assert.equal(message.metadata.status, 'SUCCESS')
@@ -155,12 +162,12 @@ export default class RequestFormatterTest {
       JSON.parse(formatter.format(ctx))
     )
 
-    assert.equal(message.metadata.traceId, spanContext.traceId)
-    assert.equal(message.metadata.spanId, spanContext.spanId)
+    assert.equal(message.traceId, spanContext.traceId)
+    assert.equal(message.spanId, spanContext.spanId)
   }
 
   @Test()
-  public async shouldIncludeResolvedContextBindingsInsideMetadataWhenFormattingAsJson({
+  public async shouldIncludeResolvedContextBindingsAtRootWhenFormattingAsJson({
     assert
   }: Context) {
     const exampleIdKey = Symbol('exampleId')
@@ -205,8 +212,9 @@ export default class RequestFormatterTest {
       () => JSON.parse(formatter.format(ctx))
     )
 
-    assert.equal(message.metadata.exampleId, 'example-id-from-context')
-    assert.equal(message.metadata.traceId, null)
-    assert.equal(message.metadata.spanId, null)
+    assert.equal(message.exampleId, 'example-id-from-context')
+    assert.notProperty(message.metadata, 'exampleId')
+    assert.equal(message.traceId, null)
+    assert.equal(message.spanId, null)
   }
 }

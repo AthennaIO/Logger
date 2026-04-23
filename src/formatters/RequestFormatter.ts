@@ -28,7 +28,18 @@ export class RequestFormatter extends Formatter {
       )
     }
 
-    const contextBindings = this.contextBindings()
+    const base = {
+      ...(this.configs.defaults || {}),
+      level: this.level(),
+      date,
+      timestamp: Date.now(),
+      pid: this.pid(),
+      hostname: this.hostname(),
+      traceId: this.traceId(),
+      spanId: this.spanId(),
+      ...this.contextBindings()
+    }
+
     const metadata = {
       method: ctx.request.method,
       duration: responseTimeMs,
@@ -36,10 +47,6 @@ export class RequestFormatter extends Formatter {
       statusCode,
       url: ctx.request.hostUrl,
       path: ctx.request.baseUrl,
-      createdAt: Date.now(),
-      traceId: this.traceId(),
-      spanId: this.spanId(),
-      ...contextBindings,
       data: ctx.data
     }
 
@@ -58,7 +65,7 @@ export class RequestFormatter extends Formatter {
     }
 
     return JSON.stringify(
-      { request, response, metadata },
+      { ...base, request, response, metadata },
       this.getCircularReplacer()
     )
   }
