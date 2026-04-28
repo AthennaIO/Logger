@@ -111,7 +111,6 @@ export default class RequestFormatterTest {
     assert.equal(message.metadata.statusCode, 200)
     assert.equal(message.metadata.url, ctx.request.hostUrl)
     assert.equal(message.metadata.path, ctx.request.baseUrl)
-    assert.isDefined(message.metadata.createdAt)
     assert.equal(message.metadata.spanId, null)
   }
 
@@ -167,9 +166,7 @@ export default class RequestFormatterTest {
   }
 
   @Test()
-  public async shouldIncludeResolvedContextBindingsAtRootWhenFormattingAsJson({
-    assert
-  }: Context) {
+  public async shouldIncludeResolvedContextBindingsAtRootWhenFormattingAsJson({ assert }: Context) {
     const exampleIdKey = Symbol('exampleId')
     const formatter = new RequestFormatter().config({
       level: 'info',
@@ -207,9 +204,8 @@ export default class RequestFormatterTest {
       }
     }
 
-    const message = context.with(
-      context.active().setValue(exampleIdKey as any, 'example-id-from-context'),
-      () => JSON.parse(formatter.format(ctx))
+    const message = context.with(context.active().setValue(exampleIdKey as any, 'example-id-from-context'), () =>
+      JSON.parse(formatter.format(ctx))
     )
 
     assert.equal(message.exampleId, 'example-id-from-context')

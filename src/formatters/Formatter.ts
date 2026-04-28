@@ -7,8 +7,6 @@
  * file that was distributed with this source code.
  */
 
-import rTracer from 'cls-rtracer'
-
 import { hostname } from 'node:os'
 import { Is, Color, Module } from '@athenna/common'
 import type { ContextBinding } from '#src/types/ContextBinding'
@@ -65,7 +63,7 @@ export abstract class Formatter {
       return otelApi?.trace?.getActiveSpan()?.spanContext().traceId
     }
 
-    return (rTracer.id() || null) as string | null
+    return null
   }
 
   /**
