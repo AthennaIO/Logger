@@ -22,7 +22,7 @@ export class JsonFormatter extends Formatter {
       hostname: this.hostname(),
       traceId: this.traceId(),
       spanId: this.spanId(),
-      ...this.contextBindings(),
+      ...this.contextBindings()
     }
 
     if (Is.String(message)) {

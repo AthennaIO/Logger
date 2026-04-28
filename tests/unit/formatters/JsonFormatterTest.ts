@@ -7,8 +7,6 @@
  * file that was distributed with this source code.
  */
 
-import { Is } from '@athenna/common'
-import { runWithId } from 'cls-rtracer'
 import { JsonFormatter } from '#src/formatters/JsonFormatter'
 import { Test, BeforeEach, AfterEach, type Context } from '@athenna/test'
 import { AsyncLocalStorageContextManager } from '@opentelemetry/context-async-hooks'
@@ -41,18 +39,15 @@ export default class JsonFormatterTest {
   }
 
   @Test()
-  public async shouldBeAbleToFormatLogsToJsonFormatWithTheTraceId({ assert }: Context) {
+  public async shouldKeepTraceCorrelationNullWhenThereIsNoActiveOtelSpan({ assert }: Context) {
     const formatter = new JsonFormatter().config({ level: 'info' })
+    const message = JSON.parse(formatter.format('hello'))
 
-    runWithId(() => {
-      const message = JSON.parse(formatter.format('hello'))
-
-      assert.equal(message.msg, 'hello')
-      assert.equal(message.level, 'info')
-      assert.equal(message.pid, process.pid)
-      assert.isTrue(Is.Uuid(message.traceId))
-      assert.equal(message.spanId, null)
-    })
+    assert.equal(message.msg, 'hello')
+    assert.equal(message.level, 'info')
+    assert.equal(message.pid, process.pid)
+    assert.equal(message.traceId, null)
+    assert.equal(message.spanId, null)
   }
 
   @Test()
@@ -96,7 +91,7 @@ export default class JsonFormatterTest {
       contextBindings: [
         {
           field: 'tenantId',
-          resolver: activeContext => activeContext.getValue(tenantIdKey)
+          resolve: activeContext => activeContext.getValue(tenantIdKey)
         }
       ]
     })
@@ -120,7 +115,7 @@ export default class JsonFormatterTest {
       contextBindings: [
         {
           field: 'namespace',
-          resolver: activeContext => activeContext.getValue(namespaceKey)
+          resolve: activeContext => activeContext.getValue(namespaceKey)
         }
       ]
     })
@@ -143,7 +138,7 @@ export default class JsonFormatterTest {
       contextBindings: [
         {
           field: 'tenantId',
-          resolver: () => undefined
+          resolve: () => undefined
         }
       ]
     })
@@ -151,6 +146,26 @@ export default class JsonFormatterTest {
     const message = JSON.parse(formatter.format('hello'))
 
     assert.isFalse(Object.hasOwn(message, 'tenantId'))
+  }
+
+  @Test()
+  public async shouldSkipContextBindingsWhenRequestContextIsNotInitialized({ assert }: Context) {
+    const { OtelImpl } = await import(new URL('../../../../Otel/src/otel/OtelImpl.js', import.meta.url).href)
+    const otel = new OtelImpl()
+    const formatter = new JsonFormatter().config({
+      level: 'info',
+      contextBindings: [
+        {
+          field: 'exampleId',
+          resolve: activeContext => otel.getCurrentContextValue('exampleId', activeContext)
+        }
+      ]
+    })
+
+    const message = JSON.parse(formatter.format('hello'))
+
+    assert.equal(message.msg, 'hello')
+    assert.isFalse(Object.hasOwn(message, 'exampleId'))
   }
 
   @Test()
@@ -162,7 +177,7 @@ export default class JsonFormatterTest {
       contextBindings: [
         {
           field: 'exampleId',
-          resolver: activeContext => otel.getCurrentContextValue('exampleId', activeContext)
+          resolve: activeContext => otel.getCurrentContextValue('exampleId', activeContext)
         }
       ]
     })
